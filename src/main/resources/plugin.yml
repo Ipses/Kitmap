@@ -1,0 +1,4 @@
+name: "${rootProject.name}"
+main: net.shotbow.dodgeball.Dodgeball
+version: "${version}"
+description: Dodgeball
