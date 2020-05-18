@@ -2,3 +2,11 @@ name: "${rootProject.name}"
 main: net.shotbow.dodgeball.Dodgeball
 version: "${version}"
 description: Dodgeball
+
+commands:
+  kit:
+    usage: /<kit>
+    description: kit yourself
+  items:
+    usage: /<items>
+    description: open item menu
