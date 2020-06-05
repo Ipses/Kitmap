@@ -16,5 +16,14 @@ dependencies {
 }
 
 processResources {
-    expand(project.properties)
+    filesNotMatching("**/config.yml") {
+        expand(project.properties)
+    }
 }
+
+project.ext.SERVER_DIR = "C:\\Users\\derek\\Desktop\\myserver\\plugins"
+task copyToServer(dependsOn: 'jar', type: Copy) {
+    from 'build/libs/'
+    into "${SERVER_DIR}"
+}
+

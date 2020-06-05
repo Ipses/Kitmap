@@ -38,10 +38,7 @@ public class ScoreboardHandler implements Listener {
 		    }
 		}.runTaskTimer(Main.getInstance(), 20L, 20L);
 	}
-	
-	
-	
-	
+
 	public void createScoreboard(Player player) {
 		
 		Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
@@ -80,6 +77,8 @@ public class ScoreboardHandler implements Listener {
 					pvp.setScore(Math.round(pvptagTimer.get(player.getUniqueId()) - System.currentTimeMillis() + 1) / 1000);
 				}
 			}
+
+
 			player.setScoreboard(scoreboards.get(player.getUniqueId()));
 		}
 	}

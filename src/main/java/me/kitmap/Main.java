@@ -6,6 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.kitmap.commands.KothCommand;
+import me.kitmap.items.legendary.*;
+import me.kitmap.items.minezitems.Grenade;
+import me.kitmap.items.minezitems.Sugar;
+import me.kitmap.signs.KitSIgn;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -24,17 +29,6 @@ import org.bukkit.potion.PotionType;
 import me.kitmap.commands.ItemCommand;
 import me.kitmap.commands.KitCommand;
 import me.kitmap.items.ItemMenu;
-import me.kitmap.items.legendary.DepthStrider;
-import me.kitmap.items.legendary.Overkill;
-import me.kitmap.items.legendary.PluviasTempest;
-import me.kitmap.items.legendary.RobbersBlade;
-import me.kitmap.items.legendary.SealOfGravity;
-import me.kitmap.items.legendary.SealOfSpace;
-import me.kitmap.items.legendary.SealOfTime;
-import me.kitmap.items.legendary.Shotbow;
-import me.kitmap.items.legendary.SpikeThrower;
-import me.kitmap.items.legendary.TruthBow;
-import me.kitmap.items.legendary.ZombieBow;
 import me.kitmap.items.minezitems.WeakGrapple;
 import me.kitmap.scoreboard.ScoreboardHandler;
 import me.kitmap.stats.MysqlData;
@@ -51,10 +45,12 @@ public class Main extends JavaPlugin implements Listener {
 	public static Inventory ironKit = Bukkit.createInventory(null, 36, "ironkit");
 	private KitCommand kitCommand = new KitCommand();
 	private ItemCommand itemsCommand = new ItemCommand();
+	private KothCommand kothCommand = new KothCommand();
 
 	private static Inventory itemPage1 = ItemCommand.itemPage1;	
 	private static Inventory itemPage2 = ItemCommand.itemPage2;	
 	private static Inventory itemPage3 = ItemCommand.itemPage3;
+	public static ItemStack kothkey;
 	
 	public void onEnable() {
 		System.out.println(ChatColor.GREEN + "on");
@@ -64,9 +60,7 @@ public class Main extends JavaPlugin implements Listener {
 		mysqlsetup();
 		buildKit();
 		buildItems();
-		getCommand(KitCommand.kit).setExecutor(kitCommand);
-		getCommand(ItemCommand.items).setExecutor(itemsCommand);
-
+		registerCommands();
 	}
 	
 	public static Plugin getInstance() {
@@ -76,7 +70,12 @@ public class Main extends JavaPlugin implements Listener {
 	public Connection getConnection() {
 		return connection;
 	}
-	
+
+	private void registerCommands(){
+		getCommand(KitCommand.kit).setExecutor(kitCommand);
+		getCommand(ItemCommand.items).setExecutor(itemsCommand);
+		getCommand(KothCommand.koth).setExecutor(kothCommand);
+	}
 	public void mysqlsetup() {
 		host = this.getConfig().getString("host");
 		port = this.getConfig().getInt("port");
@@ -86,7 +85,6 @@ public class Main extends JavaPlugin implements Listener {
 		table = this.getConfig().getString("table");
 		
 		try {
-			
 			synchronized (this) {
 				if(getConnection() != null && !getConnection().isClosed()) {
 					return;
@@ -119,12 +117,16 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new CombatTagTimer(), this);
 		getServer().getPluginManager().registerEvents(new MysqlData(), this);
 		getServer().getPluginManager().registerEvents(new ItemMenu(), this);
+		getServer().getPluginManager().registerEvents(new KitSIgn(), this);
 
+		getServer().getPluginManager().registerEvents(new Grenade(), this);
+		getServer().getPluginManager().registerEvents(new Sugar(), this);
 		getServer().getPluginManager().registerEvents(new WeakGrapple(), this);
 		getServer().getPluginManager().registerEvents(new ZombieBow(), this);
 		getServer().getPluginManager().registerEvents(new TruthBow(), this);
 		getServer().getPluginManager().registerEvents(new PluviasTempest(), this);
 		getServer().getPluginManager().registerEvents(new Shotbow(), this);
+		getServer().getPluginManager().registerEvents(new Quiet(), this);
 
 		getServer().getPluginManager().registerEvents(new RobbersBlade(), this);
 		getServer().getPluginManager().registerEvents(new DepthStrider(), this);
@@ -203,6 +205,7 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	
 	private void buildItems() {
+
 		ItemStack corsairsedge = new ItemStack(Material.IRON_SWORD);
 		ItemMeta corsairsedgeItemMeta = corsairsedge.getItemMeta();
 		List<String> corsairsedLelore = new ArrayList<String>();
@@ -815,6 +818,16 @@ public class Main extends JavaPlugin implements Listener {
 
 		itemPage3.setItem(45, prevpage3);
 		itemPage3.setItem(53, nextpage3);
+
+		ItemStack kothkey = new ItemStack(Material.TRIPWIRE_HOOK);
+		kothkey.addUnsafeEnchantment(Enchantment.LUCK, 1);
+		ItemMeta kothkeyMeta  = kothkey.getItemMeta();
+		kothkeyMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.AQUA + "Koth Key");
+		List<String> kothkeyLore = new ArrayList<String>();
+		kothkeyLore.add(ChatColor.DARK_PURPLE + "Can be used to open a reward chest at spawn.");
+		kothkeyMeta.setLore(kothkeyLore);
+		kothkey.setItemMeta(kothkeyMeta);
+		this.kothkey = kothkey;
 	}
 }
 	
