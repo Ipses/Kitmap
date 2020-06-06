@@ -10,6 +10,7 @@ import me.kitmap.commands.KothCommand;
 import me.kitmap.items.legendary.*;
 import me.kitmap.items.minezitems.Grenade;
 import me.kitmap.items.minezitems.Sugar;
+import me.kitmap.loot.KothCrate;
 import me.kitmap.signs.KitSIgn;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
@@ -50,8 +51,7 @@ public class Main extends JavaPlugin implements Listener {
 	private static Inventory itemPage1 = ItemCommand.itemPage1;	
 	private static Inventory itemPage2 = ItemCommand.itemPage2;	
 	private static Inventory itemPage3 = ItemCommand.itemPage3;
-	public static ItemStack kothkey;
-	
+
 	public void onEnable() {
 		System.out.println(ChatColor.GREEN + "on");
 		plugin = this;
@@ -118,6 +118,7 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new MysqlData(), this);
 		getServer().getPluginManager().registerEvents(new ItemMenu(), this);
 		getServer().getPluginManager().registerEvents(new KitSIgn(), this);
+		getServer().getPluginManager().registerEvents(new KothCrate(), this);
 
 		getServer().getPluginManager().registerEvents(new Grenade(), this);
 		getServer().getPluginManager().registerEvents(new Sugar(), this);
@@ -819,15 +820,6 @@ public class Main extends JavaPlugin implements Listener {
 		itemPage3.setItem(45, prevpage3);
 		itemPage3.setItem(53, nextpage3);
 
-		ItemStack kothkey = new ItemStack(Material.TRIPWIRE_HOOK);
-		kothkey.addUnsafeEnchantment(Enchantment.LUCK, 1);
-		ItemMeta kothkeyMeta  = kothkey.getItemMeta();
-		kothkeyMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.AQUA + "Koth Key");
-		List<String> kothkeyLore = new ArrayList<String>();
-		kothkeyLore.add(ChatColor.DARK_PURPLE + "Can be used to open a reward chest at spawn.");
-		kothkeyMeta.setLore(kothkeyLore);
-		kothkey.setItemMeta(kothkeyMeta);
-		this.kothkey = kothkey;
 	}
 }
 	
