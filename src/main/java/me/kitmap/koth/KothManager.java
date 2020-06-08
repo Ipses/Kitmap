@@ -56,7 +56,7 @@ public class KothManager {
         this.koth.remainingTime = this.koth.getDefaultCaptureTime() + System.currentTimeMillis();
     }
 
-    public void tick(){ // when KOTH is ACTIVE ( 15:00, no capper initially)
+    public void tick(){
         long remainingTime = this.koth.getRemainingTime();
         Bukkit.broadcastMessage("remaining:" + remainingTime);
         if(remainingTime <= 0L){

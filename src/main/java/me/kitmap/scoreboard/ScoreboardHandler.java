@@ -77,8 +77,6 @@ public class ScoreboardHandler implements Listener {
 					pvp.setScore(Math.round(pvptagTimer.get(player.getUniqueId()) - System.currentTimeMillis() + 1) / 1000);
 				}
 			}
-
-
 			player.setScoreboard(scoreboards.get(player.getUniqueId()));
 		}
 	}

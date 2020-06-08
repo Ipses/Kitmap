@@ -12,6 +12,7 @@ import me.kitmap.items.minezitems.Grenade;
 import me.kitmap.items.minezitems.Sugar;
 import me.kitmap.loot.KothCrate;
 import me.kitmap.signs.KitSIgn;
+import me.kitmap.world.SpawnEnterBlocker;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -119,6 +120,7 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new ItemMenu(), this);
 		getServer().getPluginManager().registerEvents(new KitSIgn(), this);
 		getServer().getPluginManager().registerEvents(new KothCrate(), this);
+		getServer().getPluginManager().registerEvents(new SpawnEnterBlocker(), this);
 
 		getServer().getPluginManager().registerEvents(new Grenade(), this);
 		getServer().getPluginManager().registerEvents(new Sugar(), this);
@@ -128,6 +130,7 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new PluviasTempest(), this);
 		getServer().getPluginManager().registerEvents(new Shotbow(), this);
 		getServer().getPluginManager().registerEvents(new Quiet(), this);
+		getServer().getPluginManager().registerEvents(new WebShot(), this);
 
 		getServer().getPluginManager().registerEvents(new RobbersBlade(), this);
 		getServer().getPluginManager().registerEvents(new DepthStrider(), this);
@@ -487,7 +490,16 @@ public class Main extends JavaPlugin implements Listener {
 		rubbershieldItemMeta.setLore(rubbershieldLore);
 		rubbershieldItemMeta.setDisplayName(ChatColor.RESET + "Rubber Shield");
 		rubbershield.setItemMeta(rubbershieldItemMeta);
-		
+
+		ItemStack webshot = new ItemStack(Material.BOW);
+		ItemMeta webshotItemMeta = webshot.getItemMeta();
+		List<String> webshotLore = new ArrayList<String>();
+		webshotLore.add(ChatColor.BLUE + "Legendary Bow");
+		webshotItemMeta.setLore(webshotLore);
+		webshotItemMeta.setDisplayName(ChatColor.RESET + "Web Shot");
+		webshot.setItemMeta(webshotItemMeta);
+
+
 		//ELITE LEGENDARIES
 		
 		ItemStack simoonssong = new ItemStack(Material.IRON_SWORD);
@@ -764,7 +776,8 @@ public class Main extends JavaPlugin implements Listener {
 		itemPage1.setItem(24, truthbow);
 		itemPage1.setItem(25, venombow);
 		itemPage1.setItem(26, voidbow);
-		itemPage1.setItem(27, zombiebow);
+		itemPage1.setItem(27, webshot);
+		itemPage1.setItem(28, zombiebow);
 
 					
 		
