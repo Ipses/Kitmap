@@ -51,9 +51,9 @@ public class Main extends JavaPlugin implements Listener {
 	private KothCommand kothCommand = new KothCommand();
 	private RenameCommand renameCommand = new RenameCommand();
 
-	private static Inventory itemPage1 = ItemCommand.itemPage1;	
-	private static Inventory itemPage2 = ItemCommand.itemPage2;	
-	private static Inventory itemPage3 = ItemCommand.itemPage3;
+    public static Inventory itemPage1 = Bukkit.createInventory(null, 54, "Legendaries 1");
+    public static Inventory itemPage2 = Bukkit.createInventory(null, 54, "Legendaries 2");
+    public static Inventory itemPage3 = Bukkit.createInventory(null, 54, "MineZ Items");
 
 	public void onEnable() {
 		System.out.println(ChatColor.GREEN + "on");

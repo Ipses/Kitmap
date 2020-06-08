@@ -13,9 +13,6 @@ public class ItemCommand implements CommandExecutor {
 	public static Inventory itemPage1 = Bukkit.createInventory(null, 54, "Legendaries 1");
 	public static Inventory itemPage2 = Bukkit.createInventory(null, 54, "Legendaries 2");
 	public static Inventory itemPage3 = Bukkit.createInventory(null, 54, "MineZ Items");
-	public static Inventory armors = Bukkit.createInventory(null, 54, "Legendary Armors");
-	public static Inventory elites = Bukkit.createInventory(null, 54, "Elite Legendaries");
-	public static Inventory normalItems = Bukkit.createInventory(null, 54, "Normal MineZ Items");
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String arg1, String[] arg2 ) {
 		if(cmd.getName().equalsIgnoreCase("items") && sender instanceof Player) {
