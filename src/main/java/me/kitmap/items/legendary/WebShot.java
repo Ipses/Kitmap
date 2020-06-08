@@ -35,9 +35,10 @@ public class WebShot extends Legendary implements Listener {
 
     @EventHandler
     public void onProjectileLand(ProjectileHitEvent ev){
-        Projectile proj = ev.getEntity();
-        if(proj.getShooter() instanceof Player && proj instanceof Arrow && proj.hasMetadata("webshot")){
-            Player player = (Player) proj.getShooter();
+        if(ev.getEntity().getShooter() instanceof Player && ev.getEntity() instanceof Arrow && ev.getEntity().hasMetadata("webshot")){
+            Player player = (Player) ev.getEntity().getShooter();
+            Arrow proj = (Arrow) ev.getEntity();
+            proj.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
             if(ev.getHitBlock() == null) return;
             Location location = ev.getHitBlock().getLocation();
             Block block = location.getBlock();
@@ -87,6 +88,7 @@ public class WebShot extends Legendary implements Listener {
     public void onHit(EntityDamageByEntityEvent ev) {
         if (!ev.isCancelled() && ev.getDamager() instanceof Arrow && ((Projectile) ev.getDamager()).getShooter() instanceof Player &&
                 ev.getEntity() instanceof Player && ev.getDamager().hasMetadata("webshot")) {
+            ev.setCancelled(true);
             Player player = (Player) ((Projectile) ev.getDamager()).getShooter();
             Player victim = (Player) ev.getEntity();
 

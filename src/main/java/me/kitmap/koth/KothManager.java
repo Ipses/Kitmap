@@ -61,7 +61,7 @@ public class KothManager {
         Bukkit.broadcastMessage("remaining:" + remainingTime);
         if(remainingTime <= 0L){
             Bukkit.broadcastMessage(ChatColor.GOLD + "[KOTH] " + ChatColor.BLUE + this.koth.getName() + ChatColor.YELLOW +
-                    " was captured by " + ChatColor.YELLOW + this.koth.getCapper().getName());
+                    " was captured by " + ChatColor.GOLD + this.koth.getCapper().getName());
             giveKey(this.koth.getCapper());
             this.koth.getCapper().addPotionEffect(SPEED);
             this.koth.getCapper().addPotionEffect(REGEN);

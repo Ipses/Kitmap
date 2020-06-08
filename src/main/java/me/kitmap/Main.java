@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.kitmap.commands.KothCommand;
+import me.kitmap.commands.RenameCommand;
 import me.kitmap.items.legendary.*;
 import me.kitmap.items.minezitems.Grenade;
 import me.kitmap.items.minezitems.Sugar;
@@ -48,6 +49,7 @@ public class Main extends JavaPlugin implements Listener {
 	private KitCommand kitCommand = new KitCommand();
 	private ItemCommand itemsCommand = new ItemCommand();
 	private KothCommand kothCommand = new KothCommand();
+	private RenameCommand renameCommand = new RenameCommand();
 
 	private static Inventory itemPage1 = ItemCommand.itemPage1;	
 	private static Inventory itemPage2 = ItemCommand.itemPage2;	
@@ -76,6 +78,7 @@ public class Main extends JavaPlugin implements Listener {
 		getCommand(KitCommand.kit).setExecutor(kitCommand);
 		getCommand(ItemCommand.items).setExecutor(itemsCommand);
 		getCommand(KothCommand.koth).setExecutor(kothCommand);
+		getCommand(RenameCommand.rename).setExecutor(renameCommand);
 	}
 	public void mysqlsetup() {
 		host = this.getConfig().getString("host");
