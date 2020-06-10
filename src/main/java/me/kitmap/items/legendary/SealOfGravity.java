@@ -15,6 +15,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -22,7 +23,12 @@ import org.bukkit.util.Vector;
 import me.kitmap.Main;
 import net.md_5.bungee.api.ChatColor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SealOfGravity extends Legendary implements Listener {
+
+	private Main plugin;
 	private static final String name = ChatColor.RESET + "Seal of Gravity";
 	private static final PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, 1*20, 100);
 
@@ -37,7 +43,7 @@ public class SealOfGravity extends Legendary implements Listener {
 			Item seal = player.getWorld().dropItem(throwLocation, new ItemStack(Material.SKULL_ITEM, 1, (short)SkullType.SKELETON.ordinal())); // Not actually skull. It's a book
 			seal.setVelocity(throwLocation.getDirection().multiply(1.3)); // I think 1.3 is balanced
 			
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
 				public void run() {
 					seal.getWorld().playEffect(seal.getLocation(), Effect.EXPLOSION_HUGE, 1);
 					seal.getWorld().playSound(seal.getLocation(), Sound.ENTITY_ENDERDRAGON_HURT, 1, 1);
@@ -67,5 +73,19 @@ public class SealOfGravity extends Legendary implements Listener {
 		if(ev.getItem().getName().equals("item.item.skull.skeleton")) {
 			ev.setCancelled(true);
 		}
+	}
+
+	@Override
+	public ItemStack getItem() {
+		ItemStack sealofgravity = new ItemStack(Material.ENCHANTED_BOOK, 1);
+		ItemMeta sealofgravityItemMeta = sealofgravity.getItemMeta();
+		List<String> sealofgravityLore = new ArrayList<String>();
+		sealofgravityLore.add(ChatColor.DARK_PURPLE + "Lore here");
+		sealofgravityLore.add(ChatColor.BLUE + "Right Click: Throw");
+		sealofgravityLore.add(ChatColor.BLUE + "Launch nearby players towards the seal");
+		sealofgravityItemMeta.setLore(sealofgravityLore);
+		sealofgravityItemMeta.setDisplayName(ChatColor.RESET + "Seal of Gravity");
+		sealofgravity.setItemMeta(sealofgravityItemMeta);
+		return sealofgravity;
 	}
 }

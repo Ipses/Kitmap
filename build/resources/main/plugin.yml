@@ -13,3 +13,6 @@ commands:
   koth:
     usage: /<koth>
     description: start a koth
+  rename:
+    usage: /<rename>
+    description: rename item in hand

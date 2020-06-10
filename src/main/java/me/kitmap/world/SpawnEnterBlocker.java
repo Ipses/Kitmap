@@ -22,12 +22,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class SpawnEnterBlocker implements Listener {
 
-    private ConcurrentHashMap<UUID, Long> pvptimer = CombatTagTimer.timer;
+    private ConcurrentHashMap<UUID, Long> timer = CombatTagTimer.getTimer();
 
     @EventHandler
     public void onMove(PlayerMoveEvent ev){
         Player player = ev.getPlayer();
-        if(pvptimer.contains(player.getUniqueId())){
+        if(timer.contains(player.getUniqueId())){
 
             Location barrierLoc = new Location(player.getWorld(), player.getEyeLocation().getX(), player.getEyeLocation().getY(),
                     player.getEyeLocation().getZ() + 3);

@@ -53,4 +53,11 @@ public class DepthStrider extends Legendary implements Listener{
 		 	}
 		} 
 	}
+
+	@Override
+	public ItemStack getItem(){
+		ItemStack depth = new ItemStack(Material.IRON_LEGGINGS);
+		depth.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 1);
+		return depth;
+	}
 }

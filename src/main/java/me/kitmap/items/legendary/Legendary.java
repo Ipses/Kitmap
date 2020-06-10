@@ -7,9 +7,11 @@ import org.bukkit.inventory.ItemStack;
 
 import net.md_5.bungee.api.ChatColor;
 
-public class Legendary {
-	
-	boolean hasName(ItemStack is, String name) {
+public abstract class Legendary {
+
+    abstract ItemStack getItem();
+
+    boolean hasName(ItemStack is, String name) {
 		if (is != null && is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equals(name)) {
 			return true;
 		}
@@ -22,13 +24,13 @@ public class Legendary {
 	
 	void reduceDura(Player player, ItemStack is, int consumedDura ) {
 		if(is.getDurability() > is.getType().getMaxDurability() - consumedDura*2){
-			//player.getInventory().removeItem(is);
 			is.setAmount(0);
 			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
 		} else {
 			is.setDurability((short) (is.getDurability() + consumedDura));
 		}
-	}
+        player.updateInventory();
+    }
 	
 	boolean hasEnoughArrows(Player player, int arrows) {
 		int arrowCount = 0;
@@ -38,7 +40,8 @@ public class Legendary {
 			}
 		}
 		if(arrowCount < arrows) {
-			player.sendMessage(ChatColor.RED + "Need " + ChatColor.YELLOW + arrows + ChatColor.RED + " arrows, but you only have " + ChatColor.YELLOW + arrowCount);
+			player.sendMessage(ChatColor.RED + "Need " + ChatColor.YELLOW + arrows + ChatColor.RED +
+					" arrows, but you only have " + ChatColor.YELLOW + arrowCount);
 			return false;
 		} else {
 			return true;

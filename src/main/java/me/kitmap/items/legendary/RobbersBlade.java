@@ -1,6 +1,7 @@
 package me.kitmap.items.legendary;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.ChatColor;
@@ -11,11 +12,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
-public class RobbersBlade implements Listener{
+public class RobbersBlade extends Legendary implements Listener{
+
+	private static final String NAME = ChatColor.RESET + "Robber's Blade";
 	@EventHandler
 	public void onEntityDamageByEntity (EntityDamageByEntityEvent ev) {
-		if (!ev.isCancelled() && ev.getDamager() instanceof Player && ev.getEntity() instanceof Player && isItem(((Player) ev.getDamager()).getInventory().getItemInMainHand())) {
+		if (!ev.isCancelled() && ev.getDamager() instanceof Player && ev.getEntity() instanceof Player &&
+				hasName(((Player) ev.getDamager()).getInventory().getItemInMainHand(), NAME)) {
 			Player player = (Player)ev.getDamager();
 			Player victim = (Player)ev.getEntity();
 			Inventory inv = victim.getInventory();
@@ -41,11 +46,18 @@ public class RobbersBlade implements Listener{
 			player.sendMessage(ChatColor.RED + "You stole an item from " + ChatColor.YELLOW + victim.getName());
 		}
 	}
-	private static final String name = ChatColor.RESET + "Robber's Blade";
-	private boolean isItem(ItemStack is) {
-		if (is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equals(name)) {
-			return true;
-		}
-		return false;
+
+	@Override
+	public ItemStack getItem() {
+		ItemStack robbersblade = new ItemStack(Material.WOOD_SWORD);
+		ItemMeta robbersbladeItemMeta =robbersblade.getItemMeta();
+		List<String> robbersbladeLore = new ArrayList<String>();
+		robbersbladeLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Legendary Weapon");
+		robbersbladeLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Steals a random item from a player");
+		robbersbladeLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Breaks after use");
+		robbersbladeItemMeta.setLore(robbersbladeLore);
+		robbersbladeItemMeta.setDisplayName(net.md_5.bungee.api.ChatColor.RESET + "Robber's Blade");
+		robbersblade.setItemMeta(robbersbladeItemMeta);
+		return robbersblade;
 	}
 }

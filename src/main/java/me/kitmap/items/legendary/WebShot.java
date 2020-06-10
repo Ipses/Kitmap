@@ -13,22 +13,29 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WebShot extends Legendary implements Listener {
 
+    private Main plugin;
+    private static final String NAME = ChatColor.RESET + "Web Shot";
+
     @EventHandler
     public void onShoot(EntityShootBowEvent ev) {
-        if(!ev.isCancelled() && isItem(ev.getBow())) {
+        if(!ev.isCancelled() && ev.getEntity() instanceof Player) {
             Player player = (Player) ev.getEntity();
-            if(ev.getForce() == 1) {
-                ev.getProjectile().setMetadata("webshot", new FixedMetadataValue(Main.getInstance(), true) );
-            } else {
-                player.sendMessage(org.bukkit.ChatColor.RED + "The bow was not fully charged");
-                ev.setCancelled(true);
+            if(hasName(player.getInventory().getItemInMainHand(), NAME)){
+                if(ev.getForce() == 1) {
+                    ev.getProjectile().setMetadata("webshot", new FixedMetadataValue(plugin.getInstance(), true) );
+                } else {
+                    player.sendMessage(org.bukkit.ChatColor.RED + "The bow was not fully charged");
+                    ev.setCancelled(true);
+                }
             }
         }
     }
@@ -72,7 +79,7 @@ public class WebShot extends Legendary implements Listener {
             else duration = 5;
 
             Bukkit.broadcastMessage("distance: " + distance);
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
                 public void run() {
                    for(Location loc: webLocations){
                        if(loc.getBlock().getType() == Material.WEB){
@@ -92,54 +99,58 @@ public class WebShot extends Legendary implements Listener {
             Player player = (Player) ((Projectile) ev.getDamager()).getShooter();
             Player victim = (Player) ev.getEntity();
 
-            if(isItem(player.getInventory().getItemInMainHand())){
-                Block block = victim.getLocation().getBlock();
-                Location north = new Location(block.getWorld(), block.getX(), block.getY(), block.getZ() - 1);
-                Location south = new Location(block.getWorld(), block.getX(), block.getY(), block.getZ() + 1);
-                Location east = new Location(block.getWorld(), block.getX() + 1, block.getY(), block.getZ());
-                Location west = new Location(block.getWorld(), block.getX() - 1, block.getY(), block.getZ());
-                Location center = new Location(block.getWorld(), block.getX(), block.getY(), block.getZ());
-                Location up = new Location(block.getWorld(), block.getX(), block.getY() + 1, block.getZ());
-                ArrayList<Location> webLocations = new ArrayList<>();
-                webLocations.add(north);
-                webLocations.add(south);
-                webLocations.add(west);
-                webLocations.add(east);
-                webLocations.add(center);
-                webLocations.add(up);
 
-                for(Location loc: webLocations){
-                    if(loc.getBlock().getType() == Material.AIR){
-                        loc.getBlock().setType(Material.WEB);
-                    }
+            Block block = victim.getLocation().getBlock();
+            Location north = new Location(block.getWorld(), block.getX(), block.getY(), block.getZ() - 1);
+            Location south = new Location(block.getWorld(), block.getX(), block.getY(), block.getZ() + 1);
+            Location east = new Location(block.getWorld(), block.getX() + 1, block.getY(), block.getZ());
+            Location west = new Location(block.getWorld(), block.getX() - 1, block.getY(), block.getZ());
+            Location center = new Location(block.getWorld(), block.getX(), block.getY(), block.getZ());
+            Location up = new Location(block.getWorld(), block.getX(), block.getY() + 1, block.getZ());
+            ArrayList<Location> webLocations = new ArrayList<>();
+            webLocations.add(north);
+            webLocations.add(south);
+            webLocations.add(west);
+            webLocations.add(east);
+            webLocations.add(center);
+            webLocations.add(up);
+
+            for(Location loc: webLocations){
+                if(loc.getBlock().getType() == Material.AIR){
+                    loc.getBlock().setType(Material.WEB);
                 }
+            }
 
-                double distance = player.getLocation().distance(block.getLocation());
-                int duration;
-                if(distance < 10) duration = 1;
-                else if (10 <= distance && distance < 20) duration = 2;
-                else if (20 <= distance && distance < 40) duration = 3;
-                else duration = 5;
+            double distance = player.getLocation().distance(block.getLocation());
+            int duration;
+            if(distance < 10) duration = 1;
+            else if (10 <= distance && distance < 20) duration = 2;
+            else if (20 <= distance && distance < 40) duration = 3;
+            else duration = 5;
 
-                Bukkit.broadcastMessage("distance: " + distance);
-                Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
-                    public void run() {
-                        for(Location loc: webLocations){
-                            if(loc.getBlock().getType() == Material.WEB){
-                                loc.getBlock().setType(Material.AIR);
-                            }
+            Bukkit.broadcastMessage("distance: " + distance);
+            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
+                public void run() {
+                    for(Location loc: webLocations){
+                        if(loc.getBlock().getType() == Material.WEB){
+                            loc.getBlock().setType(Material.AIR);
                         }
                     }
-                }, duration*20L);
-            }
+                }
+            }, duration*20L);
         }
     }
-    
-    private static final String name = ChatColor.RESET + "Web Shot";
-    private static boolean isItem(ItemStack is) {
-        if (is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equals(name)) {
-            return true;
-        }
-        return false;
+
+
+    @Override
+    public ItemStack getItem() {
+        ItemStack webshot = new ItemStack(Material.BOW);
+        ItemMeta webshotItemMeta = webshot.getItemMeta();
+        List<String> webshotLore = new ArrayList<String>();
+        webshotLore.add(ChatColor.BLUE + "Legendary Bow");
+        webshotItemMeta.setLore(webshotLore);
+        webshotItemMeta.setDisplayName(ChatColor.RESET + "Web Shot");
+        webshot.setItemMeta(webshotItemMeta);
+        return webshot;
     }
 }

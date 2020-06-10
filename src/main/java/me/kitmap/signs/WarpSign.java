@@ -16,7 +16,8 @@ public class WarpSign implements Listener {
 
     private static final String LINE1 = "[Kit]";
     private static final String LINE2 = "Iron";
-    private Inventory contents = Main.ironKit;
+    private Main plugin;
+    private Inventory contents = plugin.getIronKit();
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent ev){

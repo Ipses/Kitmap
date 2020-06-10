@@ -23,7 +23,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class MysqlData implements Listener {
 	
-	static Main plugin = Main.getPlugin(Main.class);
+	private static Main plugin = (Main) Main.getInstance();
 	private ConcurrentHashMap<UUID, Scoreboard> scoreboards = ScoreboardHandler.scoreboards;
 	
 	@EventHandler
@@ -49,9 +49,9 @@ public class MysqlData implements Listener {
             updateKills(killer.getUniqueId());
             updateDeaths(player.getUniqueId());
             Score kills = scoreboards.get(killer.getUniqueId()).getObjective("sb").getScore("Kills:");
-    		kills.setScore(MysqlData.getKills(killer.getUniqueId()));
+    		kills.setScore(this.getKills(killer.getUniqueId()));
     		Score deaths = scoreboards.get(killer.getUniqueId()).getObjective("sb").getScore("Deaths:");
-     		deaths.setScore(MysqlData.getKills(killer.getUniqueId()));
+     		deaths.setScore(this.getKills(killer.getUniqueId()));
         }
 	 }
 	
@@ -152,5 +152,9 @@ public class MysqlData implements Listener {
 			//e.printStackTrace();
 		}
 		//return 0;
+	}
+
+	public MysqlData getMysqlData(){
+		return this;
 	}
 }

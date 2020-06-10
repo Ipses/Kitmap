@@ -16,7 +16,11 @@ public class KitSIgn implements Listener {
 
     private static final String LINE1 = "[Kit]";
     private static final String LINE2 = "Iron";
-    private Inventory contents = Main.ironKit;
+    private final Main plugin;
+
+    public KitSIgn(Main plugin){
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent ev){
@@ -26,8 +30,8 @@ public class KitSIgn implements Listener {
             Sign sign = (Sign) block.getState();
 
             if(sign.getLine(1).equalsIgnoreCase(LINE1) && sign.getLine(2).equalsIgnoreCase(LINE2)){
-                for(int i = 0; i < contents.getContents().length; ++i)
-                    player.getInventory().setItem(i, contents.getContents()[i]);
+                for(int i = 0; i < plugin.getIronKit().getContents().length; ++i)
+                    player.getInventory().setItem(i, plugin.getIronKit().getContents()[i]);
                 player.getInventory().setHelmet(new ItemStack(Material.IRON_HELMET));
                 player.getInventory().setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
                 player.getInventory().setLeggings(new ItemStack(Material.IRON_LEGGINGS));

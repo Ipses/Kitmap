@@ -11,10 +11,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class RenameCommand implements Listener, CommandExecutor {
 
-    public static String rename = "rename";
-
     public boolean onCommand(CommandSender sender, Command cmd, String name, String[] args) {
-        if(cmd.getName().equalsIgnoreCase(rename) && sender instanceof Player) {
+        if(cmd.getName().equalsIgnoreCase("rename") && sender instanceof Player) {
             Player player = (Player) sender;
             if(player.getInventory().getItemInMainHand() != null) {
                 ItemStack item = player.getInventory().getItemInMainHand();
@@ -32,5 +30,4 @@ public class RenameCommand implements Listener, CommandExecutor {
         }
         return false;
     }
-
 }

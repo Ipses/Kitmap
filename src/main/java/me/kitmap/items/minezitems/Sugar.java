@@ -20,6 +20,7 @@ import java.util.UUID;
 
 public class Sugar implements Listener {
 
+    private Main plugin;
     private HashMap<UUID, Long> timer = new HashMap<>();
     private static final PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 40*20, 1);
     private static final PotionEffect slowness = new PotionEffect(PotionEffectType.SLOW, 10*20, 1);
@@ -40,7 +41,7 @@ public class Sugar implements Listener {
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
             timer.put(player.getUniqueId(), System.currentTimeMillis() + 40*1000);
 
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
                 public void run() {
                     player.removePotionEffect(PotionEffectType.SPEED);
                     player.addPotionEffect(slowness);

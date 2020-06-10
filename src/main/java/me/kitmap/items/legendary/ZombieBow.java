@@ -16,12 +16,20 @@ import org.bukkit.inventory.ItemStack;
 
 import me.kitmap.Main;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("deprecation")
-public class ZombieBow implements Listener {	
+public class ZombieBow extends Legendary implements Listener {
+
+	private Main plugin;
+	private static final String NAME = ChatColor.RESET + "Zombie Bow";
+
 	@EventHandler
 	public void onShot(EntityShootBowEvent ev) {
-		if (!ev.isCancelled() && isItem(ev.getBow())) {
+		if (!ev.isCancelled() && ev.getEntity() instanceof Player && hasName(ev.getBow(), NAME)) {
 			ev.setCancelled(true);
 			Player player = (Player) ev.getEntity();
 			if(!player.getInventory().containsAtLeast(new ItemStack(Material.ARROW), 1)) {
@@ -39,7 +47,7 @@ public class ZombieBow implements Listener {
 			Item zombieEgg = player.getWorld().dropItem(fireLocation, new ItemStack(Material.MONSTER_EGG, 1, (short)54));
 			zombieEgg.setVelocity(ev.getProjectile().getVelocity().multiply(0.45));
 
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
 				public void run() {
 					zombieEgg.remove();
 					zombieEgg.getWorld().playEffect(zombieEgg.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
@@ -53,19 +61,25 @@ public class ZombieBow implements Listener {
 			}, 30L);
 		}
 	}
+
 	@EventHandler
 	public void noPickup(PlayerPickupItemEvent ev) {
 		if(ev.getItem().getName().equals("item.item.monsterPlacer")) {
 			ev.setCancelled(true);
-			ev.getPlayer().sendMessage("cancel");
 		}
 	}
-	
-	private static final String name = ChatColor.RESET + "Zombie Bow";
-	private static boolean isItem(ItemStack is) {
-		if (is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equals(name)) {
-			return true;
-		}
-		return false;
+
+	@Override
+	public ItemStack getItem() {
+		ItemStack zombiebow = new ItemStack(Material.BOW);
+		ItemMeta zombiebowItemMeta = zombiebow.getItemMeta();
+		List<String> zombiebowLore = new ArrayList<String>();
+		zombiebowLore.add(ChatColor.BLUE + "Legendary Weapon");
+		zombiebowLore.add(ChatColor.BLUE + "Fires a zombie egg");
+		zombiebowLore.add(ChatColor.BLUE + "Has a chance to spawn a zombie");
+		zombiebowItemMeta.setLore(zombiebowLore);
+		zombiebowItemMeta.setDisplayName(ChatColor.RESET + "Zombie Bow");
+		zombiebow.setItemMeta(zombiebowItemMeta);
+		return zombiebow;
 	}
 }

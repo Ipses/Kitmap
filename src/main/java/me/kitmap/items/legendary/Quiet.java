@@ -2,6 +2,7 @@ package me.kitmap.items.legendary;
 
 import me.kitmap.Main;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -11,17 +12,21 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class Quiet implements Listener {
+public class Quiet extends Legendary implements Listener {
 
+    private Main plugin;
+    private static final String NAME = ChatColor.RESET + "Quiet";
     @EventHandler
     public void onShoot(EntityShootBowEvent ev) {
-        if(!ev.isCancelled() && isItem(ev.getBow())) {
-            ev.getProjectile().setMetadata("quiet", new FixedMetadataValue(Main.getInstance(), true));
+        if(!ev.isCancelled() && hasName(ev.getBow(), NAME)) {
+            ev.getProjectile().setMetadata("quiet", new FixedMetadataValue(plugin.getInstance(), true));
         }
     }
     @EventHandler
@@ -40,11 +45,17 @@ public class Quiet implements Listener {
             victim.playSound(victim.getLocation(), randomSound, 1, 1);
         }
     }
-    private static final String name = ChatColor.RESET + "Quiet";
-    private static boolean isItem(ItemStack is) {
-        if (is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equals(name)) {
-            return true;
-        }
-        return false;
+
+    @Override
+    public ItemStack getItem() {
+        ItemStack quiet = new ItemStack(Material.BOW);
+        ItemMeta quietItemMeta = quiet.getItemMeta();
+        List<String> quietLore = new ArrayList<String>();
+        quietLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Legendary Weapon");
+        quietLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Plays a ghast sound to the player shot");
+        quietItemMeta.setLore(quietLore);
+        quietItemMeta.setDisplayName(net.md_5.bungee.api.ChatColor.RESET + "Quiet");
+        quiet.setItemMeta(quietItemMeta);
+        return quiet;
     }
 }

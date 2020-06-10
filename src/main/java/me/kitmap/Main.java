@@ -8,10 +8,13 @@ import java.util.List;
 
 import me.kitmap.commands.KothCommand;
 import me.kitmap.commands.RenameCommand;
+import me.kitmap.config.ConfigManager;
+import me.kitmap.game.EmptyBottleRemover;
 import me.kitmap.items.legendary.*;
 import me.kitmap.items.minezitems.Grenade;
 import me.kitmap.items.minezitems.Sugar;
 import me.kitmap.loot.KothCrate;
+import me.kitmap.game.DamageModifier;
 import me.kitmap.signs.KitSIgn;
 import me.kitmap.world.SpawnEnterBlocker;
 import org.bukkit.Bukkit;
@@ -42,28 +45,33 @@ public class Main extends JavaPlugin implements Listener {
 	
 	public static Plugin plugin;
 	private Connection connection;
+	private ConfigManager configManager;
 	public String host, database, username, password, table;
 	public int port;
 	
-	public static Inventory ironKit = Bukkit.createInventory(null, 36, "ironkit");
-	private KitCommand kitCommand = new KitCommand();
-	private ItemCommand itemsCommand = new ItemCommand();
-	private KothCommand kothCommand = new KothCommand();
+	public Inventory ironKit = Bukkit.createInventory(null, 36, "ironkit");
+	private KitCommand kitCommand = new KitCommand(this);
+	private ItemCommand itemsCommand = new ItemCommand(this);
+	private KothCommand kothCommand = new KothCommand(this);
 	private RenameCommand renameCommand = new RenameCommand();
 
-    public static Inventory itemPage1 = Bukkit.createInventory(null, 54, "Legendaries 1");
-    public static Inventory itemPage2 = Bukkit.createInventory(null, 54, "Legendaries 2");
-    public static Inventory itemPage3 = Bukkit.createInventory(null, 54, "MineZ Items");
+	public double diamond, iron, stone, wood, gold;
+
+    private Inventory itemPage1 = Bukkit.createInventory(null, 54, "Legendaries 1");
+    public Inventory itemPage2 = Bukkit.createInventory(null, 54, "Legendaries 2");
+    public Inventory itemPage3 = Bukkit.createInventory(null, 54, "MineZ Items");
 
 	public void onEnable() {
 		System.out.println(ChatColor.GREEN + "on");
 		plugin = this;
 		registerEvents();
 		loadConfig();
+		loadConfigManager();
 		mysqlsetup();
 		buildKit();
 		buildItems();
 		registerCommands();
+		setDamage();
 	}
 	
 	public static Plugin getInstance() {
@@ -75,11 +83,12 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	private void registerCommands(){
-		getCommand(KitCommand.kit).setExecutor(kitCommand);
-		getCommand(ItemCommand.items).setExecutor(itemsCommand);
-		getCommand(KothCommand.koth).setExecutor(kothCommand);
-		getCommand(RenameCommand.rename).setExecutor(renameCommand);
+		getCommand("kit").setExecutor(kitCommand);
+		getCommand("items").setExecutor(itemsCommand);
+		getCommand("koth").setExecutor(kothCommand);
+		getCommand("rename").setExecutor(renameCommand);
 	}
+
 	public void mysqlsetup() {
 		host = this.getConfig().getString("host");
 		port = this.getConfig().getInt("port");
@@ -106,24 +115,60 @@ public class Main extends JavaPlugin implements Listener {
 			e.printStackTrace();
 		}
 	}
-	
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+	public void loadConfigManager(){
+	    configManager = new ConfigManager();
+	    configManager.setup();
+	    configManager.saveDamage();
+	    configManager.reloadDamage();
+    }
+
 	public void loadConfig() {
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 	}
-	public void setConnection(Connection connection) {
-		this.connection = connection;
+
+	public void setDamage(){
+        this.diamond = Double.parseDouble(configManager.getDamage().getString("diamond_sword"));
+        this.iron = Double.parseDouble(configManager.getDamage().getString("iron_sword"));
+		this.stone = Double.parseDouble(configManager.getDamage().getString("stone_sword"));
+		this.wood = Double.parseDouble(configManager.getDamage().getString("wood_sword"));
+		this.gold = Double.parseDouble(configManager.getDamage().getString("gold_sword"));
 	}
-	
-	
+
+   public double getDiamondSwordDamage(){
+	    return this.diamond;
+   }
+
+   public double getIronSwordDamage(){
+	    return this.iron;
+   }
+
+	public double getStoneSwordDamage(){
+		return this.stone;
+	}
+
+	public double getWoodSwordDamage(){
+		return this.wood;
+	}
+
+	public double getGoldSwordDamage(){
+		return this.gold;
+	}
 	private void registerEvents() {
 		getServer().getPluginManager().registerEvents(new ScoreboardHandler(), this);
 		getServer().getPluginManager().registerEvents(new CombatTagTimer(), this);
 		getServer().getPluginManager().registerEvents(new MysqlData(), this);
-		getServer().getPluginManager().registerEvents(new ItemMenu(), this);
-		getServer().getPluginManager().registerEvents(new KitSIgn(), this);
+		getServer().getPluginManager().registerEvents(new ItemMenu(this), this);
+		getServer().getPluginManager().registerEvents(new KitSIgn(this), this);
 		getServer().getPluginManager().registerEvents(new KothCrate(), this);
 		getServer().getPluginManager().registerEvents(new SpawnEnterBlocker(), this);
+        getServer().getPluginManager().registerEvents(new DamageModifier(this), this);
+		getServer().getPluginManager().registerEvents(new EmptyBottleRemover(), this);
 
 		getServer().getPluginManager().registerEvents(new Grenade(), this);
 		getServer().getPluginManager().registerEvents(new Sugar(), this);
@@ -837,5 +882,21 @@ public class Main extends JavaPlugin implements Listener {
 		itemPage3.setItem(53, nextpage3);
 
 	}
+
+	public Inventory getItemPage1(){
+	    return this.itemPage1;
+    }
+
+	public Inventory getItemPage2(){
+		return this.itemPage2;
+	}
+
+	public Inventory getItemPage3(){
+		return this.itemPage3;
+	}
+
+    public Inventory getIronKit(){
+	    return this.ironKit;
+    }
 }
 	

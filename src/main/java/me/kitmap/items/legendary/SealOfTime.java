@@ -1,13 +1,11 @@
 package me.kitmap.items.legendary;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,19 +19,21 @@ import org.bukkit.inventory.PlayerInventory;
 
 import me.kitmap.Main;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class SealOfTime extends Legendary implements Listener {
 	
 	private HashMap<UUID, Long> timer = new HashMap<>();
 	private HashMap<UUID, ItemStack[]> inv = new HashMap<>();
 	private HashMap<UUID, ItemStack[]> armor = new HashMap<>();
+	private Main plugin;
 
-	private static final String name = ChatColor.RESET + "Seal of Time";
+	private static final String NAME = ChatColor.RESET + "Seal of Time";
 	
 	@EventHandler
 	public void onClick(PlayerInteractEvent ev) {
 		if((ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK) && 
-				hasName(ev.getPlayer().getInventory().getItemInMainHand(), name)) {
+				hasName(ev.getPlayer().getInventory().getItemInMainHand(), NAME)) {
 			Player player = ev.getPlayer();
 			Location loc = player.getLocation();
 			long cooldown = timer.containsKey(player.getUniqueId()) ? timer.get(player.getUniqueId()) - System.currentTimeMillis() : 0;
@@ -52,13 +52,13 @@ public class SealOfTime extends Legendary implements Listener {
 	        armor.put(player.getUniqueId(), copyArmors(player.getInventory()));
 			timer.put(player.getUniqueId(), System.currentTimeMillis() + 60*1000); //cooldown 1m but can increase
 			
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
 				public void run() {
 					timer.remove(player.getUniqueId());
 					}
 				}, 30*20L);
 			
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
 				public void run() {
 					player.getWorld().playSound(player.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, 1, 1);
 					player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, 10);
@@ -107,11 +107,18 @@ public class SealOfTime extends Legendary implements Listener {
 			player.sendMessage(ChatColor.RED + "You cannot drop items after using Seal of Time!");
 		}
 	}
-	
-	@EventHandler
-	public void onPlace(BlockPlaceEvent ev) {
-		if(hasName(ev.getItemInHand(), name)) {
-			ev.setCancelled(true);
-		}
+
+	@Override
+	public ItemStack getItem() {
+		ItemStack sealoftime = new ItemStack(Material.SKULL_ITEM, 1, (short)SkullType.SKELETON.ordinal());
+		ItemMeta sealoftimeItemMeta = sealoftime.getItemMeta();
+		List<String> sealoftimeLore = new ArrayList<String>();
+		sealoftimeLore.add(ChatColor.DARK_PURPLE + "Lore here");
+		sealoftimeLore.add(ChatColor.BLUE + "Right Click: Sets a recall point. After 5 seconds,");
+		sealoftimeLore.add(ChatColor.BLUE + "you are teleported back to the recall point and restore health");
+		sealoftimeItemMeta.setLore(sealoftimeLore);
+		sealoftimeItemMeta.setDisplayName(ChatColor.RESET + "Seal of Time");
+		sealoftime.setItemMeta(sealoftimeItemMeta);
+		return sealoftime;
 	}
 }

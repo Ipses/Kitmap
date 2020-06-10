@@ -22,7 +22,7 @@ public class KothCrate implements Listener {
                 ev.setCancelled(true);
                 player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
                 Bukkit.broadcastMessage(ChatColor.GOLD + "[KOTH] " + player.getName() + ChatColor.YELLOW +
-                        " is obtaining loot for a " + ChatColor.BLUE + "KOTH Key");
+                        " is obtaining loot for a " + ChatColor.GREEN + "KOTH Key");
 
                 // give loot
             }

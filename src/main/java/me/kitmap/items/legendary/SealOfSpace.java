@@ -1,13 +1,11 @@
 package me.kitmap.items.legendary;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatColor;
@@ -22,12 +22,12 @@ import net.md_5.bungee.api.ChatColor;
 public class SealOfSpace extends Legendary implements Listener {
 	
 	private ConcurrentHashMap<UUID, Long> timer = new ConcurrentHashMap<>();
-	private static final String name = ChatColor.RESET + "Seal of Space";
+	private static final String NAME = ChatColor.RESET + "Seal of Space";
 	
 	@EventHandler
 	public void onClick(PlayerInteractEvent ev) {
 		if((ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK) && 
-				hasName(ev.getPlayer().getInventory().getItemInMainHand(), name)) {
+				hasName(ev.getPlayer().getInventory().getItemInMainHand(), NAME)) {
 			Player player = ev.getPlayer();
 			Block targetBlock = player.getTargetBlock(null, 250);
 		    Location loc = targetBlock.getLocation();
@@ -60,11 +60,18 @@ public class SealOfSpace extends Legendary implements Listener {
 		    }
 		}
 	}
-	
-	@EventHandler
-	public void onPlace(BlockPlaceEvent ev) {
-		if(hasName(ev.getItemInHand(), name)) {
-			ev.setCancelled(true);
-		}
+
+	@Override
+	public ItemStack getItem() {
+		ItemStack sealofspace = new ItemStack(Material.ENCHANTED_BOOK);
+		ItemMeta sealofspaceItemMeta = sealofspace.getItemMeta();
+		List<String> sealofspaceLore = new ArrayList<String>();
+		sealofspaceLore.add(ChatColor.DARK_PURPLE + "Lore here");
+		sealofspaceLore.add(ChatColor.BLUE + "Right Click: Teleport to the block you are looking at");
+		sealofspaceLore.add(ChatColor.BLUE + "you are teleported back to the recall point and restore health");
+		sealofspaceItemMeta.setLore(sealofspaceLore);
+		sealofspaceItemMeta.setDisplayName(ChatColor.RESET + "Seal of Space");
+		sealofspace.setItemMeta(sealofspaceItemMeta);
+		return sealofspace;
 	}
 }

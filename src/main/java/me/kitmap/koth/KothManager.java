@@ -22,6 +22,7 @@ import java.util.Random;
 
 public class KothManager {
 
+    private final Main plugin;
     private static final PotionEffect SPEED = new PotionEffect(PotionEffectType.SPEED, 40*20, 3);
     private static final PotionEffect REGEN = new PotionEffect(PotionEffectType.REGENERATION, 20*20, 1);
     private static final PotionEffect RESISTANCE = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20*20, 1);
@@ -29,7 +30,8 @@ public class KothManager {
     private BukkitTask task;
     public static Koth koth;
 
-    public KothManager(Koth koth) {
+    public KothManager(Main plugin, Koth koth) {
+        this.plugin = plugin;
         this.koth = koth;
     }
 
@@ -60,7 +62,7 @@ public class KothManager {
         long remainingTime = this.koth.getRemainingTime();
         Bukkit.broadcastMessage("remaining:" + remainingTime);
         if(remainingTime <= 0L){
-            Bukkit.broadcastMessage(ChatColor.GOLD + "[KOTH] " + ChatColor.BLUE + this.koth.getName() + ChatColor.YELLOW +
+            Bukkit.broadcastMessage(ChatColor.GOLD + "[KOTH] " + ChatColor.GREEN + this.koth.getName() + ChatColor.YELLOW +
                     " was captured by " + ChatColor.GOLD + this.koth.getCapper().getName());
             giveKey(this.koth.getCapper());
             this.koth.getCapper().addPotionEffect(SPEED);
@@ -84,7 +86,7 @@ public class KothManager {
             if(!isInCap(this.koth.getCapper())){
                 this.koth.setCapper(null);
                 Bukkit.broadcastMessage(ChatColor.GOLD + "[KOTH] " + ChatColor.YELLOW + "The control of "
-                    + ChatColor.BLUE + koth.getName() + ChatColor.YELLOW + " was lost");
+                    + ChatColor.GREEN + koth.getName() + ChatColor.YELLOW + " was lost");
                 resetCooldown();
             }
             if(this.koth.getCapper() != null){
@@ -100,7 +102,7 @@ public class KothManager {
             public void run() {
                 tick();
             }
-        }.runTaskTimer(Main.getInstance(), 0L, 10L);
+        }.runTaskTimer(plugin.getInstance(), 0L, 10L);
         Bukkit.broadcastMessage(ChatColor.GOLD + "[KOTH] " + ChatColor.GREEN + koth.getName() + ChatColor.YELLOW +
                 " KOTH is opened");
     }
