@@ -21,41 +21,15 @@ import me.kitmap.Main;
 import me.kitmap.scoreboard.ScoreboardHandler;
 import net.md_5.bungee.api.ChatColor;
 
-public class MysqlData implements Listener {
+public class MysqlData{
 	
-	private static Main plugin = (Main) Main.getInstance();
-	private ConcurrentHashMap<UUID, Scoreboard> scoreboards = ScoreboardHandler.scoreboards;
-	
-	@EventHandler
-	public void onJoin(PlayerJoinEvent ev) {
-		Player player = ev.getPlayer();
-		createPlayer(player.getUniqueId(), 0, 0);
+	private final Main plugin;
+
+	public MysqlData(Main plugin){
+		this.plugin = plugin;
 	}
 	
-	@EventHandler
-	public void onPlayerDeath(PlayerDeathEvent ev) {
-        Player player = ev.getEntity();
-        Player killer;
-        if(player.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
-            EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) player.getLastDamageCause();
-            
-            if ((event.getDamager() instanceof Player)) {
-                killer = (Player) event.getDamager(); 
-            } else if(event.getDamager() instanceof Arrow && ((Arrow) event.getDamager()).getShooter() instanceof Player) {
-                killer = (Player) ((Arrow) event.getDamager()).getShooter();
-            } else { // check for grenade, fall damage, legendary later
-            	killer = null;
-            }     
-            updateKills(killer.getUniqueId());
-            updateDeaths(player.getUniqueId());
-            Score kills = scoreboards.get(killer.getUniqueId()).getObjective("sb").getScore("Kills:");
-    		kills.setScore(this.getKills(killer.getUniqueId()));
-    		Score deaths = scoreboards.get(killer.getUniqueId()).getObjective("sb").getScore("Deaths:");
-     		deaths.setScore(this.getKills(killer.getUniqueId()));
-        }
-	 }
-	
-	public static boolean playerExists(UUID uuid) {
+	public boolean playerExists(UUID uuid) {
 		try {
 			PreparedStatement statement = plugin.getConnection().prepareStatement("SELECT * FROM " + plugin.table + " WHERE UUID=?");
 			statement.setString(1, uuid.toString());
@@ -94,35 +68,35 @@ public class MysqlData implements Listener {
 		}
 	}
 	
-	public void updateKills(UUID uuid) {
+	public void updateDBKills(UUID uuid, int kills) {
 		try {
 			PreparedStatement update = plugin.getConnection().prepareStatement(
 					"UPDATE " + plugin.table + " SET KILLS=? WHERE UUID=?");
 			
-			update.setInt(1, getKills(uuid) + 1);
+			update.setInt(1, kills);
 			update.setString(2, uuid.toString());
 			update.executeUpdate();
-			Bukkit.broadcastMessage("increment");
+			Bukkit.broadcastMessage("kills saved in db");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void updateDeaths(UUID uuid) {
+	public void updateDBDeaths(UUID uuid, int deaths) {
 		try {
 			PreparedStatement update = plugin.getConnection().prepareStatement(
 					"UPDATE " + plugin.table + " SET DEATHS=? WHERE UUID=?");
 			
-			update.setInt(1, getDeaths(uuid) + 1);
+			update.setInt(1, deaths);
 			update.setString(2, uuid.toString());
 			update.executeUpdate();
-			Bukkit.broadcastMessage("increment");
+			Bukkit.broadcastMessage("death saved in db");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static int getKills(UUID uuid) {
+	public int getDBKills(UUID uuid) {
 		try {
 			PreparedStatement statement = plugin.getConnection().prepareStatement(
 					"SELECT * FROM " + plugin.table + " WHERE UUID=?");
@@ -138,7 +112,7 @@ public class MysqlData implements Listener {
 		//return 0;
 	}
 	
-	public static int getDeaths(UUID uuid) {
+	public int getDBDeaths(UUID uuid) {
 		try {
 			PreparedStatement statement = plugin.getConnection().prepareStatement(
 					"SELECT * FROM " + plugin.table + " WHERE UUID=?");
@@ -151,10 +125,5 @@ public class MysqlData implements Listener {
 			return 0;
 			//e.printStackTrace();
 		}
-		//return 0;
-	}
-
-	public MysqlData getMysqlData(){
-		return this;
 	}
 }

@@ -12,37 +12,42 @@ import java.io.IOException;
 public class ConfigManager {
 
     private Main plugin = Main.getPlugin(Main.class);
-    public FileConfiguration damageConfig;
-    public File damageFile;
+    public FileConfiguration damageConfig, coordsConfig;
+    public File damageFile, coordsFile;
 
     public void setup(){
         if(!plugin.getDataFolder().exists()){
             plugin.getDataFolder().mkdir();
         }
         damageFile = new File(plugin.getDataFolder(), "damage.yml");
-
         if(!damageFile.exists()){
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "file doesn't exists");
             try {
                 damageFile.createNewFile();
-
             } catch(IOException e){
                 e.printStackTrace();
             }
         }
-        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "file exists");
+
+        coordsFile = new File(plugin.getDataFolder(), "coordinates.yml");
+        if(!coordsFile.exists()){
+            try {
+                coordsFile.createNewFile();
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+        }
         reloadDamage();
+        reloadCoords();
     }
 
     public FileConfiguration getDamage(){
-        return damageConfig;
+        return this.damageConfig;
     }
 
     public void saveDamage(){
         try{
             damageConfig.save(damageFile);
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "file saved");
-
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -52,4 +57,20 @@ public class ConfigManager {
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "file reloaded");
         damageConfig = YamlConfiguration.loadConfiguration(damageFile);
     }
+
+    public void saveCoords(){
+        try{
+            coordsConfig.save(coordsFile);
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "file saved");
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void reloadCoords(){
+        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "file reloaded");
+        coordsConfig = YamlConfiguration.loadConfiguration(coordsFile);
+    }
+
+    public FileConfiguration getCoords() { return this.coordsConfig; }
 }

@@ -9,14 +9,13 @@ import java.util.List;
 import me.kitmap.commands.KothCommand;
 import me.kitmap.commands.RenameCommand;
 import me.kitmap.config.ConfigManager;
-import me.kitmap.game.EmptyBottleRemover;
+import me.kitmap.game.*;
+import me.kitmap.scoreboard.KillDeathUpdater;
 import me.kitmap.items.legendary.*;
 import me.kitmap.items.minezitems.Grenade;
 import me.kitmap.items.minezitems.Sugar;
 import me.kitmap.loot.KothCrate;
-import me.kitmap.game.DamageModifier;
 import me.kitmap.signs.KitSIgn;
-import me.kitmap.world.SpawnEnterBlocker;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -28,6 +27,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
@@ -38,7 +38,6 @@ import me.kitmap.items.ItemMenu;
 import me.kitmap.items.minezitems.WeakGrapple;
 import me.kitmap.scoreboard.ScoreboardHandler;
 import me.kitmap.stats.MysqlData;
-import me.kitmap.timer.CombatTagTimer;
 import net.md_5.bungee.api.ChatColor;
 
 public class Main extends JavaPlugin implements Listener {
@@ -55,11 +54,11 @@ public class Main extends JavaPlugin implements Listener {
 	private KothCommand kothCommand = new KothCommand(this);
 	private RenameCommand renameCommand = new RenameCommand();
 
-	public double diamond, iron, stone, wood, gold;
+	public double diamond, iron, stone, wood, gold, spawnMinX, spawnMaxX,spawnMinZ, spawnMaxZ;
 
     private Inventory itemPage1 = Bukkit.createInventory(null, 54, "Legendaries 1");
-    public Inventory itemPage2 = Bukkit.createInventory(null, 54, "Legendaries 2");
-    public Inventory itemPage3 = Bukkit.createInventory(null, 54, "MineZ Items");
+    private Inventory itemPage2 = Bukkit.createInventory(null, 54, "Legendaries 2");
+    private Inventory itemPage3 = Bukkit.createInventory(null, 54, "MineZ Items");
 
 	public void onEnable() {
 		System.out.println(ChatColor.GREEN + "on");
@@ -72,6 +71,7 @@ public class Main extends JavaPlugin implements Listener {
 		buildItems();
 		registerCommands();
 		setDamage();
+		setCoords();
 	}
 	
 	public static Plugin getInstance() {
@@ -102,11 +102,9 @@ public class Main extends JavaPlugin implements Listener {
 				if(getConnection() != null && !getConnection().isClosed()) {
 					return;
 				}
-				
 				Class.forName("com.mysql.jdbc.Driver");
 				setConnection( DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + 
 				this.port + "/" + this.database, this.username, this.password));
-			
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "MySQL connected");
 			}
 		}catch(SQLException e) {
@@ -125,9 +123,11 @@ public class Main extends JavaPlugin implements Listener {
 	    configManager.setup();
 	    configManager.saveDamage();
 	    configManager.reloadDamage();
+	    configManager.saveCoords();
+	    configManager.reloadCoords();
     }
 
-	public void loadConfig() {
+	public void loadConfig() { // Mysql
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 	}
@@ -140,15 +140,22 @@ public class Main extends JavaPlugin implements Listener {
 		this.gold = Double.parseDouble(configManager.getDamage().getString("gold_sword"));
 	}
 
-   public double getDiamondSwordDamage(){
+	public void setCoords(){
+		this.spawnMinX = Double.parseDouble(configManager.getCoords().getString("Spawn.minX"));
+		this.spawnMaxX = Double.parseDouble(configManager.getCoords().getString("Spawn.maxX"));
+		this.spawnMinZ = Double.parseDouble(configManager.getCoords().getString("Spawn.minZ"));
+		this.spawnMaxZ = Double.parseDouble(configManager.getCoords().getString("Spawn.maxX"));
+	}
+
+	public double getDiamondSwordDamage(){
 	    return this.diamond;
    }
 
-   public double getIronSwordDamage(){
+    public double getIronSwordDamage(){
 	    return this.iron;
    }
 
-	public double getStoneSwordDamage(){
+    public double getStoneSwordDamage(){
 		return this.stone;
 	}
 
@@ -159,34 +166,45 @@ public class Main extends JavaPlugin implements Listener {
 	public double getGoldSwordDamage(){
 		return this.gold;
 	}
-	private void registerEvents() {
-		getServer().getPluginManager().registerEvents(new ScoreboardHandler(), this);
-		getServer().getPluginManager().registerEvents(new CombatTagTimer(), this);
-		getServer().getPluginManager().registerEvents(new MysqlData(), this);
-		getServer().getPluginManager().registerEvents(new ItemMenu(this), this);
-		getServer().getPluginManager().registerEvents(new KitSIgn(this), this);
-		getServer().getPluginManager().registerEvents(new KothCrate(), this);
-		getServer().getPluginManager().registerEvents(new SpawnEnterBlocker(), this);
-        getServer().getPluginManager().registerEvents(new DamageModifier(this), this);
-		getServer().getPluginManager().registerEvents(new EmptyBottleRemover(), this);
 
-		getServer().getPluginManager().registerEvents(new Grenade(), this);
-		getServer().getPluginManager().registerEvents(new Sugar(), this);
-		getServer().getPluginManager().registerEvents(new WeakGrapple(), this);
-		getServer().getPluginManager().registerEvents(new ZombieBow(), this);
-		getServer().getPluginManager().registerEvents(new TruthBow(), this);
-		getServer().getPluginManager().registerEvents(new PluviasTempest(), this);
-		getServer().getPluginManager().registerEvents(new Shotbow(), this);
-		getServer().getPluginManager().registerEvents(new Quiet(), this);
-		getServer().getPluginManager().registerEvents(new WebShot(), this);
+    private void registerEvents() {
 
-		getServer().getPluginManager().registerEvents(new RobbersBlade(), this);
-		getServer().getPluginManager().registerEvents(new DepthStrider(), this);
-		getServer().getPluginManager().registerEvents(new SpikeThrower(), this);
-		getServer().getPluginManager().registerEvents(new Overkill(), this);
-		getServer().getPluginManager().registerEvents(new SealOfTime(), this);
-		getServer().getPluginManager().registerEvents(new SealOfSpace(), this);
-		getServer().getPluginManager().registerEvents(new SealOfGravity(), this);
+		PluginManager pluginManager = getServer().getPluginManager();
+        SpawnTag spawnTag = new SpawnTag(this);
+		SpawnTagManager spawnTagManager = new SpawnTagManager(this, spawnTag);
+		ScoreboardHandler scoreboardHandler = new ScoreboardHandler(this, new MysqlData(this ), spawnTagManager);
+
+		pluginManager.registerEvents(scoreboardHandler, this);
+		pluginManager.registerEvents(new KillDeathUpdater(this, scoreboardHandler), this);
+
+		pluginManager.registerEvents(spawnTagManager, this);
+		pluginManager.registerEvents(spawnTag, this);
+
+		pluginManager.registerEvents(new ItemMenu(this), this);
+		pluginManager.registerEvents(new KitSIgn(this), this);
+		pluginManager.registerEvents(new KothCrate(), this);
+		pluginManager.registerEvents(new SpawnEnterBlocker(this, spawnTag), this);
+        pluginManager.registerEvents(new DamageModifier(this), this);
+		pluginManager.registerEvents(new EmptyBottleRemover(), this);
+		pluginManager.registerEvents(new DeathMessage(), this);
+
+		pluginManager.registerEvents(new Grenade(), this);
+		pluginManager.registerEvents(new Sugar(), this);
+		pluginManager.registerEvents(new WeakGrapple(), this);
+		pluginManager.registerEvents(new ZombieBow(), this);
+		pluginManager.registerEvents(new TruthBow(), this);
+		pluginManager.registerEvents(new PluviasTempest(), this);
+		pluginManager.registerEvents(new Shotbow(), this);
+		pluginManager.registerEvents(new Quiet(), this);
+		pluginManager.registerEvents(new WebShot(), this);
+
+		pluginManager.registerEvents(new RobbersBlade(), this);
+		pluginManager.registerEvents(new DepthStrider(), this);
+		pluginManager.registerEvents(new SpikeThrower(), this);
+		pluginManager.registerEvents(new Overkill(), this);
+		pluginManager.registerEvents(new SealOfTime(), this);
+		pluginManager.registerEvents(new SealOfSpace(), this);
+		pluginManager.registerEvents(new SealOfGravity(), this);
 
 	}
 	
@@ -898,5 +916,7 @@ public class Main extends JavaPlugin implements Listener {
     public Inventory getIronKit(){
 	    return this.ironKit;
     }
+
+
 }
 	
