@@ -29,13 +29,19 @@ import java.util.List;
 public class SealOfGravity extends Legendary implements Listener {
 
 	private Main plugin;
-	private static final String name = ChatColor.RESET + "Seal of Gravity";
-	private static final PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, 1*20, 100);
+	private String name;
+	private static final String NAME = ChatColor.RESET + "Seal of Gravity";
+	private static final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW, 1*20, 100);
+
+	public SealOfGravity(Main plugin) {
+		super(plugin);
+		this.name = NAME;
+	}
 
 
 	@EventHandler
 	public void onClick(PlayerInteractEvent ev) {
-		if(hasName(ev.getPlayer().getInventory().getItemInMainHand(), name) &&
+		if(hasName(ev.getPlayer().getInventory().getItemInMainHand()) &&
 				(ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 			Player player = ev.getPlayer();
 			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EGG_THROW, 1, 1);
@@ -52,7 +58,7 @@ public class SealOfGravity extends Legendary implements Listener {
 						if(player.getLocation().distance(seal.getLocation()) < 10) {
 							Vector pull = seal.getLocation().toVector().subtract(player.getLocation().toVector()).normalize().multiply(1.5);
 							player.setVelocity(new Vector(pull.getX(), 0, pull.getZ())); // only in X and Z
-							player.addPotionEffect(slow);
+							player.addPotionEffect(SLOW);
 						}
 					}
 					seal.remove();
@@ -63,7 +69,7 @@ public class SealOfGravity extends Legendary implements Listener {
 	
 	@EventHandler
 	public void onPlace(BlockPlaceEvent ev) {
-		if(hasName(ev.getItemInHand(), name)) {
+		if(hasName(ev.getItemInHand())) {
 			ev.setCancelled(true);
 		}
 	}
@@ -84,7 +90,7 @@ public class SealOfGravity extends Legendary implements Listener {
 		sealofgravityLore.add(ChatColor.BLUE + "Right Click: Throw");
 		sealofgravityLore.add(ChatColor.BLUE + "Launch nearby players towards the seal");
 		sealofgravityItemMeta.setLore(sealofgravityLore);
-		sealofgravityItemMeta.setDisplayName(ChatColor.RESET + "Seal of Gravity");
+		sealofgravityItemMeta.setDisplayName(this.name);
 		sealofgravity.setItemMeta(sealofgravityItemMeta);
 		return sealofgravity;
 	}

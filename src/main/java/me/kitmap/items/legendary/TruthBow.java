@@ -24,15 +24,22 @@ import me.kitmap.Main;
 
 public class TruthBow extends Legendary implements Listener {
 
-	private static PotionEffect glowing = new PotionEffect(PotionEffectType.GLOWING, 10*20, 1);
-	private static HashMap<UUID,Long> marked = new HashMap<>();
+	private PotionEffect glowing = new PotionEffect(PotionEffectType.GLOWING, 10*20, 1);
+	private HashMap<UUID,Long> marked = new HashMap<>();
 	private static final String NAME = ChatColor.RESET + "Truth Bow";
 	private Main plugin;
+	private String name;
+
+	public TruthBow(Main plugin) {
+		super(plugin);
+		this.name = NAME;
+	}
+
 	@EventHandler
 	public void onShoot(EntityShootBowEvent ev) {
 		if(!ev.isCancelled() && ev.getEntity() instanceof Player) {
 			Player player = (Player) ev.getEntity();
-			if(hasName(player.getInventory().getItemInMainHand(), NAME)){
+			if(hasName(player.getInventory().getItemInMainHand())){
 				if(ev.getForce() == 1) {
 					ev.getProjectile().setMetadata("truthbow", new FixedMetadataValue(plugin.getInstance(), true) );
 				} else {
@@ -85,7 +92,7 @@ public class TruthBow extends Legendary implements Listener {
 		truthbowLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Marked player takes 10% more damage");
 		truthbowLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Only works at full charge");
 		truthbowItemMeta.setLore(truthbowLore);
-		truthbowItemMeta.setDisplayName(net.md_5.bungee.api.ChatColor.RESET + "Truth Bow");
+		truthbowItemMeta.setDisplayName(this.name);
 		truthbow.setItemMeta(truthbowItemMeta);
 		return truthbow;
 	}

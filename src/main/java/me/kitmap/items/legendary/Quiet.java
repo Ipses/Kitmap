@@ -22,11 +22,18 @@ import java.util.Random;
 public class Quiet extends Legendary implements Listener {
 
     private Main plugin;
+    private String name;
     private static final String NAME = ChatColor.RESET + "Quiet";
+
+    public Quiet(Main plugin) {
+        super(plugin);
+        this.name = NAME;
+    }
+
     @EventHandler
     public void onShoot(EntityShootBowEvent ev) {
-        if(!ev.isCancelled() && hasName(ev.getBow(), NAME)) {
-            ev.getProjectile().setMetadata("quiet", new FixedMetadataValue(plugin.getInstance(), true));
+        if(!ev.isCancelled() && hasName(ev.getBow())) {
+            ev.getProjectile().setMetadata("quiet", new FixedMetadataValue(Main.getInstance(), true));
         }
     }
     @EventHandler
@@ -54,7 +61,7 @@ public class Quiet extends Legendary implements Listener {
         quietLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Legendary Weapon");
         quietLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Plays a ghast sound to the player shot");
         quietItemMeta.setLore(quietLore);
-        quietItemMeta.setDisplayName(net.md_5.bungee.api.ChatColor.RESET + "Quiet");
+        quietItemMeta.setDisplayName(this.name);
         quiet.setItemMeta(quietItemMeta);
         return quiet;
     }

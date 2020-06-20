@@ -23,15 +23,21 @@ import java.util.List;
 public class WebShot extends Legendary implements Listener {
 
     private Main plugin;
+    private String name;
     private static final String NAME = ChatColor.RESET + "Web Shot";
+
+    public WebShot(Main plugin) {
+        super(plugin);
+        this.name = NAME;
+    }
 
     @EventHandler
     public void onShoot(EntityShootBowEvent ev) {
         if(!ev.isCancelled() && ev.getEntity() instanceof Player) {
             Player player = (Player) ev.getEntity();
-            if(hasName(player.getInventory().getItemInMainHand(), NAME)){
+            if(hasName(player.getInventory().getItemInMainHand())){
                 if(ev.getForce() == 1) {
-                    ev.getProjectile().setMetadata("webshot", new FixedMetadataValue(plugin.getInstance(), true) );
+                    ev.getProjectile().setMetadata("webshot", new FixedMetadataValue(Main.getInstance(), true) );
                 } else {
                     player.sendMessage(org.bukkit.ChatColor.RED + "The bow was not fully charged");
                     ev.setCancelled(true);
@@ -79,7 +85,7 @@ public class WebShot extends Legendary implements Listener {
             else duration = 5;
 
             Bukkit.broadcastMessage("distance: " + distance);
-            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
+            Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
                 public void run() {
                    for(Location loc: webLocations){
                        if(loc.getBlock().getType() == Material.WEB){
@@ -129,7 +135,7 @@ public class WebShot extends Legendary implements Listener {
             else duration = 5;
 
             Bukkit.broadcastMessage("distance: " + distance);
-            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
+            Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
                 public void run() {
                     for(Location loc: webLocations){
                         if(loc.getBlock().getType() == Material.WEB){
@@ -141,7 +147,6 @@ public class WebShot extends Legendary implements Listener {
         }
     }
 
-
     @Override
     public ItemStack getItem() {
         ItemStack webshot = new ItemStack(Material.BOW);
@@ -149,7 +154,7 @@ public class WebShot extends Legendary implements Listener {
         List<String> webshotLore = new ArrayList<String>();
         webshotLore.add(ChatColor.BLUE + "Legendary Bow");
         webshotItemMeta.setLore(webshotLore);
-        webshotItemMeta.setDisplayName(ChatColor.RESET + "Web Shot");
+        webshotItemMeta.setDisplayName(this.name);
         webshot.setItemMeta(webshotItemMeta);
         return webshot;
     }

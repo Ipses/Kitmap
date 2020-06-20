@@ -23,14 +23,20 @@ import java.util.List;
 public class SpikeThrower extends Legendary implements Listener {
 
 	private Main plugin;
+	private String name;
 	private static final String NAME = ChatColor.RESET + "Spike Thrower";
+
+	public SpikeThrower(Main plugin) {
+		super(plugin);
+		this.name = NAME;
+	}
 
 	@EventHandler
 	public void onShoot(EntityShootBowEvent ev) {
 		if(!ev.isCancelled() && ev.getEntity() instanceof Player) {
 			Player player = (Player) ev.getEntity();
-			if(hasName(player.getInventory().getItemInMainHand(), NAME)){
-				ev.getProjectile().setMetadata("spikethrower", new FixedMetadataValue(plugin.getInstance(), true) );
+			if(hasName(player.getInventory().getItemInMainHand())){
+				ev.getProjectile().setMetadata("spikethrower", new FixedMetadataValue(Main.getInstance(), true) );
 			}
 		}
 	}
@@ -58,7 +64,7 @@ public class SpikeThrower extends Legendary implements Listener {
 		spikethrowerLore.add(ChatColor.BLUE + "Legendary Weapon");
 		spikethrowerLore.add(ChatColor.BLUE + "10 arrows randomly scatter in a circle around the player shot");
 		spikethrowerItemMeta.setLore(spikethrowerLore);
-		spikethrowerItemMeta.setDisplayName(ChatColor.RESET + "Spike Thrower");
+		spikethrowerItemMeta.setDisplayName(this.name);
 		spikethrower.setItemMeta(spikethrowerItemMeta);
 		return spikethrower;
 	}

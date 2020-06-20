@@ -3,6 +3,7 @@ package me.kitmap.items.legendary;
 import java.util.HashMap;
 import java.util.UUID;
 
+import me.kitmap.Main;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -13,7 +14,14 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class DepthStrider extends Legendary implements Listener{
+
+	private Main plugin;
+	private String name;
 	private HashMap<UUID, Integer> movements = new HashMap<>();
+
+	public DepthStrider(Main plugin) {
+		super(plugin);
+	}
 
 	@EventHandler
 	public void onSwim(PlayerMoveEvent ev) {

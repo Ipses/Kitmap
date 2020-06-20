@@ -1,5 +1,6 @@
 package me.kitmap.items.legendary;
 
+import me.kitmap.Main;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -9,10 +10,17 @@ import net.md_5.bungee.api.ChatColor;
 
 public abstract class Legendary {
 
+	private final Main plugin;
+	private String name;
+
+	public Legendary(Main plugin){
+		this.plugin = plugin;
+	}
+
     abstract ItemStack getItem();
 
-    boolean hasName(ItemStack is, String name) {
-		if (is != null && is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equals(name)) {
+    boolean hasName(ItemStack is) {
+		if (is != null && is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equals(this.name)) {
 			return true;
 		}
 		return false;

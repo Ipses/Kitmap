@@ -4,9 +4,6 @@ version: 1.0.0
 description: kit pvp gg
 
 commands:
-  kit:
-    usage: /<kit>
-    description: kit yourself
   items:
     usage: /<items>
     description: open item menu

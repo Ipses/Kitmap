@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import me.kitmap.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,11 +17,19 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class RobbersBlade extends Legendary implements Listener{
 
+	private Main plugin;
+	private String name;
 	private static final String NAME = ChatColor.RESET + "Robber's Blade";
+
+	public RobbersBlade(Main plugin) {
+		super(plugin);
+		this.name = NAME;
+	}
+
 	@EventHandler
 	public void onEntityDamageByEntity (EntityDamageByEntityEvent ev) {
 		if (!ev.isCancelled() && ev.getDamager() instanceof Player && ev.getEntity() instanceof Player &&
-				hasName(((Player) ev.getDamager()).getInventory().getItemInMainHand(), NAME)) {
+				hasName(((Player) ev.getDamager()).getInventory().getItemInMainHand())) {
 			Player player = (Player)ev.getDamager();
 			Player victim = (Player)ev.getEntity();
 			Inventory inv = victim.getInventory();
@@ -56,7 +65,7 @@ public class RobbersBlade extends Legendary implements Listener{
 		robbersbladeLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Steals a random item from a player");
 		robbersbladeLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Breaks after use");
 		robbersbladeItemMeta.setLore(robbersbladeLore);
-		robbersbladeItemMeta.setDisplayName(net.md_5.bungee.api.ChatColor.RESET + "Robber's Blade");
+		robbersbladeItemMeta.setDisplayName(this.name);
 		robbersblade.setItemMeta(robbersbladeItemMeta);
 		return robbersblade;
 	}

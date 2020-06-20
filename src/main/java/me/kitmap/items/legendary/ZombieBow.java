@@ -25,11 +25,17 @@ import java.util.List;
 public class ZombieBow extends Legendary implements Listener {
 
 	private Main plugin;
+	private String name;
 	private static final String NAME = ChatColor.RESET + "Zombie Bow";
+
+	public ZombieBow(Main plugin) {
+		super(plugin);
+		this.name = NAME;
+	}
 
 	@EventHandler
 	public void onShot(EntityShootBowEvent ev) {
-		if (!ev.isCancelled() && ev.getEntity() instanceof Player && hasName(ev.getBow(), NAME)) {
+		if (!ev.isCancelled() && ev.getEntity() instanceof Player && hasName(ev.getBow())) {
 			ev.setCancelled(true);
 			Player player = (Player) ev.getEntity();
 			if(!player.getInventory().containsAtLeast(new ItemStack(Material.ARROW), 1)) {
@@ -47,7 +53,7 @@ public class ZombieBow extends Legendary implements Listener {
 			Item zombieEgg = player.getWorld().dropItem(fireLocation, new ItemStack(Material.MONSTER_EGG, 1, (short)54));
 			zombieEgg.setVelocity(ev.getProjectile().getVelocity().multiply(0.45));
 
-			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
 				public void run() {
 					zombieEgg.remove();
 					zombieEgg.getWorld().playEffect(zombieEgg.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
@@ -78,7 +84,7 @@ public class ZombieBow extends Legendary implements Listener {
 		zombiebowLore.add(ChatColor.BLUE + "Fires a zombie egg");
 		zombiebowLore.add(ChatColor.BLUE + "Has a chance to spawn a zombie");
 		zombiebowItemMeta.setLore(zombiebowLore);
-		zombiebowItemMeta.setDisplayName(ChatColor.RESET + "Zombie Bow");
+		zombiebowItemMeta.setDisplayName(this.name);
 		zombiebow.setItemMeta(zombiebowItemMeta);
 		return zombiebow;
 	}

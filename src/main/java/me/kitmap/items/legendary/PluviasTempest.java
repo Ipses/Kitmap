@@ -1,5 +1,6 @@
 package me.kitmap.items.legendary;
 
+import me.kitmap.Main;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,8 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PluviasTempest extends Legendary implements Listener {
-	
-	public static final String name = ChatColor.RESET + "Pluvia's Tempest";
+
+	private Main plugin;
+	private String name;
+	private static final String NAME = ChatColor.RESET + "Pluvia's Tempest";
+
+	public PluviasTempest(Main plugin) {
+		super(plugin);
+		this.name = NAME;
+	}
 
 	@EventHandler
 	public void onHit(EntityDamageByEntityEvent ev) {
@@ -23,7 +31,7 @@ public class PluviasTempest extends Legendary implements Listener {
 			Player player = (Player) ev.getDamager();
 			Player victim = (Player) ev.getEntity();
 			ItemStack chest = victim.getInventory().getChestplate();
-			if(hasName(chest, name) && isHittable(victim)) {
+			if(hasName(chest) && isHittable(victim)) {
 				if(Math.random() < 0.25) victim.setHealth(Math.min(victim.getHealth() + 1, 20));
 				if(Math.random() < 0.15) player.setHealth(Math.min(player.getHealth() + 1, 20));
 			}
@@ -40,7 +48,7 @@ public class PluviasTempest extends Legendary implements Listener {
 		pluviastempestLore.add(ChatColor.BLUE + "Has a 25% chance to heal you when you get hit.");
 		pluviastempestLore.add(ChatColor.BLUE + "Has a 15% chance to heal the player who attacked you.");
 		pluviastempestItemMeta.setLore(pluviastempestLore);
-		pluviastempestItemMeta.setDisplayName(ChatColor.RESET + "Pluvia's Tempest");
+		pluviastempestItemMeta.setDisplayName(this.name);
 		pluviastempest.setItemMeta(pluviastempestItemMeta);
 		return pluviastempest;
 	}

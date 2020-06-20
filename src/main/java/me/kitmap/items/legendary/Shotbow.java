@@ -1,5 +1,6 @@
 package me.kitmap.items.legendary;
 
+import me.kitmap.Main;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -18,14 +19,21 @@ import java.util.List;
 
 public class Shotbow extends Legendary implements Listener{
 
+	private Main plugin;
+	private String name;
 	private static final String NAME = ChatColor.RESET + "Shotbow";
+
+	public Shotbow(Main plugin) {
+		super(plugin);
+		this.name = NAME;
+	}
 
 	@EventHandler
 	public void onShoot(EntityShootBowEvent ev) {
 		if(!ev.isCancelled() && ev.getEntity() instanceof Player) {
 			Player player = (Player) ev.getEntity();
 			Vector velocity = ev.getProjectile().getVelocity();
-			if(hasName(player.getInventory().getItemInMainHand(), NAME)){
+			if(hasName(player.getInventory().getItemInMainHand())){
 				double angleController = 4;
 				for (int i=0;i<8;i++) {
 					Arrow arrow = player.launchProjectile(Arrow.class);
@@ -45,7 +53,7 @@ public class Shotbow extends Legendary implements Listener{
 		shotbowLore.add(ChatColor.BLUE + "Legendary Weapon");
 		shotbowLore.add(ChatColor.BLUE + "Shoots a volley of 8 arrows");
 		shotbowItemMeta.setLore(shotbowLore);
-		shotbowItemMeta.setDisplayName(ChatColor.RESET + "Shotbow");
+		shotbowItemMeta.setDisplayName(this.name);
 		shotbow.setItemMeta(shotbowItemMeta);
 		return shotbow;
 	}

@@ -18,7 +18,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import me.kitmap.Main;
-import me.kitmap.stats.MysqlData;
+import me.kitmap.mysql.MysqlData;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.scoreboard.Team;
 

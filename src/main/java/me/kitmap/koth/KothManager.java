@@ -28,13 +28,20 @@ public class KothManager {
     private static final PotionEffect RESISTANCE = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20*20, 1);
 
     private BukkitTask task;
-    public static Koth koth;
+    public Koth koth;
 
     public KothManager(Main plugin, Koth koth) {
         this.plugin = plugin;
         this.koth = koth;
     }
 
+    public Koth getKoth(){
+        return this.koth;
+    }
+
+    public void addKoth(Koth koth){
+        this.koth = koth;
+    }
     private boolean isInCap(@Nullable Player player) {
         final Location location = player.getLocation();
         if(this.koth.getMin().getBlockX() <= location.getBlockX() && location.getBlockX() <= this.koth.getMax().getBlockX() &&
@@ -97,6 +104,9 @@ public class KothManager {
     }
 
     public void start(){
+        if(this.koth == null) {
+            return;
+        }
         this.task = new BukkitRunnable() {
             @Override
             public void run() {
@@ -107,10 +117,12 @@ public class KothManager {
                 " KOTH is opened");
     }
 
+    public boolean isRunning(){
+        return this.koth != null;
+    }
     public void end(){
         this.koth = null;
         this.task.cancel();
-        Bukkit.broadcastMessage("stop task");
     }
 
     private void giveKey(Player player){

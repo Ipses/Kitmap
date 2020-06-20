@@ -27,13 +27,19 @@ public class SealOfTime extends Legendary implements Listener {
 	private HashMap<UUID, ItemStack[]> inv = new HashMap<>();
 	private HashMap<UUID, ItemStack[]> armor = new HashMap<>();
 	private Main plugin;
+	private String name;
 
 	private static final String NAME = ChatColor.RESET + "Seal of Time";
-	
+
+	public SealOfTime(Main plugin) {
+		super(plugin);
+		this.name = NAME;
+	}
+
 	@EventHandler
 	public void onClick(PlayerInteractEvent ev) {
 		if((ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK) && 
-				hasName(ev.getPlayer().getInventory().getItemInMainHand(), NAME)) {
+				hasName(ev.getPlayer().getInventory().getItemInMainHand())) {
 			Player player = ev.getPlayer();
 			Location loc = player.getLocation();
 			long cooldown = timer.containsKey(player.getUniqueId()) ? timer.get(player.getUniqueId()) - System.currentTimeMillis() : 0;
@@ -52,13 +58,13 @@ public class SealOfTime extends Legendary implements Listener {
 	        armor.put(player.getUniqueId(), copyArmors(player.getInventory()));
 			timer.put(player.getUniqueId(), System.currentTimeMillis() + 60*1000); //cooldown 1m but can increase
 			
-			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
 				public void run() {
 					timer.remove(player.getUniqueId());
 					}
 				}, 30*20L);
 			
-			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
 				public void run() {
 					player.getWorld().playSound(player.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, 1, 1);
 					player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, 10);
@@ -117,7 +123,7 @@ public class SealOfTime extends Legendary implements Listener {
 		sealoftimeLore.add(ChatColor.BLUE + "Right Click: Sets a recall point. After 5 seconds,");
 		sealoftimeLore.add(ChatColor.BLUE + "you are teleported back to the recall point and restore health");
 		sealoftimeItemMeta.setLore(sealoftimeLore);
-		sealoftimeItemMeta.setDisplayName(ChatColor.RESET + "Seal of Time");
+		sealoftimeItemMeta.setDisplayName(this.name);
 		sealoftime.setItemMeta(sealoftimeItemMeta);
 		return sealoftime;
 	}
