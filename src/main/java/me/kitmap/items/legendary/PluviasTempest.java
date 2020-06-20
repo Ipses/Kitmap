@@ -36,7 +36,7 @@ public class PluviasTempest extends Legendary implements Listener {
 		}
 	}
 
-
+	@Override
 	public ItemStack getItem() {
 		ItemStack pluviastempest = new ItemStack(Material.IRON_CHESTPLATE);
 		ItemMeta pluviastempestItemMeta = pluviastempest.getItemMeta();

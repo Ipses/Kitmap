@@ -112,7 +112,7 @@ public class SealOfTime extends Legendary implements Listener {
 		}
 	}
 
-
+	@Override
 	public ItemStack getItem() {
 		ItemStack sealoftime = new ItemStack(Material.SKULL_ITEM, 1, (short)SkullType.SKELETON.ordinal());
 		ItemMeta sealoftimeItemMeta = sealoftime.getItemMeta();

@@ -86,6 +86,7 @@ public class Overkill extends Legendary implements Listener {
 		} 
 	}
 
+	@Override
 	public ItemStack getItem() {
 		ItemStack overkill = new ItemStack(Material.DIAMOND_SWORD);
 		ItemMeta overkillItemMeta = overkill.getItemMeta();

@@ -73,6 +73,7 @@ public class ZombieBow extends Legendary implements Listener {
 		}
 	}
 
+	@Override
 	public ItemStack getItem() {
 		ItemStack zombiebow = new ItemStack(Material.BOW);
 		ItemMeta zombiebowItemMeta = zombiebow.getItemMeta();

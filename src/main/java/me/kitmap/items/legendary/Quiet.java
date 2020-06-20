@@ -52,7 +52,7 @@ public class Quiet extends Legendary implements Listener {
         }
     }
 
-
+    @Override
     public ItemStack getItem() {
         ItemStack quiet = new ItemStack(Material.BOW);
         ItemMeta quietItemMeta = quiet.getItemMeta();

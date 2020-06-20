@@ -50,6 +50,7 @@ public class SealOfEntropy extends Legendary implements Listener {
         }
     }
 
+    @Override
     public ItemStack getItem() {
         ItemStack sealofentropy = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.SKELETON.ordinal());
         ItemMeta sealofentropyItemMeta = sealofentropy.getItemMeta();

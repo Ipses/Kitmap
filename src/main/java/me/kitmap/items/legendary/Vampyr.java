@@ -38,6 +38,7 @@ public class Vampyr extends Legendary implements Listener {
 		}
 	}
 
+	@Override
 	public ItemStack getItem() {
 		ItemStack vampyr = new ItemStack(Material.IRON_SWORD);
 		ItemMeta vampyrItemMeta = vampyr.getItemMeta();

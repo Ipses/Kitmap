@@ -43,6 +43,7 @@ public class Shotbow extends Legendary implements Listener{
 		}
 	}
 
+	@Override
 	public ItemStack getItem() {
 		ItemStack shotbow = new ItemStack(Material.BOW);
 		ItemMeta shotbowItemMeta = shotbow.getItemMeta();

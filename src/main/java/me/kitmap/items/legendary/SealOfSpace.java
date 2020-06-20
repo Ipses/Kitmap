@@ -68,6 +68,7 @@ public class SealOfSpace extends Legendary implements Listener {
 		}
 	}
 
+	@Override
 	public ItemStack getItem() {
 		ItemStack sealofspace = new ItemStack(Material.ENCHANTED_BOOK);
 		ItemMeta sealofspaceItemMeta = sealofspace.getItemMeta();

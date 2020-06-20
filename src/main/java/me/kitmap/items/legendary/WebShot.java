@@ -145,6 +145,7 @@ public class WebShot extends Legendary implements Listener {
         }
     }
 
+    @Override
     public ItemStack getItem() {
         ItemStack webshot = new ItemStack(Material.BOW);
         ItemMeta webshotItemMeta = webshot.getItemMeta();

@@ -80,6 +80,7 @@ public class TruthBow extends Legendary implements Listener {
 		}
 	}
 
+	@Override
 	public ItemStack getItem() {
 		ItemStack truthbow = new ItemStack(Material.BOW);
 		ItemMeta truthbowItemMeta = truthbow.getItemMeta();

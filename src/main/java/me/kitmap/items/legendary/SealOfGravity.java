@@ -72,6 +72,7 @@ public class SealOfGravity extends Legendary implements Listener {
 		}
 	}
 
+	@Override
 	public ItemStack getItem() {
 		ItemStack sealofgravity = new ItemStack(Material.ENCHANTED_BOOK, 1);
 		ItemMeta sealofgravityItemMeta = sealofgravity.getItemMeta();

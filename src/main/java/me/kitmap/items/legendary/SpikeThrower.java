@@ -54,6 +54,7 @@ public class SpikeThrower extends Legendary implements Listener {
 		}
 	}
 
+	@Override
 	public ItemStack getItem() {
 		ItemStack spikethrower = new ItemStack(Material.BOW);
 		ItemMeta spikethrowerItemMeta = spikethrower.getItemMeta();

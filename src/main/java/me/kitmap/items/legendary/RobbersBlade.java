@@ -51,6 +51,7 @@ public class RobbersBlade extends Legendary implements Listener{
 		}
 	}
 
+	@Override
 	public ItemStack getItem() {
 		ItemStack robbersblade = new ItemStack(Material.WOOD_SWORD);
 		ItemMeta robbersbladeItemMeta =robbersblade.getItemMeta();

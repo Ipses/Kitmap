@@ -53,8 +53,6 @@ public class KothCrate implements Listener {
                         Inventory inv = player.getInventory();
                         int randInt1 = itemSlots.get(new Random().nextInt(itemSlots.size()));
                         ItemStack randomLoot1 = kothloot.getItem(randInt1);
-                        itemSlots.remove(itemSlots.get(randInt1));
-
                         int randInt2 = itemSlots.get(new Random().nextInt(itemSlots.size()));
                         ItemStack randomLoot2 = kothloot.getItem(randInt2);
 
