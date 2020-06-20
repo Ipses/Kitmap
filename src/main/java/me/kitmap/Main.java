@@ -9,13 +9,15 @@ import me.kitmap.commands.RenameCommand;
 import me.kitmap.config.ConfigManager;
 import me.kitmap.game.*;
 import me.kitmap.items.itembuilder.KitBuilder;
+import me.kitmap.items.itembuilder.KothLootBuilder;
 import me.kitmap.items.itembuilder.LegendaryBuilder;
+import me.kitmap.koth.Koth;
 import me.kitmap.koth.KothManager;
 import me.kitmap.scoreboard.KillDeathUpdater;
 import me.kitmap.items.legendary.*;
 import me.kitmap.items.minezitems.Grenade;
 import me.kitmap.items.minezitems.Sugar;
-import me.kitmap.loot.KothCrate;
+import me.kitmap.koth.KothCrate;
 import me.kitmap.signs.KitSign;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -40,23 +42,25 @@ public class Main extends JavaPlugin implements Listener {
 	private KothManager kothManager;
 	private LegendaryBuilder legendaryBuilder;
 	private KitBuilder kitBuilder;
+	private KothLootBuilder kothLootBuilder;
 
 	public double diamond, iron, stone, wood, gold, spawnMinX, spawnMaxX,spawnMinZ, spawnMaxZ;
 
-	Overkill overkill;
-	PluviasTempest pluviasTempest;
-	Quiet quiet;
-	RobbersBlade robbersBlade;
-	SealOfEntropy sealOfEntropy;
-	SealOfGravity sealOfGravity;
-	SealOfSpace sealOfSpace;
-	SealOfTime sealOfTime;
-	Shotbow shotbow;
-	SpikeThrower spikeThrower;
-	TruthBow truthBow;
-	Vampyr vampyr;
-	WebShot webShot;
-	ZombieBow zombieBow;
+	private Overkill overkill;
+	private PluviasTempest pluviasTempest;
+	private Quiet quiet;
+	private RobbersBlade robbersBlade;
+	private SealOfEntropy sealOfEntropy;
+	private SealOfGravity sealOfGravity;
+	private SealOfSpace sealOfSpace;
+	private SealOfTime sealOfTime;
+	private Shotbow shotbow;
+	private SpikeThrower spikeThrower;
+	private TruthBow truthBow;
+	private Vampyr vampyr;
+	private WebShot webShot;
+	private ZombieBow zombieBow;
+	private Grenade grenade;
 
 	public void onEnable() {
 		plugin = this;
@@ -135,6 +139,7 @@ public class Main extends JavaPlugin implements Listener {
 	public KothManager getKothManager(){
 		return this.kothManager;
 	}
+
 	public void setDamage(){
         this.diamond = Double.parseDouble(configManager.getDamage().getString("diamond_sword"));
         this.iron = Double.parseDouble(configManager.getDamage().getString("iron_sword"));
@@ -147,7 +152,7 @@ public class Main extends JavaPlugin implements Listener {
 		this.spawnMinX = Double.parseDouble(configManager.getCoords().getString("Spawn.minX"));
 		this.spawnMaxX = Double.parseDouble(configManager.getCoords().getString("Spawn.maxX"));
 		this.spawnMinZ = Double.parseDouble(configManager.getCoords().getString("Spawn.minZ"));
-		this.spawnMaxZ = Double.parseDouble(configManager.getCoords().getString("Spawn.maxX"));
+		this.spawnMaxZ = Double.parseDouble(configManager.getCoords().getString("Spawn.maxZ"));
 	}
 
     private void registerEvents() {
@@ -155,21 +160,22 @@ public class Main extends JavaPlugin implements Listener {
 		this.kothManager = new KothManager(this, null);
 		this.legendaryBuilder = new LegendaryBuilder(this);
 		this.kitBuilder = new KitBuilder();
+		this.kothLootBuilder = new KothLootBuilder(this);
 
-		overkill = new Overkill(this);
-		pluviasTempest = new PluviasTempest(this);
-		quiet = new Quiet(this);
-		robbersBlade = new RobbersBlade(this);
-		sealOfEntropy = new SealOfEntropy(this);
-		sealOfGravity = new SealOfGravity(this);
-		sealOfSpace = new SealOfSpace(this);
-		sealOfTime = new SealOfTime(this);
-		shotbow = new Shotbow(this);
-		spikeThrower = new SpikeThrower(this);
-		truthBow = new TruthBow(this);
-		vampyr = new Vampyr(this);
-		webShot = new WebShot(this);
-		zombieBow = new ZombieBow(this);
+		this.overkill = new Overkill(this);
+		this.pluviasTempest = new PluviasTempest(this);
+		this.quiet = new Quiet(this);
+		this.robbersBlade = new RobbersBlade(this);
+		this.sealOfGravity = new SealOfGravity(this);
+		this.sealOfSpace = new SealOfSpace(this);
+		this.sealOfTime = new SealOfTime(this);
+		this.shotbow = new Shotbow(this);
+		this.spikeThrower = new SpikeThrower(this);
+		this.truthBow = new TruthBow(this);
+		this.vampyr = new Vampyr(this);
+		this.webShot = new WebShot(this);
+		this.zombieBow = new ZombieBow(this);
+		this.grenade = new Grenade(this);
 
 		PluginManager pluginManager = getServer().getPluginManager();
         SpawnTag spawnTag = new SpawnTag(this);
@@ -184,16 +190,15 @@ public class Main extends JavaPlugin implements Listener {
 
 		pluginManager.registerEvents(new ItemMenu(legendaryBuilder), this);
 		pluginManager.registerEvents(new KitSign(kitBuilder), this);
-		pluginManager.registerEvents(new KothCrate(), this);
+		pluginManager.registerEvents(new KothCrate(kothLootBuilder), this);
 		pluginManager.registerEvents(new SpawnEnterBlocker(this, spawnTag), this);
         pluginManager.registerEvents(new DamageModifier(this), this);
 		pluginManager.registerEvents(new EmptyBottleRemover(), this);
 		pluginManager.registerEvents(new DeathMessage(), this);
 
-		pluginManager.registerEvents(new Grenade(), this);
+		pluginManager.registerEvents(new Grenade(this), this);
 		pluginManager.registerEvents(new Sugar(), this);
 		pluginManager.registerEvents(new WeakGrapple(), this);
-
 
 		pluginManager.registerEvents(this.zombieBow, this);
 		pluginManager.registerEvents(this.truthBow, this);
@@ -214,9 +219,10 @@ public class Main extends JavaPlugin implements Listener {
 	private void buildItems(){
 		this.kitBuilder.build();
 		this.legendaryBuilder.build();
+		this.kothLootBuilder.build();
 	}
 
-//	private void buildItems() {
+//	private void buildItems() { // Will remove once I move the rest of legendaries.
 //
 //		ItemStack corsairsedge = new ItemStack(Material.IRON_SWORD);
 //		ItemMeta corsairsedgeItemMeta = corsairsedge.getItemMeta();

@@ -23,19 +23,17 @@ import java.util.List;
 public class WebShot extends Legendary implements Listener {
 
     private Main plugin;
-    private String name;
     private static final String NAME = ChatColor.RESET + "Web Shot";
 
     public WebShot(Main plugin) {
         super(plugin);
-        this.name = NAME;
     }
 
     @EventHandler
     public void onShoot(EntityShootBowEvent ev) {
         if(!ev.isCancelled() && ev.getEntity() instanceof Player) {
             Player player = (Player) ev.getEntity();
-            if(hasName(player.getInventory().getItemInMainHand())){
+            if(hasName(player.getInventory().getItemInMainHand(), NAME)){
                 if(ev.getForce() == 1) {
                     ev.getProjectile().setMetadata("webshot", new FixedMetadataValue(Main.getInstance(), true) );
                 } else {
@@ -147,14 +145,13 @@ public class WebShot extends Legendary implements Listener {
         }
     }
 
-    @Override
     public ItemStack getItem() {
         ItemStack webshot = new ItemStack(Material.BOW);
         ItemMeta webshotItemMeta = webshot.getItemMeta();
         List<String> webshotLore = new ArrayList<String>();
         webshotLore.add(ChatColor.BLUE + "Legendary Bow");
         webshotItemMeta.setLore(webshotLore);
-        webshotItemMeta.setDisplayName(this.name);
+        webshotItemMeta.setDisplayName(NAME);
         webshot.setItemMeta(webshotItemMeta);
         return webshot;
     }

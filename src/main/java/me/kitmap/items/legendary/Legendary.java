@@ -11,7 +11,6 @@ import net.md_5.bungee.api.ChatColor;
 public abstract class Legendary {
 
 	private final Main plugin;
-	private String name;
 
 	public Legendary(Main plugin){
 		this.plugin = plugin;
@@ -19,11 +18,8 @@ public abstract class Legendary {
 
     abstract ItemStack getItem();
 
-    boolean hasName(ItemStack is) {
-		if (is != null && is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equals(this.name)) {
-			return true;
-		}
-		return false;
+    boolean hasName(ItemStack is, String name) {
+		return is != null && is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equals(name);
 	}
 	
 	boolean isHittable(Player player) {

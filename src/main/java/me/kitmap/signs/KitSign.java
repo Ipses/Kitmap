@@ -25,13 +25,11 @@ public class KitSign implements Listener {
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent ev){
-
         Inventory ironKit = kitBuilder.getIronKit();
         Player player = ev.getPlayer();
         Block block = ev.getClickedBlock();
         if(ev.getAction() == Action.RIGHT_CLICK_BLOCK && block.getState() != null && block.getState() instanceof Sign) {
             Sign sign = (Sign) block.getState();
-
             if(sign.getLine(1).equalsIgnoreCase(LINE1) && sign.getLine(2).equalsIgnoreCase(LINE2)){
                 for(int i = 0; i < ironKit.getContents().length; ++i)
                     player.getInventory().setItem(i, ironKit.getContents()[i]);

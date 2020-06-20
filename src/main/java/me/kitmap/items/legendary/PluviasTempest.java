@@ -17,12 +17,10 @@ import java.util.List;
 public class PluviasTempest extends Legendary implements Listener {
 
 	private Main plugin;
-	private String name;
 	private static final String NAME = ChatColor.RESET + "Pluvia's Tempest";
 
 	public PluviasTempest(Main plugin) {
 		super(plugin);
-		this.name = NAME;
 	}
 
 	@EventHandler
@@ -31,14 +29,14 @@ public class PluviasTempest extends Legendary implements Listener {
 			Player player = (Player) ev.getDamager();
 			Player victim = (Player) ev.getEntity();
 			ItemStack chest = victim.getInventory().getChestplate();
-			if(hasName(chest) && isHittable(victim)) {
+			if(hasName(chest, NAME) && isHittable(victim)) {
 				if(Math.random() < 0.25) victim.setHealth(Math.min(victim.getHealth() + 1, 20));
 				if(Math.random() < 0.15) player.setHealth(Math.min(player.getHealth() + 1, 20));
 			}
 		}
 	}
 
-	@Override
+
 	public ItemStack getItem() {
 		ItemStack pluviastempest = new ItemStack(Material.IRON_CHESTPLATE);
 		ItemMeta pluviastempestItemMeta = pluviastempest.getItemMeta();
@@ -48,7 +46,7 @@ public class PluviasTempest extends Legendary implements Listener {
 		pluviastempestLore.add(ChatColor.BLUE + "Has a 25% chance to heal you when you get hit.");
 		pluviastempestLore.add(ChatColor.BLUE + "Has a 15% chance to heal the player who attacked you.");
 		pluviastempestItemMeta.setLore(pluviastempestLore);
-		pluviastempestItemMeta.setDisplayName(this.name);
+		pluviastempestItemMeta.setDisplayName(NAME);
 		pluviastempest.setItemMeta(pluviastempestItemMeta);
 		return pluviastempest;
 	}

@@ -1,5 +1,6 @@
 package me.kitmap.items.minezitems;
 
+import me.kitmap.Main;
 import org.bukkit.*;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.LivingEntity;
@@ -12,8 +13,10 @@ public class Grenade implements Listener {
 
     private static final int range = 8;
     private static final String name = ChatColor.RESET + "Grenade";
-    @SuppressWarnings("deprecation")
-
+    private final Main plugin;
+    public Grenade(Main plugin){
+        this.plugin = plugin;
+    }
     @EventHandler
     public void onHit(PlayerTeleportEvent ev) {
         if(ev.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL) {

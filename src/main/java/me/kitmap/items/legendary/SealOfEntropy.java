@@ -24,18 +24,16 @@ public class SealOfEntropy extends Legendary implements Listener {
 
     private static final String NAME = ChatColor.RESET + "Seal of Entropy";
     private Main plugin;
-    private String name;
 
     public SealOfEntropy(Main plugin) {
         super(plugin);
-        this.name = NAME;
     }
 
     //@EventHandler
     public void onClick(PlayerInteractEvent ev) {
         Player player = ev.getPlayer();
         if((ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK) &&
-                hasName(player.getInventory().getItemInMainHand())) {
+                hasName(player.getInventory().getItemInMainHand(), NAME)) {
             MinecraftServer nmsServer = ((CraftServer) Bukkit.getServer()).getServer();
             WorldServer nmsWorld = ((CraftWorld) Bukkit.getWorlds().get(0)).getHandle();
             EntityPlayer npc = new EntityPlayer(nmsServer, nmsWorld, new GameProfile(player.getUniqueId(), player.getName()), new PlayerInteractManager(nmsWorld));
@@ -52,7 +50,6 @@ public class SealOfEntropy extends Legendary implements Listener {
         }
     }
 
-    @Override
     public ItemStack getItem() {
         ItemStack sealofentropy = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.SKELETON.ordinal());
         ItemMeta sealofentropyItemMeta = sealofentropy.getItemMeta();
@@ -61,7 +58,7 @@ public class SealOfEntropy extends Legendary implements Listener {
         sealofentropyLore.add(net.md_5.bungee.api.ChatColor.BLUE + ".");
         sealofentropyLore.add(net.md_5.bungee.api.ChatColor.BLUE + ".");
         sealofentropyItemMeta.setLore(sealofentropyLore);
-        sealofentropyItemMeta.setDisplayName(this.name);
+        sealofentropyItemMeta.setDisplayName(NAME);
         sealofentropy.setItemMeta(sealofentropyItemMeta);
         return sealofentropy;
     }

@@ -20,17 +20,15 @@ public class Vampyr extends Legendary implements Listener {
 	private HashMap<UUID,Long> timer = new HashMap<>();
 	private static final String NAME = ChatColor.RESET + "Vampyr";
 	private Main plugin;
-	private String name;
 
 	public Vampyr(Main plugin) {
 		super(plugin);
-		this.name = NAME;
 	}
 
 	@EventHandler
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent ev) {
 		if(!ev.isCancelled() && ev.getDamager() instanceof Player && ev.getEntity() instanceof Player && 
-				hasName(((Player) ev.getDamager()).getInventory().getItemInMainHand())) {
+				hasName(((Player) ev.getDamager()).getInventory().getItemInMainHand(), NAME)) {
 			Player player = (Player) ev.getDamager();
 			ev.setDamage(ev.getDamage()*0.75);
 			if(Math.random() < 0.4) {
@@ -40,7 +38,6 @@ public class Vampyr extends Legendary implements Listener {
 		}
 	}
 
-	@Override
 	public ItemStack getItem() {
 		ItemStack vampyr = new ItemStack(Material.IRON_SWORD);
 		ItemMeta vampyrItemMeta = vampyr.getItemMeta();
@@ -49,7 +46,7 @@ public class Vampyr extends Legendary implements Listener {
 		vampyrLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Has a 40% chance to heal 0.5 heart");
 		vampyrLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Does 25% less damage");
 		vampyrItemMeta.setLore(vampyrLore);
-		vampyrItemMeta.setDisplayName(this.name);
+		vampyrItemMeta.setDisplayName(NAME);
 		vampyr.setItemMeta(vampyrItemMeta);
 		return vampyr;
 	}

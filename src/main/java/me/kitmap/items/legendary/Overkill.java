@@ -24,24 +24,22 @@ import org.bukkit.potion.PotionEffectType;
 import me.kitmap.Main;
 
 public class Overkill extends Legendary implements Listener {
-	public  ConcurrentHashMap<UUID, Long> timer = new ConcurrentHashMap<>();
+	public HashMap<UUID, Long> timer = new HashMap<>();
 	private HashMap<UUID,Boolean> charged = new HashMap<>();
 	private Main plugin;
-	private String name;
 	private static final String NAME = ChatColor.RESET + "Overkill";
 	private static final PotionEffect SLOWNESS = new PotionEffect(PotionEffectType.SLOW, 7*20, 1);
 	private static final PotionEffect WEAKNESS = new PotionEffect(PotionEffectType.WEAKNESS, 7*20, 1);
 
 	public Overkill(Main plugin) {
 		super(plugin);
-		this.name = NAME;
 	}
 
 	@EventHandler
 	public void onClick(PlayerInteractEvent ev) {
 		Player player = ev.getPlayer();
 		if( (ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK) &&
-				hasName(player.getInventory().getItemInMainHand())) {
+				hasName(player.getInventory().getItemInMainHand(), NAME)) {
 			long cooldown = timer.containsKey(player.getUniqueId()) ? timer.get(player.getUniqueId()) - System.currentTimeMillis() : 0;
 			
 			if (cooldown > 0) { // If Overkill is on cooldown
@@ -53,21 +51,19 @@ public class Overkill extends Legendary implements Listener {
 			
 			if(charged.containsKey(player.getUniqueId())) charged.replace(player.getUniqueId(), true);
 			else charged.put(player.getUniqueId(), true);
-			player.sendMessage("Charged: " + charged.get(player.getUniqueId()));
-			player.sendMessage("Overkill strengthens your next attack");
+			player.sendMessage(ChatColor.LIGHT_PURPLE + "Overkill: " + ChatColor.WHITE + "Overkill empowers your next attack in 3 seconds");
 			
 			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
 				public void run() {
 					charged.replace(player.getUniqueId(), false);
-					player.sendMessage("Charged: " + charged.get(player.getUniqueId()));
 					}
-				}, 5*20L);
+				}, 3*20L);
 			
 			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
 				public void run() {
 					timer.remove(player.getUniqueId());
 					}
-				}, 15*20L);
+				}, 20*20L);
 		}
 	}
 	
@@ -77,7 +73,7 @@ public class Overkill extends Legendary implements Listener {
 			Player player = (Player)ev.getDamager();
 			Player victim = (Player)ev.getEntity();
 			
-			if (!ev.isCancelled() && hasName(player.getInventory().getItemInMainHand()) && isHittable(player) &&
+			if (!ev.isCancelled() && hasName(player.getInventory().getItemInMainHand(), NAME) && isHittable(player) &&
 					charged.containsKey(player.getUniqueId()) && charged.get(player.getUniqueId())){
 				ev.setDamage(Math.max((20 - victim.getHealth()) * 0.4 + 1, 2));
 				ev.setDamage(DamageModifier.ARMOR,0); // true dmg
@@ -90,7 +86,6 @@ public class Overkill extends Legendary implements Listener {
 		} 
 	}
 
-	@Override
 	public ItemStack getItem() {
 		ItemStack overkill = new ItemStack(Material.DIAMOND_SWORD);
 		ItemMeta overkillItemMeta = overkill.getItemMeta();
@@ -100,7 +95,7 @@ public class Overkill extends Legendary implements Listener {
 		overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "After charging, your next attack in 5 seconds");
 		overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "does" + net.md_5.bungee.api.ChatColor.YELLOW + " true damage " + net.md_5.bungee.api.ChatColor.BLUE + "based on a player's missing health");
 		overkillItemMeta.setLore(overkillLore);
-		overkillItemMeta.setDisplayName(this.name);
+		overkillItemMeta.setDisplayName(NAME);
 		overkill.setItemMeta(overkillItemMeta);
 		return overkill;
 	}

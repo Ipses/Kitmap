@@ -16,7 +16,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class SpawnTag implements Listener {
 
-    private Main plugin;
+    private final Main plugin;
     public HashMap<UUID, Long> timer = new HashMap<>();
 
     public SpawnTag(Main plugin){

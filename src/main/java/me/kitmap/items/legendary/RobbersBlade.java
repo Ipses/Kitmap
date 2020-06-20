@@ -18,18 +18,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class RobbersBlade extends Legendary implements Listener{
 
 	private Main plugin;
-	private String name;
 	private static final String NAME = ChatColor.RESET + "Robber's Blade";
 
 	public RobbersBlade(Main plugin) {
 		super(plugin);
-		this.name = NAME;
 	}
 
 	@EventHandler
 	public void onEntityDamageByEntity (EntityDamageByEntityEvent ev) {
 		if (!ev.isCancelled() && ev.getDamager() instanceof Player && ev.getEntity() instanceof Player &&
-				hasName(((Player) ev.getDamager()).getInventory().getItemInMainHand())) {
+				hasName(((Player) ev.getDamager()).getInventory().getItemInMainHand(), NAME)) {
 			Player player = (Player)ev.getDamager();
 			Player victim = (Player)ev.getEntity();
 			Inventory inv = victim.getInventory();
@@ -45,9 +43,6 @@ public class RobbersBlade extends Legendary implements Listener{
 				player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
 				return;
 			}
-			for(int i=0;i<itemSlots.size();i++) {
-				player.sendMessage("itemSlots: " + itemSlots.get(i));
-			}
 			int randInt = itemSlots.get(new Random().nextInt(itemSlots.size()));
 			player.sendMessage("randInt = " + randInt);
 			player.getInventory().setItemInMainHand(inv.getItem(randInt));
@@ -56,7 +51,6 @@ public class RobbersBlade extends Legendary implements Listener{
 		}
 	}
 
-	@Override
 	public ItemStack getItem() {
 		ItemStack robbersblade = new ItemStack(Material.WOOD_SWORD);
 		ItemMeta robbersbladeItemMeta =robbersblade.getItemMeta();
@@ -65,7 +59,7 @@ public class RobbersBlade extends Legendary implements Listener{
 		robbersbladeLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Steals a random item from a player");
 		robbersbladeLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Breaks after use");
 		robbersbladeItemMeta.setLore(robbersbladeLore);
-		robbersbladeItemMeta.setDisplayName(this.name);
+		robbersbladeItemMeta.setDisplayName(NAME);
 		robbersblade.setItemMeta(robbersbladeItemMeta);
 		return robbersblade;
 	}

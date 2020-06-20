@@ -10,6 +10,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LegendaryBuilder {
 
     private final Main plugin;
@@ -24,11 +27,10 @@ public class LegendaryBuilder {
         this.itemPage2 = Bukkit.createInventory(null, 54, "Legendaries 2");
         this.itemPage3 = Bukkit.createInventory(null, 54, "MineZ Items");
 
-        Overkill overkill = this.plugin.getOverkill();
+       // Overkill overkill = this.plugin.getOverkill();
         PluviasTempest pluviasTempest = this.plugin.getPluviasTempest();
         Quiet quiet = this.plugin.getQuiet();
         RobbersBlade robbersBlade = this.plugin.getrobbersBlade();
-        SealOfEntropy sealOfEntropy = this.plugin.getSealOfEntropy();
         SealOfGravity sealOfGravity = this.plugin.getSealOfGravity();
         SealOfSpace sealOfSpace = this.plugin.getSealOfSpace();
         SealOfTime sealOfTime = this.plugin.getSealOfTime();
@@ -39,11 +41,10 @@ public class LegendaryBuilder {
         WebShot webShot = this.plugin.getWebShot();
         ZombieBow zombieBow = this.plugin.getZombieBow();
 
-        ItemStack overkillItem = overkill.getItem();
+        //ItemStack overkillItem = overkill.getItem();
         ItemStack pluviastempestItem = pluviasTempest.getItem();
         ItemStack quietItem = quiet.getItem();
         ItemStack robbersbladeItem = robbersBlade.getItem();
-        ItemStack sealofentropyItem = sealOfEntropy.getItem();
         ItemStack sealofgravityItem = sealOfGravity.getItem();
         ItemStack sealofspaceItem = sealOfSpace.getItem();
         ItemStack sealoftimeItem = sealOfTime.getItem();
@@ -91,6 +92,16 @@ public class LegendaryBuilder {
         nextpage3Meta.setDisplayName(ChatColor.RESET + "Next Page");
         nextpage3.setItemMeta(nextpage3Meta);
 
+        ItemStack overkill = new ItemStack(Material.DIAMOND_SWORD);
+        ItemMeta overkillItemMeta = overkill.getItemMeta();
+        List<String> overkillLore = new ArrayList<String>();
+        overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Legendary Weapon");
+        overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Right Click: Charge at the cost of 50 durability");
+        overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "After charging, your next attack in 5 seconds");
+        overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "does" + net.md_5.bungee.api.ChatColor.YELLOW + " true damage " + net.md_5.bungee.api.ChatColor.BLUE + "based on a player's missing health");
+        overkillItemMeta.setLore(overkillLore);
+        overkillItemMeta.setDisplayName(ChatColor.RESET + "Overkill");
+        overkill.setItemMeta(overkillItemMeta);
         // Swords
 //        itemPage1.setItem(0, corsairsedge);
 //        itemPage1.setItem(1, endeavour);
@@ -101,7 +112,7 @@ public class LegendaryBuilder {
 //        itemPage1.setItem(6, masamune);
 //        itemPage1.setItem(7, muramasa);
 //        itemPage1.setItem(8, nightsshadow);
-        itemPage1.setItem(9, overkillItem);
+        itemPage1.setItem(9, overkill);
 //        itemPage1.setItem(10, peace);
         itemPage1.setItem(11, robbersbladeItem);
         itemPage1.setItem(12, vampyrItem);
@@ -145,7 +156,6 @@ public class LegendaryBuilder {
         itemPage2.setItem(8, sealoftimeItem);
         itemPage2.setItem(17, sealofspaceItem);
         itemPage2.setItem(26, sealofgravityItem);
-        itemPage2.setItem(35, sealofentropyItem);
 
         itemPage2.setItem(45, prevpage2);
         itemPage2.setItem(53, nextpage2);

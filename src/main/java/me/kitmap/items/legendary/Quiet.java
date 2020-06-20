@@ -27,12 +27,11 @@ public class Quiet extends Legendary implements Listener {
 
     public Quiet(Main plugin) {
         super(plugin);
-        this.name = NAME;
     }
 
     @EventHandler
     public void onShoot(EntityShootBowEvent ev) {
-        if(!ev.isCancelled() && hasName(ev.getBow())) {
+        if(!ev.isCancelled() && hasName(ev.getBow(), NAME)) {
             ev.getProjectile().setMetadata("quiet", new FixedMetadataValue(Main.getInstance(), true));
         }
     }
@@ -53,7 +52,7 @@ public class Quiet extends Legendary implements Listener {
         }
     }
 
-    @Override
+
     public ItemStack getItem() {
         ItemStack quiet = new ItemStack(Material.BOW);
         ItemMeta quietItemMeta = quiet.getItemMeta();
@@ -61,7 +60,7 @@ public class Quiet extends Legendary implements Listener {
         quietLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Legendary Weapon");
         quietLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Plays a ghast sound to the player shot");
         quietItemMeta.setLore(quietLore);
-        quietItemMeta.setDisplayName(this.name);
+        quietItemMeta.setDisplayName(NAME);
         quiet.setItemMeta(quietItemMeta);
         return quiet;
     }

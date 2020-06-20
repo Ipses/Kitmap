@@ -29,19 +29,17 @@ import java.util.List;
 public class SealOfGravity extends Legendary implements Listener {
 
 	private Main plugin;
-	private String name;
 	private static final String NAME = ChatColor.RESET + "Seal of Gravity";
-	private static final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW, 1*20, 100);
+	private static final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW, 20, 100);
 
 	public SealOfGravity(Main plugin) {
 		super(plugin);
-		this.name = NAME;
 	}
 
 
 	@EventHandler
 	public void onClick(PlayerInteractEvent ev) {
-		if(hasName(ev.getPlayer().getInventory().getItemInMainHand()) &&
+		if(hasName(ev.getPlayer().getInventory().getItemInMainHand(), NAME) &&
 				(ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK)) {
 			Player player = ev.getPlayer();
 			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EGG_THROW, 1, 1);
@@ -49,7 +47,7 @@ public class SealOfGravity extends Legendary implements Listener {
 			Item seal = player.getWorld().dropItem(throwLocation, new ItemStack(Material.SKULL_ITEM, 1, (short)SkullType.SKELETON.ordinal())); // Not actually skull. It's a book
 			seal.setVelocity(throwLocation.getDirection().multiply(1.3)); // I think 1.3 is balanced
 			
-			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
 				public void run() {
 					seal.getWorld().playEffect(seal.getLocation(), Effect.EXPLOSION_HUGE, 1);
 					seal.getWorld().playSound(seal.getLocation(), Sound.ENTITY_ENDERDRAGON_HURT, 1, 1);
@@ -68,20 +66,12 @@ public class SealOfGravity extends Legendary implements Listener {
 	}
 	
 	@EventHandler
-	public void onPlace(BlockPlaceEvent ev) {
-		if(hasName(ev.getItemInHand())) {
-			ev.setCancelled(true);
-		}
-	}
-	
-	@EventHandler
 	public void noPickup(PlayerPickupItemEvent ev) { // you need to change this for actual MineZ
 		if(ev.getItem().getName().equals("item.item.skull.skeleton")) {
 			ev.setCancelled(true);
 		}
 	}
 
-	@Override
 	public ItemStack getItem() {
 		ItemStack sealofgravity = new ItemStack(Material.ENCHANTED_BOOK, 1);
 		ItemMeta sealofgravityItemMeta = sealofgravity.getItemMeta();
@@ -90,7 +80,7 @@ public class SealOfGravity extends Legendary implements Listener {
 		sealofgravityLore.add(ChatColor.BLUE + "Right Click: Throw");
 		sealofgravityLore.add(ChatColor.BLUE + "Launch nearby players towards the seal");
 		sealofgravityItemMeta.setLore(sealofgravityLore);
-		sealofgravityItemMeta.setDisplayName(this.name);
+		sealofgravityItemMeta.setDisplayName(NAME);
 		sealofgravity.setItemMeta(sealofgravityItemMeta);
 		return sealofgravity;
 	}

@@ -25,17 +25,15 @@ import java.util.List;
 public class ZombieBow extends Legendary implements Listener {
 
 	private Main plugin;
-	private String name;
 	private static final String NAME = ChatColor.RESET + "Zombie Bow";
 
 	public ZombieBow(Main plugin) {
 		super(plugin);
-		this.name = NAME;
 	}
 
 	@EventHandler
 	public void onShot(EntityShootBowEvent ev) {
-		if (!ev.isCancelled() && ev.getEntity() instanceof Player && hasName(ev.getBow())) {
+		if (!ev.isCancelled() && ev.getEntity() instanceof Player && hasName(ev.getBow(), NAME)) {
 			ev.setCancelled(true);
 			Player player = (Player) ev.getEntity();
 			if(!player.getInventory().containsAtLeast(new ItemStack(Material.ARROW), 1)) {
@@ -75,7 +73,6 @@ public class ZombieBow extends Legendary implements Listener {
 		}
 	}
 
-	@Override
 	public ItemStack getItem() {
 		ItemStack zombiebow = new ItemStack(Material.BOW);
 		ItemMeta zombiebowItemMeta = zombiebow.getItemMeta();
@@ -84,7 +81,7 @@ public class ZombieBow extends Legendary implements Listener {
 		zombiebowLore.add(ChatColor.BLUE + "Fires a zombie egg");
 		zombiebowLore.add(ChatColor.BLUE + "Has a chance to spawn a zombie");
 		zombiebowItemMeta.setLore(zombiebowLore);
-		zombiebowItemMeta.setDisplayName(this.name);
+		zombiebowItemMeta.setDisplayName(NAME);
 		zombiebow.setItemMeta(zombiebowItemMeta);
 		return zombiebow;
 	}

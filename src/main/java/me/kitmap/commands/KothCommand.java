@@ -46,8 +46,13 @@ public class KothCommand implements CommandExecutor {
                     return true;
                 }
                 if(args[1].equalsIgnoreCase("Eillom")){
-                    Koth eillom = new Koth("Eillom", new Location(player.getWorld(), -90, 1, 404),
-                            new Location(player.getWorld(), -83, 1, 411), TimeUnit.SECONDS.toMillis(10));
+                    double eillomMinX = Double.parseDouble(configManager.getCoords().getString("Eillom.minX"));
+                    double eillomMaxX = Double.parseDouble(configManager.getCoords().getString("Eillom.maxX"));
+                    double eillomMinZ = Double.parseDouble(configManager.getCoords().getString("Eillom.minZ"));
+                    double eillomMaxZ = Double.parseDouble(configManager.getCoords().getString("Eillom.maxZ"));
+                    Koth eillom = new Koth("Eillom", new Location(player.getWorld(),
+                            eillomMinX, 1, eillomMinZ),
+                            new Location(player.getWorld(), eillomMaxX, 1, 411), TimeUnit.SECONDS.toMillis(10));
                     this.plugin.getKothManager().addKoth(eillom);
                     this.plugin.getKothManager().start();
                     return true;

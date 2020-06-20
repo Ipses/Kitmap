@@ -18,7 +18,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class WeakGrapple implements Listener {
 	
-	private static HashMap<UUID,Long> timer = new HashMap<>();
+	private HashMap<UUID,Long> timer = new HashMap<>();
 
 	@EventHandler
 	public void onHook(PlayerFishEvent ev) {
@@ -54,7 +54,7 @@ public class WeakGrapple implements Listener {
 			player.sendMessage(ChatColor.RED + "Unable to Grapple");
 		}
 	}
-	private static String name = ChatColor.RESET + "Weak Grapple";
+	private static final String name = ChatColor.RESET + "Weak Grapple";
 	private static boolean isItem(ItemStack is) {
 		if (is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equals(name)) {
 			return true;

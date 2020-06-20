@@ -1,6 +1,7 @@
 package me.kitmap.commands;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,9 +13,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class RenameCommand implements Listener, CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String name, String[] args) {
+        if(args.length == 0){
+            return false;
+        }
         if(cmd.getName().equalsIgnoreCase("rename") && sender instanceof Player) {
             Player player = (Player) sender;
-            if(player.getInventory().getItemInMainHand() != null) {
+            if(player.getInventory().getItemInMainHand() != null && player.getInventory().getItemInMainHand().getType()
+                != Material.AIR) {
                 ItemStack item = player.getInventory().getItemInMainHand();
                 ItemMeta meta = item.getItemMeta();
                 String displayName = "";

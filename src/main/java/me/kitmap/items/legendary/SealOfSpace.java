@@ -1,6 +1,7 @@
 package me.kitmap.items.legendary;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,19 +24,17 @@ import net.md_5.bungee.api.ChatColor;
 public class SealOfSpace extends Legendary implements Listener {
 
 	private Main plugin;
-	private String name;
-	private ConcurrentHashMap<UUID, Long> timer = new ConcurrentHashMap<>();
+	private HashMap<UUID, Long> timer = new HashMap<>();
 	private static final String NAME = ChatColor.RESET + "Seal of Space";
 
 	public SealOfSpace(Main plugin) {
 		super(plugin);
-		this.name = NAME;
 	}
 
 	@EventHandler
 	public void onClick(PlayerInteractEvent ev) {
 		if((ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK) && 
-				hasName(ev.getPlayer().getInventory().getItemInMainHand())) {
+				hasName(ev.getPlayer().getInventory().getItemInMainHand(), NAME)) {
 			Player player = ev.getPlayer();
 			Block targetBlock = player.getTargetBlock(null, 250);
 		    Location loc = targetBlock.getLocation();
@@ -69,7 +68,6 @@ public class SealOfSpace extends Legendary implements Listener {
 		}
 	}
 
-	@Override
 	public ItemStack getItem() {
 		ItemStack sealofspace = new ItemStack(Material.ENCHANTED_BOOK);
 		ItemMeta sealofspaceItemMeta = sealofspace.getItemMeta();
@@ -78,7 +76,7 @@ public class SealOfSpace extends Legendary implements Listener {
 		sealofspaceLore.add(ChatColor.BLUE + "Right Click: Teleport to the block you are looking at");
 		sealofspaceLore.add(ChatColor.BLUE + "you are teleported back to the recall point and restore health");
 		sealofspaceItemMeta.setLore(sealofspaceLore);
-		sealofspaceItemMeta.setDisplayName(this.name);
+		sealofspaceItemMeta.setDisplayName(NAME);
 		sealofspace.setItemMeta(sealofspaceItemMeta);
 		return sealofspace;
 	}

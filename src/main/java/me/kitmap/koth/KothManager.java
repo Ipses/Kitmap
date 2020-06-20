@@ -120,6 +120,7 @@ public class KothManager {
     public boolean isRunning(){
         return this.koth != null;
     }
+
     public void end(){
         this.koth = null;
         this.task.cancel();
