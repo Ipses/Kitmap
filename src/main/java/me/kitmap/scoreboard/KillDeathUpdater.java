@@ -1,11 +1,8 @@
 package me.kitmap.scoreboard;
 
 import me.kitmap.Main;
-import me.kitmap.scoreboard.ScoreboardHandler;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_12_R1.EntityLiving;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Arrow;
@@ -15,19 +12,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
 public class KillDeathUpdater implements Listener {
 
     private final Main plugin;
-    private ScoreboardHandler scoreboardHandler;
+    private PlayerBoards playerBoards;
 
-    public KillDeathUpdater(Main plugin, ScoreboardHandler scoreboardHandler){
+    public KillDeathUpdater(Main plugin, PlayerBoards playerBoards){
         this.plugin = plugin;
-        this.scoreboardHandler = scoreboardHandler;
+        this.playerBoards = playerBoards;
     }
 
     private CraftEntity getLastAttacker(PlayerDeathEvent ev) {
@@ -61,24 +55,24 @@ public class KillDeathUpdater implements Listener {
             }
         }
 
-        Integer killCount = scoreboardHandler.getPlayerKills().get(killer.getUniqueId());
-        Integer deathCount = scoreboardHandler.getPlayerDeaths().get(player.getUniqueId());
-        scoreboardHandler.getPlayerKills().replace(killer.getUniqueId(), killCount + 1);
-        scoreboardHandler.getPlayerDeaths().replace(player.getUniqueId(), deathCount + 1);
+        Integer killCount = playerBoards.getPlayerKills().get(killer.getUniqueId());
+        Integer deathCount = playerBoards.getPlayerDeaths().get(player.getUniqueId());
+        playerBoards.getPlayerKills().replace(killer.getUniqueId(), killCount + 1);
+        playerBoards.getPlayerDeaths().replace(player.getUniqueId(), deathCount + 1);
 
-        Scoreboard killerBoard = scoreboardHandler.getScoreboards().get(killer.getUniqueId());
+        Scoreboard killerBoard = playerBoards.getScoreboards().get(killer.getUniqueId());
 //        killerBoard.getTeam("kills").unregister();
 //        killerBoard.resetScores(ChatColor.BLUE.toString());
         String killPrefix = ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Kills: " + ChatColor.GRAY +
-                this.scoreboardHandler.getPlayerKills().get(killer.getUniqueId());
+                this.playerBoards.getPlayerKills().get(killer.getUniqueId());
         killerBoard.getTeam("kills").setPrefix(killPrefix);
         killerBoard.getObjective("sb").getScore(ChatColor.BLUE.toString()).setScore(3);
 
-        Scoreboard playerBoard = scoreboardHandler.getScoreboards().get(player.getUniqueId());
+        Scoreboard playerBoard = playerBoards.getScoreboards().get(player.getUniqueId());
 //        killerBoard.getTeam("kills").unregister();
 //        killerBoard.resetScores(ChatColor.BLUE.toString());
         String deathPrefix = ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Deaths: " + ChatColor.GRAY +
-                this.scoreboardHandler.getPlayerDeaths().get(player.getUniqueId());
+                this.playerBoards.getPlayerDeaths().get(player.getUniqueId());
         playerBoard.getTeam("deaths").setPrefix(deathPrefix);
         playerBoard.getObjective("sb").getScore(ChatColor.GREEN.toString()).setScore(2);
     }

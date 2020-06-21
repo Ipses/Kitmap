@@ -11,7 +11,6 @@ import me.kitmap.game.*;
 import me.kitmap.items.itembuilder.KitBuilder;
 import me.kitmap.items.itembuilder.KothLootBuilder;
 import me.kitmap.items.itembuilder.LegendaryBuilder;
-import me.kitmap.koth.Koth;
 import me.kitmap.koth.KothManager;
 import me.kitmap.scoreboard.KillDeathUpdater;
 import me.kitmap.items.legendary.*;
@@ -28,7 +27,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.kitmap.commands.ItemCommand;
 import me.kitmap.items.ItemMenu;
 import me.kitmap.items.minezitems.WeakGrapple;
-import me.kitmap.scoreboard.ScoreboardHandler;
+import me.kitmap.scoreboard.PlayerBoards;
 import me.kitmap.mysql.MysqlData;
 import net.md_5.bungee.api.ChatColor;
 
@@ -43,6 +42,7 @@ public class Main extends JavaPlugin implements Listener {
 	private LegendaryBuilder legendaryBuilder;
 	private KitBuilder kitBuilder;
 	private KothLootBuilder kothLootBuilder;
+	private PlayerBoards playerBoards;
 
 	public double diamond, iron, stone, wood, gold, spawnMinX, spawnMaxX,spawnMinZ, spawnMaxZ;
 
@@ -157,7 +157,15 @@ public class Main extends JavaPlugin implements Listener {
 
     private void registerEvents() {
 
-		this.kothManager = new KothManager(this, null);
+        PluginManager pluginManager = getServer().getPluginManager();
+        SpawnTag spawnTag = new SpawnTag(this);
+        SpawnTagManager spawnTagManager = new SpawnTagManager(this, spawnTag);
+       this.playerBoards = new PlayerBoards(this, new MysqlData(this ), spawnTagManager);
+
+        pluginManager.registerEvents(playerBoards, this);
+        pluginManager.registerEvents(new KillDeathUpdater(this, this.playerBoards), this);
+
+		this.kothManager = new KothManager(this, null, this.playerBoards);
 		this.legendaryBuilder = new LegendaryBuilder(this);
 		this.kitBuilder = new KitBuilder();
 		this.kothLootBuilder = new KothLootBuilder(this);
@@ -176,14 +184,6 @@ public class Main extends JavaPlugin implements Listener {
 		this.webShot = new WebShot(this);
 		this.zombieBow = new ZombieBow(this);
 		this.grenade = new Grenade(this);
-
-		PluginManager pluginManager = getServer().getPluginManager();
-        SpawnTag spawnTag = new SpawnTag(this);
-		SpawnTagManager spawnTagManager = new SpawnTagManager(this, spawnTag);
-		ScoreboardHandler scoreboardHandler = new ScoreboardHandler(this, new MysqlData(this ), spawnTagManager);
-
-		pluginManager.registerEvents(scoreboardHandler, this);
-		pluginManager.registerEvents(new KillDeathUpdater(this, scoreboardHandler), this);
 
 		pluginManager.registerEvents(spawnTagManager, this);
 		pluginManager.registerEvents(spawnTag, this);

@@ -39,7 +39,7 @@ public class KothCrate implements Listener {
                 player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
                 Bukkit.broadcastMessage(ChatColor.GOLD + "[KOTH] " + player.getName() + ChatColor.YELLOW +
                         " is obtaining loot for a " + ChatColor.GREEN + "KOTH Key");
-                player.sendMessage(ChatColor.RED + "Make sure you have a few empty slots in your inventory," +
+                player.sendMessage(ChatColor.RED + "Make sure you have a few empty slots in your inventory, " +
                         "otherwise you might lose some items!");
                 player.addPotionEffect(GLOW);
                 Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
@@ -69,6 +69,9 @@ public class KothCrate implements Listener {
                     }
                 }, 5*20L);
             }
+        }
+        if(!ev.isCancelled() && ev.getAction() == Action.LEFT_CLICK_BLOCK && block.getType() == Material.ENDER_CHEST){
+            player.openInventory(this.kothLootBuilder.getKothloot());
         }
     }
 

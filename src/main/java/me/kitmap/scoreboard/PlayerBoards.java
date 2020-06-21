@@ -22,7 +22,7 @@ import me.kitmap.mysql.MysqlData;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.scoreboard.Team;
 
-public class ScoreboardHandler implements Listener {
+public class PlayerBoards implements Listener {
 	
 	BukkitTask task;
 	public ConcurrentHashMap<UUID, Scoreboard> scoreboards = new ConcurrentHashMap<>();
@@ -32,7 +32,7 @@ public class ScoreboardHandler implements Listener {
 	private HashMap<UUID, Integer> kills = new HashMap<UUID, Integer>();
 	private HashMap<UUID, Integer> deaths = new HashMap<UUID, Integer>();
 
-	public ScoreboardHandler(Main plugin, MysqlData mysqlData, SpawnTagManager spawnTagManager){
+	public PlayerBoards(Main plugin, MysqlData mysqlData, SpawnTagManager spawnTagManager){
 		this.plugin = plugin;
 		this.mysqlData = mysqlData;
 		this.spawnTagManager = spawnTagManager;
@@ -77,7 +77,7 @@ public class ScoreboardHandler implements Listener {
 		deathCounter.setPrefix(deathPrefix);
 		objective.getScore(ChatColor.GREEN.toString()).setScore(2);
 
-		objective.getScore(ChatColor.BLACK.toString()).setScore(10); // empty space
+		objective.getScore(ChatColor.BLACK.toString()).setScore(9); // empty space
 		objective.getScore(ChatColor.WHITE.toString()).setScore(1); // empty space
 
 		player.setScoreboard(board);

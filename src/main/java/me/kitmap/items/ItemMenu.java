@@ -32,6 +32,9 @@ public class ItemMenu implements Listener {
 		if(gui == null || is == null || is.getType() == Material.AIR) {
 			return;
 		}
+		if(gui.getName().equals("Koth Loot")){
+			ev.setCancelled(true);
+		}
 		if(gui.getName().equals(this.legendaryBuilder.getItemPage1().getName()) && is.getItemMeta().getDisplayName().equals(ChatColor.RESET + "Next Page")) {
 			ev.setCancelled(true);
 			player.openInventory(this.legendaryBuilder.getItemPage2());
