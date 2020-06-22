@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class KothCommand implements CommandExecutor {
 
     private final Main plugin;
-    private ConfigManager configManager;
+    private final ConfigManager configManager;
 
     public KothCommand(Main plugin){
         this.plugin = plugin;

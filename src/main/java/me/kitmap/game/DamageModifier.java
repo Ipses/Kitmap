@@ -17,6 +17,7 @@ public class DamageModifier implements Listener {
         this.plugin = plugin;
     }
 
+    // TODO: add logic for critical hits, (in air and descending)
     @EventHandler
     public void onHit(EntityDamageByEntityEvent ev){
         if(!ev.isCancelled() && ev.getDamager() instanceof Player && ev.getEntity() instanceof Player){
@@ -32,8 +33,6 @@ public class DamageModifier implements Listener {
                 ev.setDamage(plugin.getWoodSwordDamage());
             } else if(weapon.getType() == Material.GOLD_SWORD){
                 ev.setDamage(plugin.getGoldSwordDamage());
-            } else {
-                return;
             }
         }
     }

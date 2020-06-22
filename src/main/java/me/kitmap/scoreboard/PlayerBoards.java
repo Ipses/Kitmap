@@ -137,36 +137,11 @@ public class PlayerBoards implements Listener {
 		return this.scoreboards;
 	}
 
-	// TODO: fix later, bad design.
-//	public void updateKills(UUID uuid){
-//		this.mysqlData.updateKills(uuid);
-//	}
-//
-//	public void updateDeaths(UUID uuid){
-//		this.mysqlData.updateDeaths(uuid);
-//	}
-//
-//	public int getKills(UUID uuid){
-//		return this.mysqlData.getKills(uuid);
-//	}
-
 	public HashMap<UUID, Integer> getPlayerKills(){
 		return this.kills;
 	}
 
 	public HashMap<UUID, Integer> getPlayerDeaths(){
 		return this.deaths;
-	}
-
-	public void resetKills(Player player){
-		this.getScoreboards().get(player.getUniqueId()).resetScores(
-				ChatColor.RED.toString() + ChatColor.BOLD + "Kills: " + ChatColor.GRAY + this.kills.get(player.getUniqueId())
-		);
-	}
-
-	public void resetDeaths(Player player) {
-		this.getScoreboards().get(player.getUniqueId()).resetScores(
-				ChatColor.RED.toString() + ChatColor.BOLD + "Deaths: " + ChatColor.GRAY + this.deaths.get(player.getUniqueId())
-		);
 	}
 }

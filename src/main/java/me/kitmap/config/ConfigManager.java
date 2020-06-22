@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class ConfigManager {
 
-    private Main plugin = Main.getPlugin(Main.class);
+    private final Main plugin = Main.getPlugin(Main.class);
     public FileConfiguration damageConfig, coordsConfig;
     public File damageFile, coordsFile;
 

@@ -31,9 +31,9 @@ public class Koth {
         return this.max;
     }
 
-    public boolean isActive(){
-        return getRemainingTime() > 0;
-    }
+//    public boolean isActive(){
+//        return getRemainingTime() > 0;
+//    }
 
     public long getDefaultCaptureTime() { return this.defaultCaptureTime; }
 

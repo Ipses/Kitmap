@@ -51,6 +51,7 @@ public class KothManager {
         this.koth = koth;
     }
     private boolean isInCap(@Nullable Player player) {
+        if(player == null) return false;
         final Location location = player.getLocation();
         return this.koth.getMin().getBlockX() <= location.getBlockX() && location.getBlockX() <= this.koth.getMax().getBlockX() &&
                 this.koth.getMin().getBlockZ() <= location.getBlockZ() && location.getBlockZ() <= this.koth.getMax().getBlockZ();
@@ -70,7 +71,7 @@ public class KothManager {
         this.koth.remainingTime = this.koth.getDefaultCaptureTime() + System.currentTimeMillis();
     }
 
-    public void tick(){
+    public void tick(){ // every 10 ticks
         long remainingTime = this.koth.getRemainingTime();
         if(remainingTime <= 0L){ // CAPPED
             Bukkit.broadcastMessage(ChatColor.GOLD + "[KOTH] " + ChatColor.GREEN + this.koth.getName() + ChatColor.YELLOW +
@@ -119,7 +120,7 @@ public class KothManager {
         }
     }
 
-    private void timeDisplayTick(){
+    private void timeDisplayTick(){ // every 20 ticks
         for(Player player: Bukkit.getOnlinePlayers()){
             Scoreboard playerBoard = this.playerBoards.getScoreboards().get(player.getUniqueId());
             Objective objective = playerBoard.getObjective("sb");

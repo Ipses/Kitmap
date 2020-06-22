@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 
 public class SpawnEnterBlocker implements Listener {
 
@@ -19,9 +18,8 @@ public class SpawnEnterBlocker implements Listener {
         this.plugin = plugin;
         this.spawnTag = spawnTag;
     }
-    // TODO: register event on main after fix
-    // TODO: check for distance
 
+    // TODO: implement this
     @EventHandler
     public void updateBlock(EntityDamageByEntityEvent ev){
         Player player = (Player) ev.getEntity();
@@ -35,7 +33,6 @@ public class SpawnEnterBlocker implements Listener {
                 }
             }
             Bukkit.broadcastMessage("first loop ran");
-
 
             for(int z=(int)this.plugin.spawnMinZ;z<=(int)this.plugin.spawnMaxZ;z++){
                 for(int y=4;y<=30;y++){
