@@ -1,6 +1,0 @@
-host: localhost
-port: 3306
-database: my_server
-username: root
-password: minezskid!@#$%
-table: player_data
