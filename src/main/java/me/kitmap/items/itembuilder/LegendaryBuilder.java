@@ -98,7 +98,7 @@ public class LegendaryBuilder {
         overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Legendary Weapon");
         overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Right Click: Charge at the cost of 50 durability");
         overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "After charging, your next attack in 5 seconds");
-        overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "does" + net.md_5.bungee.api.ChatColor.YELLOW + " true damage " + net.md_5.bungee.api.ChatColor.BLUE + "based on a player's missing health");
+        overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "does" + ChatColor.YELLOW + " true damage " + ChatColor.BLUE + "based on a player's missing health");
         overkillItemMeta.setLore(overkillLore);
         overkillItemMeta.setDisplayName(ChatColor.RESET + "Overkill");
         overkill.setItemMeta(overkillItemMeta);

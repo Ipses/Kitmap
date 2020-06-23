@@ -24,7 +24,7 @@ public class SpawnEnterBlocker implements Listener {
     public void updateBlock(EntityDamageByEntityEvent ev){
         Player player = (Player) ev.getEntity();
         if(this.spawnTag.getTimer().containsKey(player.getUniqueId())){
-            for(int x=(int)this.plugin.spawnMinX;x<=(int)this.plugin.spawnMaxX;x++){
+            for(int x=(int)this.plugin.spawnMinX;x<=(int)this.plugin.spawnMaxX;++x){
                 for(int y=4;y<=30;y++){
                     Location barrierLoc1 = new Location(player.getWorld(), x, y, this.plugin.spawnMinZ);
                     player.sendBlockChange(barrierLoc1, Material.STAINED_GLASS, (byte) 1);
@@ -34,7 +34,7 @@ public class SpawnEnterBlocker implements Listener {
             }
             Bukkit.broadcastMessage("first loop ran");
 
-            for(int z=(int)this.plugin.spawnMinZ;z<=(int)this.plugin.spawnMaxZ;z++){
+            for(int z=(int)this.plugin.spawnMinZ;z<=(int)this.plugin.spawnMaxZ;++z){
                 for(int y=4;y<=30;y++){
                     Location barrierLoc1 = new Location(player.getWorld(), this.plugin.spawnMinX, y, z);
                     player.sendBlockChange(barrierLoc1, Material.STAINED_GLASS, (byte) 1);

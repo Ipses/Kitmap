@@ -27,41 +27,41 @@ public class ItemMenu implements Listener {
 		Player player = (Player) ev.getWhoClicked();
 		ClickType click = ev.getClick();
 		Inventory gui = ev.getClickedInventory();
-		ItemStack is = ev.getCurrentItem();
+		ItemStack item = ev.getCurrentItem();
 		
-		if(gui == null || is == null || is.getType() == Material.AIR) {
+		if(gui == null || item == null || item.getType() == Material.AIR) {
 			return;
 		}
 		if(gui.getName().equals("Koth Loot")){
 			ev.setCancelled(true);
 		}
-		if(gui.getName().equals(this.legendaryBuilder.getItemPage1().getName()) && is.getItemMeta().getDisplayName().equals(ChatColor.RESET + "Next Page")) {
+		if(gui.getName().equals(this.legendaryBuilder.getItemPage1().getName()) && item.getItemMeta().getDisplayName().equals(ChatColor.RESET + "Next Page")) {
 			ev.setCancelled(true);
 			player.openInventory(this.legendaryBuilder.getItemPage2());
 			return;
 		}
-		if(gui.getName().equals(this.legendaryBuilder.getItemPage2().getName())  && is.getItemMeta().getDisplayName().equals(ChatColor.RESET + "Previous Page")) {
+		if(gui.getName().equals(this.legendaryBuilder.getItemPage2().getName())  && item.getItemMeta().getDisplayName().equals(ChatColor.RESET + "Previous Page")) {
 			ev.setCancelled(true);
 			player.openInventory(this.legendaryBuilder.getItemPage1());
 			return;
 		}
-		if(gui.getName().equals(this.legendaryBuilder.getItemPage2().getName()) && is.getItemMeta().getDisplayName().equals(ChatColor.RESET + "Next Page")) {
+		if(gui.getName().equals(this.legendaryBuilder.getItemPage2().getName()) && item.getItemMeta().getDisplayName().equals(ChatColor.RESET + "Next Page")) {
 			ev.setCancelled(true);
 			player.openInventory(this.legendaryBuilder.getItemPage3());
 			return;
 		}
-		if(gui.getName().equals(this.legendaryBuilder.getItemPage3().getName()) && is.hasItemMeta()){
-			if(is.containsEnchantment(Enchantment.DEPTH_STRIDER)) {
+		if(gui.getName().equals(this.legendaryBuilder.getItemPage3().getName()) && item.hasItemMeta()){
+			if(item.containsEnchantment(Enchantment.DEPTH_STRIDER)) {
 				ev.setCancelled(true);
-				player.getInventory().addItem(is);
+				player.getInventory().addItem(item);
 				return;
 			}
-			if(is.getItemMeta().getDisplayName().equals(ChatColor.RESET + "Previous Page")) {
+			if(item.getItemMeta().getDisplayName().equals(ChatColor.RESET + "Previous Page")) {
 				ev.setCancelled(true);
 				player.openInventory(this.legendaryBuilder.getItemPage2());
 				return;
 			}
-			if(is.getItemMeta().getDisplayName().equals(ChatColor.RESET + "Next Page")) {
+			if(item.getItemMeta().getDisplayName().equals(ChatColor.RESET + "Next Page")) {
 				ev.setCancelled(true);
 				player.openInventory(this.legendaryBuilder.getItemPage1());
 				return;
@@ -71,8 +71,8 @@ public class ItemMenu implements Listener {
 		if(gui.getName().equals(this.legendaryBuilder.getItemPage1().getName()) || gui.getName().equals(this.legendaryBuilder.getItemPage2().getName()) ||
 				gui.getName().equals(this.legendaryBuilder.getItemPage3().getName())) {
 			ev.setCancelled(true);
-			if(is.getType() == Material.EMPTY_MAP) return;
-			if(click.isRightClick()) player.getInventory().addItem(is);
+			if(item.getType() == Material.EMPTY_MAP) return;
+			if(click.isRightClick()) player.getInventory().addItem(item);
 		}
 	}
 }

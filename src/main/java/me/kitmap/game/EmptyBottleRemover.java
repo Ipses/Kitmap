@@ -14,6 +14,14 @@ public class EmptyBottleRemover implements Listener {
 
     private final Main plugin;
 
+    // TODO: w/ Robert: lambdas/annonymous classes, could be simplified to
+//     Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+//        ItemStack itemInHand = player.getInventory().getItemInMainHand();
+//        if(itemInHand.getType() == Material.GLASS_BOTTLE){
+//            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+//            player.updateInventory();
+//        }
+//    }, 1L);
     public EmptyBottleRemover(Main plugin){
         this.plugin = plugin;
     }
