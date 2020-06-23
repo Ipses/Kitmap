@@ -43,8 +43,9 @@ public class Main extends JavaPlugin implements Listener {
 	private KitBuilder kitBuilder;
 	private KothLootBuilder kothLootBuilder;
 	private PlayerBoards playerBoards;
+	private DamageModifier damageModifier;
 
-	public double diamond, iron, stone, wood, gold, spawnMinX, spawnMaxX,spawnMinZ, spawnMaxZ;
+	public double spawnMinX, spawnMaxX,spawnMinZ, spawnMaxZ;
 
 	private Overkill overkill;
 	private PluviasTempest pluviasTempest;
@@ -64,14 +65,14 @@ public class Main extends JavaPlugin implements Listener {
 
 	public void onEnable() {
 		plugin = this;
+        loadConfig();
+        loadConfigManager();
 		registerEvents();
 		buildItems();
-		loadConfig();
-		loadConfigManager();
 		mysqlsetup();
 		registerCommands();
-		setDamage();
 		setCoords();
+		loadDamageValues();
 	}
 	
 	public Plugin getInstance() {
@@ -140,14 +141,6 @@ public class Main extends JavaPlugin implements Listener {
 		return this.kothManager;
 	}
 
-	public void setDamage(){
-        this.diamond = Double.parseDouble(configManager.getDamage().getString("diamond_sword"));
-        this.iron = Double.parseDouble(configManager.getDamage().getString("iron_sword"));
-		this.stone = Double.parseDouble(configManager.getDamage().getString("stone_sword"));
-		this.wood = Double.parseDouble(configManager.getDamage().getString("wood_sword"));
-		this.gold = Double.parseDouble(configManager.getDamage().getString("gold_sword"));
-	}
-
 	public void setCoords(){
 		this.spawnMinX = Double.parseDouble(configManager.getCoords().getString("Spawn.minX"));
 		this.spawnMaxX = Double.parseDouble(configManager.getCoords().getString("Spawn.maxX"));
@@ -155,12 +148,16 @@ public class Main extends JavaPlugin implements Listener {
 		this.spawnMaxZ = Double.parseDouble(configManager.getCoords().getString("Spawn.maxZ"));
 	}
 
+	public void loadDamageValues(){
+	    this.damageModifier.loadDamageValues();
+    }
+
     private void registerEvents() {
 
         PluginManager pluginManager = getServer().getPluginManager();
         SpawnTag spawnTag = new SpawnTag(this);
         SpawnTagManager spawnTagManager = new SpawnTagManager(this, spawnTag);
-       this.playerBoards = new PlayerBoards(this, new MysqlData(this ), spawnTagManager);
+        this.playerBoards = new PlayerBoards(this, new MysqlData(this ), spawnTagManager);
 
         pluginManager.registerEvents(playerBoards, this);
         pluginManager.registerEvents(new KillDeathUpdater(this, this.playerBoards), this);
@@ -169,6 +166,7 @@ public class Main extends JavaPlugin implements Listener {
 		this.legendaryBuilder = new LegendaryBuilder(this);
 		this.kitBuilder = new KitBuilder();
 		this.kothLootBuilder = new KothLootBuilder(this);
+		this.damageModifier = new DamageModifier(this, this.configManager);
 
 		this.overkill = new Overkill(this);
 		this.pluviasTempest = new PluviasTempest(this);
@@ -192,7 +190,7 @@ public class Main extends JavaPlugin implements Listener {
 		pluginManager.registerEvents(new KitSign(kitBuilder), this);
 		pluginManager.registerEvents(new KothCrate(this, kothLootBuilder), this);
 		pluginManager.registerEvents(new SpawnEnterBlocker(this, spawnTag), this);
-        pluginManager.registerEvents(new DamageModifier(this), this);
+        pluginManager.registerEvents(this.damageModifier, this);
 		pluginManager.registerEvents(new EmptyBottleRemover(this), this);
 		pluginManager.registerEvents(new DeathMessage(), this);
 
@@ -634,28 +632,6 @@ public class Main extends JavaPlugin implements Listener {
 //		itemPage2.setItem(26, sealofgravity);
 //		itemPage2.setItem(35, sealofentropy);
 //	}
-
-
-
-	public double getDiamondSwordDamage(){
-		return this.diamond;
-	}
-
-	public double getIronSwordDamage(){
-		return this.iron;
-	}
-
-	public double getStoneSwordDamage(){
-		return this.stone;
-	}
-
-	public double getWoodSwordDamage(){
-		return this.wood;
-	}
-
-	public double getGoldSwordDamage(){
-		return this.gold;
-	}
 
 	public Overkill getOverkill(){
 		return this.overkill;
