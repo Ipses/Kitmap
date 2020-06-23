@@ -82,18 +82,30 @@ public class DeathMessage implements Listener {
         }
     }
 
-    private String getDefaultItemDisplayName(ItemStack item){
-        Material type = item.getType();
-        if(type == Material.DIAMOND_SWORD) return "diamond sword";
-        if(type == Material.IRON_SWORD) return "iron sword";
-        if(type == Material.BOW) return "bow";
-        if(type == Material.STONE_SWORD) return "stone sword";
-        if(type == Material.WOOD_SWORD) return "wooden sword";
-        if(type == Material.GOLD_SWORD) return "golden sword";
-        if(type == Material.POTION || item.getType() == Material.SPLASH_POTION) return "Potion";
-        if(type == Material.SUGAR) return "Sugar";
-        if(type == Material.COOKIE) return "Cookie";
-        if(type == Material.BREAD) return "Bread";
-        return null;
+    private String getDefaultItemDisplayName(ItemStack item) {
+        switch (item.getType()) {
+            default:
+                return null;
+            case DIAMOND_SWORD:
+                return "diamond sword";
+            case IRON_SWORD:
+                return "iron sword";
+            case STONE_SWORD:
+                return "stone sword";
+            case WOOD_SWORD:
+                return "wooden sword";
+            case GOLD_SWORD:
+                return "golden sword";
+            case POTION:
+                return "potion";
+            case SPLASH_POTION:
+                return "splash potion";
+            case SUGAR:
+                return "sugar";
+            case COOKIE:
+                return "cookie";
+            case BREAD:
+                return "bread";
+        }
     }
 }
