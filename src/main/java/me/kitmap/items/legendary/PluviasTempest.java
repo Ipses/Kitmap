@@ -20,7 +20,7 @@ public class PluviasTempest extends Legendary implements Listener {
 	private static final String NAME = ChatColor.RESET + "Pluvia's Tempest";
 
 	public PluviasTempest(Main plugin) {
-		super(plugin);
+		this.plugin = plugin;
 	}
 
 	@EventHandler

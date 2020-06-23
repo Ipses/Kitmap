@@ -26,7 +26,7 @@ public class Quiet extends Legendary implements Listener {
     private static final String NAME = ChatColor.RESET + "Quiet";
 
     public Quiet(Main plugin) {
-        super(plugin);
+        this.plugin = plugin;
     }
 
     @EventHandler

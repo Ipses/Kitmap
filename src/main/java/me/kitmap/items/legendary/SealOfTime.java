@@ -31,7 +31,7 @@ public class SealOfTime extends Legendary implements Listener {
 	private static final String NAME = ChatColor.RESET + "Seal of Time";
 
 	public SealOfTime(Main plugin) {
-		super(plugin);
+		this.plugin = plugin;
 	}
 
 	@EventHandler

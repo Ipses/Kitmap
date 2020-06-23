@@ -23,7 +23,7 @@ public class Shotbow extends Legendary implements Listener{
 	private static final String NAME = ChatColor.RESET + "Shotbow";
 
 	public Shotbow(Main plugin) {
-		super(plugin);
+		this.plugin = plugin;
 	}
 
 	@EventHandler

@@ -33,7 +33,7 @@ public class SealOfGravity extends Legendary implements Listener {
 	private static final PotionEffect SLOW = new PotionEffect(PotionEffectType.SLOW, 20, 100);
 
 	public SealOfGravity(Main plugin) {
-		super(plugin);
+		this.plugin = plugin;
 	}
 
 

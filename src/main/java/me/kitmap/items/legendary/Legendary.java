@@ -10,23 +10,17 @@ import net.md_5.bungee.api.ChatColor;
 
 public abstract class Legendary {
 
-	private final Main plugin;
+    public abstract ItemStack getItem();
 
-	public Legendary(Main plugin){
-		this.plugin = plugin;
-	}
-
-    abstract ItemStack getItem();
-
-    boolean hasName(ItemStack is, String name) {
+    protected boolean hasName(ItemStack is, String name) {
 		return is != null && is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equals(name);
 	}
 	
-	boolean isHittable(Player player) {
+	protected boolean isHittable(Player player) {
 		return player.getNoDamageTicks() < player.getMaximumNoDamageTicks() / 2;
 	}
 	
-	void reduceDura(Player player, ItemStack is, int consumedDura ) {
+	protected void reduceDura(Player player, ItemStack is, int consumedDura ) {
 		if(is.getDurability() > is.getType().getMaxDurability() - consumedDura*2){
 			is.setAmount(0);
 			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
@@ -36,7 +30,7 @@ public abstract class Legendary {
         player.updateInventory();
     }
 	
-	boolean hasEnoughArrows(Player player, int arrows) {
+	protected boolean hasEnoughArrows(Player player, int arrows) {
 		int arrowCount = 0;
 		for(ItemStack item: player.getInventory()) {
 			if(item != null && item.getType() == Material.ARROW) {

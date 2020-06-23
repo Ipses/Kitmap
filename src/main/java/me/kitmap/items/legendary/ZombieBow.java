@@ -28,7 +28,7 @@ public class ZombieBow extends Legendary implements Listener {
 	private static final String NAME = ChatColor.RESET + "Zombie Bow";
 
 	public ZombieBow(Main plugin) {
-		super(plugin);
+		this.plugin = plugin;
 	}
 
 	@EventHandler

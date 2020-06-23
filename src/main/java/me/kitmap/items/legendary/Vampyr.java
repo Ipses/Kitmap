@@ -22,7 +22,7 @@ public class Vampyr extends Legendary implements Listener {
 	private Main plugin;
 
 	public Vampyr(Main plugin) {
-		super(plugin);
+		this.plugin = plugin;
 	}
 
 	@EventHandler

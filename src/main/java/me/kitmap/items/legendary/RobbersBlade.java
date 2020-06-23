@@ -21,7 +21,7 @@ public class RobbersBlade extends Legendary implements Listener{
 	private static final String NAME = ChatColor.RESET + "Robber's Blade";
 
 	public RobbersBlade(Main plugin) {
-		super(plugin);
+		this.plugin = plugin;
 	}
 
 	@EventHandler

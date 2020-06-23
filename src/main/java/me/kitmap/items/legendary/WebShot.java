@@ -26,7 +26,7 @@ public class WebShot extends Legendary implements Listener {
     private static final String NAME = ChatColor.RESET + "Web Shot";
 
     public WebShot(Main plugin) {
-        super(plugin);
+        this.plugin = plugin;
     }
 
     @EventHandler

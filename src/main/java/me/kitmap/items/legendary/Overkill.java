@@ -32,7 +32,7 @@ public class Overkill extends Legendary implements Listener {
 	private static final PotionEffect WEAKNESS = new PotionEffect(PotionEffectType.WEAKNESS, 7*20, 1);
 
 	public Overkill(Main plugin) {
-		super(plugin);
+		this.plugin = plugin;
 	}
 
 	@EventHandler

@@ -30,7 +30,7 @@ public class TruthBow extends Legendary implements Listener {
 	private Main plugin;
 
 	public TruthBow(Main plugin) {
-		super(plugin);
+		this.plugin = plugin;
 	}
 
 	@EventHandler

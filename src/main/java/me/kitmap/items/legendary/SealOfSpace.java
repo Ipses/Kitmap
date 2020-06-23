@@ -28,7 +28,7 @@ public class SealOfSpace extends Legendary implements Listener {
 	private static final String NAME = ChatColor.RESET + "Seal of Space";
 
 	public SealOfSpace(Main plugin) {
-		super(plugin);
+		this.plugin = plugin;
 	}
 
 	@EventHandler

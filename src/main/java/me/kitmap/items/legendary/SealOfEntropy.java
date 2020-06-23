@@ -26,7 +26,7 @@ public class SealOfEntropy extends Legendary implements Listener {
     private Main plugin;
 
     public SealOfEntropy(Main plugin) {
-        super(plugin);
+        this.plugin = plugin;
     }
 
     //@EventHandler
