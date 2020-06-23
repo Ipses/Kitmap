@@ -39,7 +39,7 @@ public class TruthBow extends Legendary implements Listener {
 			Player player = (Player) ev.getEntity();
 			if(hasName(player.getInventory().getItemInMainHand(), NAME)){
 				if(ev.getForce() == 1) {
-					ev.getProjectile().setMetadata("truthbow", new FixedMetadataValue(Main.getInstance(), true) );
+					ev.getProjectile().setMetadata("truthbow", new FixedMetadataValue(plugin.getInstance(), true) );
 				} else {
 					player.sendMessage(ChatColor.RED + "The bow was not fully charged");
 					ev.setCancelled(true);

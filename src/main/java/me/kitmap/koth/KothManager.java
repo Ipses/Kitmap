@@ -99,7 +99,7 @@ public class KothManager {
                     public void run() {
                         timeDisplayTick();
                     }
-                }.runTaskTimer(Main.getInstance(), 0L, 20L);
+                }.runTaskTimer(plugin.getInstance(), 0L, 20L);
             }
 
             Bukkit.broadcastMessage(ChatColor.GREEN + this.koth.getCapper().getName() + ChatColor.WHITE +
@@ -178,7 +178,7 @@ public class KothManager {
             public void run() {
                 tick();
             }
-        }.runTaskTimer(Main.getInstance(), 0L, 10L);
+        }.runTaskTimer(plugin.getInstance(), 0L, 10L);
         Bukkit.broadcastMessage(ChatColor.GOLD + "[KOTH] " + ChatColor.GREEN + koth.getName() + ChatColor.YELLOW +
                 " KOTH is opened");
     }

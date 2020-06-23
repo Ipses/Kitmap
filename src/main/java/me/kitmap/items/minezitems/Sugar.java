@@ -26,6 +26,10 @@ public class Sugar implements Listener {
     private static final PotionEffect slowness = new PotionEffect(PotionEffectType.SLOW, 10*20, 1);
     private static final PotionEffect nausea = new PotionEffect(PotionEffectType.CONFUSION, 5*20, 2);
 
+    public Sugar(Main plugin){
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onClick(PlayerInteractEvent ev) {
         Player player = ev.getPlayer();
@@ -41,7 +45,7 @@ public class Sugar implements Listener {
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
             timer.put(player.getUniqueId(), System.currentTimeMillis() + 40*1000);
 
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
                 public void run() {
                     player.removePotionEffect(PotionEffectType.SPEED);
                     player.addPotionEffect(slowness);

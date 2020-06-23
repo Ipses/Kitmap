@@ -21,10 +21,12 @@ import java.util.Random;
 
 public class KothCrate implements Listener {
 
+    private final Main plugin;
     private final KothLootBuilder kothLootBuilder;
     private static final PotionEffect GLOW = new PotionEffect(PotionEffectType.GLOWING, 5*20, 1);
 
-    public KothCrate(KothLootBuilder kothLootBuilder){
+    public KothCrate(Main plugin, KothLootBuilder kothLootBuilder){
+        this.plugin = plugin;
         this.kothLootBuilder = kothLootBuilder;
     }
 
@@ -42,7 +44,7 @@ public class KothCrate implements Listener {
                 player.sendMessage(ChatColor.RED + "Make sure you have a few empty slots in your inventory, " +
                         "otherwise you might lose some items!");
                 player.addPotionEffect(GLOW);
-                Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+                Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
                     public void run() {
                         ArrayList<Integer> itemSlots = new ArrayList<>();
                         for(int i=0; i<27; i++) {

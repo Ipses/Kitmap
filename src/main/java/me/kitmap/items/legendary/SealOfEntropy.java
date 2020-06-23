@@ -42,7 +42,7 @@ public class SealOfEntropy extends Legendary implements Listener {
             connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
             connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
             // npc should walk forward
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
                 public void run() {
                     // should despawn npc
                 }

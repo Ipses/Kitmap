@@ -33,7 +33,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Main extends JavaPlugin implements Listener {
 	
-	public static Plugin plugin;
+	public Plugin plugin;
 	private Connection connection;
 	private ConfigManager configManager;
 	public String host, database, username, password, table;
@@ -74,7 +74,7 @@ public class Main extends JavaPlugin implements Listener {
 		setCoords();
 	}
 	
-	public static Plugin getInstance() {
+	public Plugin getInstance() {
 		return plugin;
 	}
 	
@@ -190,14 +190,14 @@ public class Main extends JavaPlugin implements Listener {
 
 		pluginManager.registerEvents(new ItemMenu(legendaryBuilder), this);
 		pluginManager.registerEvents(new KitSign(kitBuilder), this);
-		pluginManager.registerEvents(new KothCrate(kothLootBuilder), this);
+		pluginManager.registerEvents(new KothCrate(this, kothLootBuilder), this);
 		pluginManager.registerEvents(new SpawnEnterBlocker(this, spawnTag), this);
         pluginManager.registerEvents(new DamageModifier(this), this);
-		pluginManager.registerEvents(new EmptyBottleRemover(), this);
+		pluginManager.registerEvents(new EmptyBottleRemover(this), this);
 		pluginManager.registerEvents(new DeathMessage(), this);
 
 		pluginManager.registerEvents(new Grenade(this), this);
-		pluginManager.registerEvents(new Sugar(), this);
+		pluginManager.registerEvents(new Sugar(this), this);
 		pluginManager.registerEvents(new WeakGrapple(), this);
 
 		pluginManager.registerEvents(this.zombieBow, this);

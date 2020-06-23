@@ -35,7 +35,7 @@ public class WebShot extends Legendary implements Listener {
             Player player = (Player) ev.getEntity();
             if(hasName(player.getInventory().getItemInMainHand(), NAME)){
                 if(ev.getForce() == 1) {
-                    ev.getProjectile().setMetadata("webshot", new FixedMetadataValue(Main.getInstance(), true) );
+                    ev.getProjectile().setMetadata("webshot", new FixedMetadataValue(plugin.getInstance(), true) );
                 } else {
                     player.sendMessage(org.bukkit.ChatColor.RED + "The bow was not fully charged");
                     ev.setCancelled(true);
@@ -83,7 +83,7 @@ public class WebShot extends Legendary implements Listener {
             else duration = 5;
 
             Bukkit.broadcastMessage("distance: " + distance);
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
                 public void run() {
                    for(Location loc: webLocations){
                        if(loc.getBlock().getType() == Material.WEB){
@@ -133,7 +133,7 @@ public class WebShot extends Legendary implements Listener {
             else duration = 5;
 
             Bukkit.broadcastMessage("distance: " + distance);
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
                 public void run() {
                     for(Location loc: webLocations){
                         if(loc.getBlock().getType() == Material.WEB){

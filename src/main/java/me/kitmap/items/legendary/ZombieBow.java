@@ -51,7 +51,7 @@ public class ZombieBow extends Legendary implements Listener {
 			Item zombieEgg = player.getWorld().dropItem(fireLocation, new ItemStack(Material.MONSTER_EGG, 1, (short)54));
 			zombieEgg.setVelocity(ev.getProjectile().getVelocity().multiply(0.45));
 
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
 				public void run() {
 					zombieEgg.remove();
 					zombieEgg.getWorld().playEffect(zombieEgg.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);

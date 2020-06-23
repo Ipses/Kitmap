@@ -56,13 +56,13 @@ public class SealOfTime extends Legendary implements Listener {
 	        armor.put(player.getUniqueId(), copyArmors(player.getInventory()));
 			timer.put(player.getUniqueId(), System.currentTimeMillis() + 60*1000); //cooldown 1m but can increase
 			
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
 				public void run() {
 					timer.remove(player.getUniqueId());
 					}
 				}, 30*20L);
 			
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
 				public void run() {
 					player.getWorld().playSound(player.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, 1, 1);
 					player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, 10);

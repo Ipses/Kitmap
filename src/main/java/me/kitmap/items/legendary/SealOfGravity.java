@@ -47,7 +47,7 @@ public class SealOfGravity extends Legendary implements Listener {
 			Item seal = player.getWorld().dropItem(throwLocation, new ItemStack(Material.SKULL_ITEM, 1, (short)SkullType.SKELETON.ordinal())); // Not actually skull. It's a book
 			seal.setVelocity(throwLocation.getDirection().multiply(1.3)); // I think 1.3 is balanced
 			
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
 				public void run() {
 					seal.getWorld().playEffect(seal.getLocation(), Effect.EXPLOSION_HUGE, 1);
 					seal.getWorld().playSound(seal.getLocation(), Sound.ENTITY_ENDERDRAGON_HURT, 1, 1);

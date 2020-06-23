@@ -53,13 +53,13 @@ public class Overkill extends Legendary implements Listener {
 			else charged.put(player.getUniqueId(), true);
 			player.sendMessage(ChatColor.LIGHT_PURPLE + "Overkill: " + ChatColor.WHITE + "Overkill empowers your next attack in 3 seconds");
 			
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
 				public void run() {
 					charged.replace(player.getUniqueId(), false);
 					}
 				}, 3*20L);
 			
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
 				public void run() {
 					timer.remove(player.getUniqueId());
 					}

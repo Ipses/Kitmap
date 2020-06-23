@@ -34,7 +34,7 @@ public class SpikeThrower extends Legendary implements Listener {
 		if(!ev.isCancelled() && ev.getEntity() instanceof Player) {
 			Player player = (Player) ev.getEntity();
 			if(hasName(player.getInventory().getItemInMainHand(), NAME)){
-				ev.getProjectile().setMetadata("spikethrower", new FixedMetadataValue(Main.getInstance(), true) );
+				ev.getProjectile().setMetadata("spikethrower", new FixedMetadataValue(plugin.getInstance(), true) );
 			}
 		}
 	}

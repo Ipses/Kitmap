@@ -12,12 +12,17 @@ import org.bukkit.potion.PotionEffectType;
 
 public class EmptyBottleRemover implements Listener {
 
+    private final Main plugin;
+
+    public EmptyBottleRemover(Main plugin){
+        this.plugin = plugin;
+    }
     @EventHandler
     public void onDrink(PlayerItemConsumeEvent ev){
         ItemStack item = ev.getItem();
         if(!ev.isCancelled() && item.getType() == Material.POTION){
             Player player = ev.getPlayer();
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
                 public void run() {
                     ItemStack itemInHand = player.getInventory().getItemInMainHand();
                     if(itemInHand.getType() == Material.GLASS_BOTTLE){

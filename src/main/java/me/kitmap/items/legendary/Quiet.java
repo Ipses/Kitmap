@@ -32,7 +32,7 @@ public class Quiet extends Legendary implements Listener {
     @EventHandler
     public void onShoot(EntityShootBowEvent ev) {
         if(!ev.isCancelled() && hasName(ev.getBow(), NAME)) {
-            ev.getProjectile().setMetadata("quiet", new FixedMetadataValue(Main.getInstance(), true));
+            ev.getProjectile().setMetadata("quiet", new FixedMetadataValue(plugin.getInstance(), true));
         }
     }
     @EventHandler

@@ -50,7 +50,7 @@ public class PlayerBoards implements Listener {
 		    public void run() {
 		    	updateScoreboard();
 		    }
-		}.runTaskTimer(Main.getInstance(), 20L, 20L);
+		}.runTaskTimer(plugin.getInstance(), 20L, 20L);
 	}
 
 	public void createScoreboard(Player player) { // KILLS = BLUE DEATHS = GREEN
