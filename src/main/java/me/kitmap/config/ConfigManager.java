@@ -19,8 +19,8 @@ public class ConfigManager {
         if(!plugin.getDataFolder().exists()){
             plugin.getDataFolder().mkdir();
         }
-        createFile("damage.yml");
-        createFile("coordinates.yml");
+        createDamageFile();
+        createCoordsFile();
         reloadDamage();
         reloadCoords();
     }
@@ -59,8 +59,19 @@ public class ConfigManager {
 
     public FileConfiguration getCoords() { return this.coordsConfig; }
 
-    private void createFile(String fileName){
-        coordsFile = new File(plugin.getDataFolder(), fileName);
+    private void createDamageFile(){
+        damageFile = new File(plugin.getDataFolder(), "damage.yml");
+        if(!damageFile.exists()){
+            try {
+                damageFile.createNewFile();
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void createCoordsFile(){
+        coordsFile = new File(plugin.getDataFolder(), "coordinates.yml");
         if(!coordsFile.exists()){
             try {
                 coordsFile.createNewFile();

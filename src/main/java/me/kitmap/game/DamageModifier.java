@@ -37,17 +37,25 @@ public class DamageModifier implements Listener {
         if(!ev.isCancelled() && ev.getDamager() instanceof Player && ev.getEntity() instanceof Player){
             Player player = (Player) ev.getDamager();
             ItemStack weapon = player.getInventory().getItemInMainHand();
-            if(weapon.getType() == Material.DIAMOND_SWORD){
-                ev.setDamage(this.diamond);
-                Bukkit.broadcastMessage("dmg:" + this.diamond);
-            } else if(weapon.getType() == Material.IRON_SWORD){
-                ev.setDamage(this.iron);
-            } else if(weapon.getType() == Material.STONE_SWORD){
-                ev.setDamage(this.stone);
-            } else if(weapon.getType() == Material.WOOD_SWORD){
-                ev.setDamage(this.wood);
-            } else if(weapon.getType() == Material.GOLD_SWORD){
-                ev.setDamage(this.gold);
+
+            switch(weapon.getType()){
+                default:
+                    return;
+                case DIAMOND_SWORD:
+                    ev.setDamage(this.diamond);
+                    break;
+                case IRON_SWORD:
+                    ev.setDamage(this.iron);
+                    break;
+                case STONE_SWORD:
+                    ev.setDamage(this.stone);
+                    break;
+                case WOOD_SWORD:
+                    ev.setDamage(this.wood);
+                    break;
+                case GOLD_SWORD:
+                    ev.setDamage(this.gold);
+                    break;
             }
         }
     }

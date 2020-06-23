@@ -35,15 +35,11 @@ public class WeakGrapple implements Listener {
 							return;
 						}
 						timer.put(player.getUniqueId(), System.currentTimeMillis() + 15*1000);
-						player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_INFECT, 1, 1);
-						player.setVelocity(location.toVector().subtract(player.getLocation().toVector()).multiply(0.2));
-						player.getInventory().getItemInMainHand().setDurability((short) (player.getInventory().getItemInMainHand().getDurability() + 8));
 
-					} else {
-						player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_INFECT, 1, 1);
-						player.setVelocity(location.toVector().subtract(player.getLocation().toVector()).multiply(0.2));
-						player.getInventory().getItemInMainHand().setDurability((short) (player.getInventory().getItemInMainHand().getDurability() + 8));
 					}
+					player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_INFECT, 1, 1);
+					player.setVelocity(location.toVector().subtract(player.getLocation().toVector()).multiply(0.2));
+					player.getInventory().getItemInMainHand().setDurability((short) (player.getInventory().getItemInMainHand().getDurability() + 8));
 					return;
 				case AIR:
 				case WATER:
