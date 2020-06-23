@@ -35,7 +35,7 @@ public class KothManager {
 
     private BukkitTask capCheckTask;
     private BukkitTask timeDisplayTask;
-    public Koth koth;
+    private Koth koth;
 
     public KothManager(Main plugin, Koth koth, PlayerBoards playerBoards) {
         this.plugin = plugin;

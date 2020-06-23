@@ -24,7 +24,7 @@ import org.bukkit.potion.PotionEffectType;
 import me.kitmap.Main;
 
 public class Overkill extends Legendary implements Listener {
-	public HashMap<UUID, Long> timer = new HashMap<>();
+	private HashMap<UUID, Long> timer = new HashMap<>();
 	private HashMap<UUID,Boolean> charged = new HashMap<>();
 	private Main plugin;
 	private static final String NAME = ChatColor.RESET + "Overkill";

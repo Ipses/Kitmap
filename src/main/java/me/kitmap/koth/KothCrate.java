@@ -47,7 +47,7 @@ public class KothCrate implements Listener {
                 Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
                     public void run() {
                         ArrayList<Integer> itemSlots = new ArrayList<>();
-                        for(int i=0; i<27; i++) {
+                        for(int i=0; i<27; ++i) {
                             if(kothloot.getItem(i) != null) {
                                 itemSlots.add(i);
                             }
