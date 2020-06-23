@@ -37,7 +37,6 @@ public class DamageModifier implements Listener {
         if(!ev.isCancelled() && ev.getDamager() instanceof Player && ev.getEntity() instanceof Player){
             Player player = (Player) ev.getDamager();
             ItemStack weapon = player.getInventory().getItemInMainHand();
-
             switch(weapon.getType()){
                 default:
                     return;
