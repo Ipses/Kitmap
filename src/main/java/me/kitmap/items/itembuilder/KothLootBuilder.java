@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class KothLootBuilder {
+public class KothLootBuilder extends ItemBuilder {
 
     private final Main plugin;
     private Inventory kothloot;

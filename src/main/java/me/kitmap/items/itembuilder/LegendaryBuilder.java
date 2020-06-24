@@ -13,7 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LegendaryBuilder {
+public class LegendaryBuilder extends ItemBuilder {
 
     private final Main plugin;
 

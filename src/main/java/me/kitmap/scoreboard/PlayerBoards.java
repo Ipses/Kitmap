@@ -58,6 +58,7 @@ public class PlayerBoards implements Listener {
 		Objective objective = board.registerNewObjective("sb", "dummy");
 		objective.setDisplayName(ChatColor.GOLD.toString() + ChatColor.BOLD + "This is a title     Test123");
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+		// TODO: get a more accurate way to get player ping
 //		Score ping = board.getObjective("sb").getScore("Ping:");
 //		ping.setScore(((CraftPlayer)player).getHandle().ping);
 

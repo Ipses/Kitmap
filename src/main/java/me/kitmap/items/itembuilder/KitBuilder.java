@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
-public class KitBuilder {
+public class KitBuilder extends ItemBuilder{
 
     private Inventory ironKit;
 

@@ -36,8 +36,9 @@ public class Main extends JavaPlugin implements Listener {
 	public Plugin plugin;
 	private Connection connection;
 	private ConfigManager configManager;
-	public String host, database, username, password, table;
-	public int port;
+	private String host, database, username, password;
+	public String table;
+	private int port;
 	private KothManager kothManager;
 	private LegendaryBuilder legendaryBuilder;
 	private KitBuilder kitBuilder;
@@ -61,7 +62,6 @@ public class Main extends JavaPlugin implements Listener {
 	private Vampyr vampyr;
 	private WebShot webShot;
 	private ZombieBow zombieBow;
-	private Grenade grenade;
 
 	public void onEnable() {
 		plugin = this;
@@ -180,7 +180,6 @@ public class Main extends JavaPlugin implements Listener {
 		this.vampyr = new Vampyr(this);
 		this.webShot = new WebShot(this);
 		this.zombieBow = new ZombieBow(this);
-		this.grenade = new Grenade(this);
 
 		pluginManager.registerEvents(spawnTag, this);
 
