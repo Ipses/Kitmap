@@ -29,6 +29,7 @@ public class WebShot extends Legendary implements Listener {
         this.plugin = plugin;
     }
 
+    //TODO: make it consume 2 arrows per shot instead of 5
     @EventHandler
     public void onShoot(EntityShootBowEvent ev) {
         if(!ev.isCancelled() && ev.getEntity() instanceof Player) {
@@ -82,7 +83,7 @@ public class WebShot extends Legendary implements Listener {
             else if (20 <= distance && distance < 40) duration = 3;
             else duration = 5;
 
-            Bukkit.broadcastMessage("distance: " + distance);
+            Bukkit.broadcastMessage("distance: " + Math.round(distance));
             Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
                 public void run() {
                    for(Location loc: webLocations){
@@ -96,7 +97,7 @@ public class WebShot extends Legendary implements Listener {
     }
 
     @EventHandler
-    public void onHit(EntityDamageByEntityEvent ev) {
+    public void onHit(EntityDamageByEntityEvent ev) { // TODO: Fix the issue where bounced off arrow creates another web.
         if (!ev.isCancelled() && ev.getDamager() instanceof Arrow && ((Projectile) ev.getDamager()).getShooter() instanceof Player &&
                 ev.getEntity() instanceof Player && ev.getDamager().hasMetadata("webshot")) {
             ev.setCancelled(true);
@@ -132,7 +133,7 @@ public class WebShot extends Legendary implements Listener {
             else if (20 <= distance && distance < 40) duration = 3;
             else duration = 5;
 
-            Bukkit.broadcastMessage("distance: " + distance);
+            Bukkit.broadcastMessage("distance: " + Math.round(distance));
             Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
                 public void run() {
                     for(Location loc: webLocations){

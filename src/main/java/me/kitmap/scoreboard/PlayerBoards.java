@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import me.kitmap.game.SpawnTagManager;
+import me.kitmap.game.SpawnTag;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,14 +28,14 @@ public class PlayerBoards implements Listener {
 	public ConcurrentHashMap<UUID, Scoreboard> scoreboards = new ConcurrentHashMap<>();
 	private final Main plugin;
 	private final MysqlData mysqlData;
-	private final SpawnTagManager spawnTagManager;
+	private final SpawnTag spawnTag;
 	private HashMap<UUID, Integer> kills = new HashMap<UUID, Integer>();
 	private HashMap<UUID, Integer> deaths = new HashMap<UUID, Integer>();
 
-	public PlayerBoards(Main plugin, MysqlData mysqlData, SpawnTagManager spawnTagManager){
+	public PlayerBoards(Main plugin, MysqlData mysqlData, SpawnTag spawnTag){
 		this.plugin = plugin;
 		this.mysqlData = mysqlData;
-		this.spawnTagManager = spawnTagManager;
+		this.spawnTag = spawnTag;
 	}
 
 	@EventHandler
@@ -86,9 +86,9 @@ public class PlayerBoards implements Listener {
 
 	public void updateScoreboard() {
 		for(Player player: Bukkit.getOnlinePlayers()) {
-			if(spawnTagManager.getTimer().containsKey(player.getUniqueId())) {
+			if(spawnTag.getTimer().containsKey(player.getUniqueId())) {
 				Scoreboard playerBoard = this.scoreboards.get(player.getUniqueId());
-				if((spawnTagManager.getTimer().get(player.getUniqueId()) - System.currentTimeMillis() ) / 1000 <= 0) {
+				if((spawnTag.getTimer().get(player.getUniqueId()) - System.currentTimeMillis() ) / 1000 <= 0) {
 					// NOT Spawn Tagged
 					if(playerBoard.getTeam("spawnTagCounter") != null){
 						playerBoard.getTeam("spawnTagCounter").unregister();
@@ -99,7 +99,7 @@ public class PlayerBoards implements Listener {
 				} else { // Spawn Tagged
 					Objective objective = playerBoard.getObjective("sb");
 					String spawnTagSeconds = ChatColor.RED + "Spawn Tag: "
-							+ (Math.round(spawnTagManager.getTimer().get(player.getUniqueId())
+							+ (Math.round(spawnTag.getTimer().get(player.getUniqueId())
 							- System.currentTimeMillis()) / 1000) + "s";
 					String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
 					String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);

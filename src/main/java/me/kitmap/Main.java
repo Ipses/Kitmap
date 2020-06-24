@@ -156,8 +156,7 @@ public class Main extends JavaPlugin implements Listener {
 
         PluginManager pluginManager = getServer().getPluginManager();
         SpawnTag spawnTag = new SpawnTag(this);
-        SpawnTagManager spawnTagManager = new SpawnTagManager(this, spawnTag);
-        this.playerBoards = new PlayerBoards(this, new MysqlData(this ), spawnTagManager);
+        this.playerBoards = new PlayerBoards(this, new MysqlData(this ), spawnTag);
 
         pluginManager.registerEvents(playerBoards, this);
         pluginManager.registerEvents(new KillDeathUpdater(this, this.playerBoards), this);
@@ -183,7 +182,6 @@ public class Main extends JavaPlugin implements Listener {
 		this.zombieBow = new ZombieBow(this);
 		this.grenade = new Grenade(this);
 
-		pluginManager.registerEvents(spawnTagManager, this);
 		pluginManager.registerEvents(spawnTag, this);
 
 		pluginManager.registerEvents(new ItemMenu(legendaryBuilder), this);
@@ -197,7 +195,6 @@ public class Main extends JavaPlugin implements Listener {
 		pluginManager.registerEvents(new Grenade(this), this);
 		pluginManager.registerEvents(new Sugar(this), this);
 		pluginManager.registerEvents(new WeakGrapple(), this);
-
 		pluginManager.registerEvents(this.zombieBow, this);
 		pluginManager.registerEvents(this.truthBow, this);
 		pluginManager.registerEvents(this.pluviasTempest, this);
