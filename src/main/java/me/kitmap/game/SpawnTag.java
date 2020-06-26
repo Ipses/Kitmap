@@ -48,7 +48,7 @@ public class SpawnTag implements Listener {
                 } else {
                     player.sendMessage(ChatColor.RED + "You cannot damage other players at spawn");
                     ev.setCancelled(true);
-                }
+                } // TODO: after figuring out whether keeping players in hash on expire is better, fix the if condition.
             }
         }
     }

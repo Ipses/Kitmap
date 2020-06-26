@@ -24,7 +24,8 @@ public class RenameCommand implements Listener, CommandExecutor {
                 ItemMeta meta = item.getItemMeta();
                 StringBuilder displayName = new StringBuilder();
                 for(int i=0;i<args.length - 1;i++) {
-                    displayName.append(args[i]).append(" ");
+                    displayName.append(args[i]);
+                    displayName.append(" ");
                 }
                 displayName.append(args[args.length - 1]);
                 meta.setDisplayName(ChatColor.RESET + displayName.toString());

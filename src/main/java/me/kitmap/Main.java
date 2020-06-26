@@ -216,6 +216,62 @@ public class Main extends JavaPlugin implements Listener {
 		this.kothLootBuilder.build();
 	}
 
+	public Overkill getOverkill(){
+		return this.overkill;
+	}
+
+	public PluviasTempest  getPluviasTempest(){
+		return this.pluviasTempest;
+	}
+
+	public Quiet getQuiet(){
+		return this.quiet;
+	}
+
+	public RobbersBlade getrobbersBlade(){
+		return this.robbersBlade;
+	}
+
+	public SealOfEntropy getSealOfEntropy(){
+		return this.sealOfEntropy;
+	}
+
+	public SealOfGravity getSealOfGravity(){
+		return this.sealOfGravity;
+	}
+
+	public SealOfTime getSealOfTime(){
+		return this.sealOfTime;
+	}
+
+	public SealOfSpace getSealOfSpace(){
+		return this.sealOfSpace;
+	}
+
+	public Shotbow getShotbow(){
+		return this.shotbow;
+	}
+
+	public SpikeThrower getSpikeThrower(){
+		return this.spikeThrower;
+	}
+
+	public TruthBow getTruthBow(){
+		return this.truthBow;
+	}
+
+	public Vampyr getVampyr(){
+		return this.vampyr;
+	}
+
+	public WebShot getWebShot(){
+		return this.webShot;
+	}
+
+	public ZombieBow getZombieBow(){
+		return this.zombieBow;
+	}
+
 //	private void buildItems() { // Will remove once I move the rest of legendaries.
 //
 //		ItemStack corsairsedge = new ItemStack(Material.IRON_SWORD);
@@ -628,61 +684,5 @@ public class Main extends JavaPlugin implements Listener {
 //		itemPage2.setItem(26, sealofgravity);
 //		itemPage2.setItem(35, sealofentropy);
 //	}
-
-	public Overkill getOverkill(){
-		return this.overkill;
-	}
-
-	public PluviasTempest  getPluviasTempest(){
-		return this.pluviasTempest;
-	}
-
-	public Quiet getQuiet(){
-		return this.quiet;
-	}
-
-	public RobbersBlade getrobbersBlade(){
-		return this.robbersBlade;
-	}
-
-	public SealOfEntropy getSealOfEntropy(){
-		return this.sealOfEntropy;
-	}
-
-	public SealOfGravity getSealOfGravity(){
-		return this.sealOfGravity;
-	}
-
-	public SealOfTime getSealOfTime(){
-		return this.sealOfTime;
-	}
-
-	public SealOfSpace getSealOfSpace(){
-		return this.sealOfSpace;
-	}
-
-	public Shotbow getShotbow(){
-		return this.shotbow;
-	}
-
-	public SpikeThrower getSpikeThrower(){
-		return this.spikeThrower;
-	}
-
-	public TruthBow getTruthBow(){
-		return this.truthBow;
-	}
-
-	public Vampyr getVampyr(){
-		return this.vampyr;
-	}
-
-	public WebShot getWebShot(){
-		return this.webShot;
-	}
-
-	public ZombieBow getZombieBow(){
-		return this.zombieBow;
-	}
 }
 	
