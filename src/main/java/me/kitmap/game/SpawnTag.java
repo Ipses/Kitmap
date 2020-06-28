@@ -17,7 +17,7 @@ import net.md_5.bungee.api.ChatColor;
 public class SpawnTag implements Listener {
 
     private final Main plugin;
-    private HashMap<UUID, Long> timer = new HashMap<>();
+    private HashMap<UUID, Integer> timer = new HashMap<>();
 
     public SpawnTag(Main plugin){
         this.plugin = plugin;
@@ -29,7 +29,7 @@ public class SpawnTag implements Listener {
         return !(plugin.spawnMinX < x && x < plugin.spawnMaxX && plugin.spawnMinZ < z && z < plugin.spawnMaxZ);
     }
 
-    public HashMap<UUID, Long> getTimer(){
+    public HashMap<UUID, Integer> getTimer(){
         return timer;
     }
 
@@ -39,12 +39,12 @@ public class SpawnTag implements Listener {
             Player player = (Player) ev.getDamager();
             Player victim = (Player) ev.getEntity();
             if(isInPvPZone(player) && isInPvPZone(victim)) {
-                this.timer.put(player.getUniqueId(), System.currentTimeMillis() + 15*1000L);
-                this.timer.put(victim.getUniqueId(), System.currentTimeMillis() + 15*1000L);
+                this.timer.put(player.getUniqueId(), 15); // async
+                this.timer.put(victim.getUniqueId(), 15);
             } else { // TODO: better to keep players in hash, or remove on expire?
                 if(this.timer.containsKey(player.getUniqueId()) && this.timer.containsKey(victim.getUniqueId())) {
-                    this.timer.put(player.getUniqueId(), System.currentTimeMillis() + 15*1000L);
-                    this.timer.put(victim.getUniqueId(), System.currentTimeMillis() + 15*1000L);
+                    this.timer.put(player.getUniqueId(), 15);
+                    this.timer.put(victim.getUniqueId(), 15);
                 } else {
                     player.sendMessage(ChatColor.RED + "You cannot damage other players at spawn");
                     ev.setCancelled(true);
@@ -60,12 +60,12 @@ public class SpawnTag implements Listener {
             Player player = (Player) ((Projectile) ev.getDamager()).getShooter();
             Player victim = (Player) ev.getEntity();
             if(isInPvPZone(player) && isInPvPZone(victim)) {
-                this.timer.put(player.getUniqueId(), System.currentTimeMillis() + 10*1000L);
-                this.timer.put(victim.getUniqueId(), System.currentTimeMillis() + 10*1000L);
+                this.timer.put(player.getUniqueId(), 10);
+                this.timer.put(victim.getUniqueId(), 10);
             } else {
                 if(this.timer.containsKey(player.getUniqueId()) && this.timer.containsKey(victim.getUniqueId())) {
-                    this.timer.put(player.getUniqueId(), System.currentTimeMillis() + 10*1000L);
-                    this.timer.put(victim.getUniqueId(), System.currentTimeMillis() + 10*1000L);
+                    this.timer.put(player.getUniqueId(), 10);
+                    this.timer.put(victim.getUniqueId(), 10);
                 } else {
                     player.sendMessage(ChatColor.RED + "You cannot damage other players at spawn");
                     ev.setCancelled(true);

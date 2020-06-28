@@ -16,14 +16,12 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class KothManager {
 
@@ -32,6 +30,7 @@ public class KothManager {
     private static final PotionEffect SPEED = new PotionEffect(PotionEffectType.SPEED, 40*20, 3);
     private static final PotionEffect REGEN = new PotionEffect(PotionEffectType.REGENERATION, 20*20, 1);
     private static final PotionEffect RESISTANCE = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20*20, 1);
+    private static final String TEAMNAME = "kothTimer";
 
     private BukkitTask capCheckTask;
     private BukkitTask timeDisplayTask;
@@ -84,13 +83,9 @@ public class KothManager {
         } else if(remainingTime == this.koth.getDefaultCaptureTime()){ // this.capper == null
             if(playersInCap().size() == 0){ // When cap is active but no one is capping
                 return;
-            }
-            if(playersInCap().size() == 1){ // capper got knocked and there's ONE player in cao
-                this.koth.setCapper(playersInCap().get(0));
-            }
-            if(playersInCap().size() > 1){  // capper got knocked and there're more than ONE player in cao
-                Player randomPlayer = playersInCap().get(new Random().nextInt(playersInCap().size()));
-                this.koth.setCapper(randomPlayer); // pick a random capper if the previous capper is knocked
+            } else {
+                Player player = playersInCap().get(0);
+                this.koth.setCapper(player); // pick a random capper if the previous capper is knocked
             }
             Bukkit.broadcastMessage("start time task"); // start time task when someone starts capping
             if(this.timeDisplayTask == null || this.timeDisplayTask.isCancelled()){
@@ -128,7 +123,7 @@ public class KothManager {
             String prefix = ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": " + kothRemainingSeconds;
             //String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
             //String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);
-            playerBoard.getTeam("kothTimer").setPrefix(prefix);
+            playerBoard.getTeam(TEAMNAME).setPrefix(prefix);
             objective.getScore(ChatColor.YELLOW.toString()).setScore(5);
         }
     }
@@ -139,7 +134,7 @@ public class KothManager {
             Objective objective = playerBoard.getObjective("sb");
             int kothRemainingSeconds = Math.round(this.koth.getDefaultCaptureTime())/1000;
             String prefix = ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": " + kothRemainingSeconds;
-            playerBoard.getTeam("kothTimer").setPrefix(prefix);
+            playerBoard.getTeam(TEAMNAME).setPrefix(prefix);
             objective.getScore(ChatColor.YELLOW.toString()).setScore(5);
         }
     }
@@ -147,7 +142,7 @@ public class KothManager {
     private void removeDisplayedTime(){
         for(Player player: Bukkit.getOnlinePlayers()){
             Scoreboard playerBoard = this.playerBoards.getScoreboards().get(player.getUniqueId());
-            playerBoard.getTeam("kothTimer").unregister();
+            playerBoard.getTeam(TEAMNAME).unregister();
             playerBoard.resetScores(ChatColor.YELLOW.toString());
         }
     }
@@ -163,13 +158,13 @@ public class KothManager {
             String prefix = ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": " + kothRemainingSeconds;
             //String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
             //String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);
-            playerBoard.registerNewTeam("kothTimer");
-            Team kothTimer = playerBoard.getTeam("kothTimer");
+            playerBoard.registerNewTeam(TEAMNAME);
+            Team kothTimer = playerBoard.getTeam(TEAMNAME);
             kothTimer.addEntry(ChatColor.YELLOW.toString());
             kothTimer.setPrefix(prefix);
             //spawnTagCounter.setSuffix(suffix);
             objective.getScore(ChatColor.YELLOW.toString()).setScore(5);
-            playerBoard.getTeam("kothTimer").setPrefix(prefix);
+            playerBoard.getTeam(TEAMNAME).setPrefix(prefix);
             objective.getScore(ChatColor.YELLOW.toString()).setScore(5);
         }
 

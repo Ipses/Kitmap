@@ -20,7 +20,7 @@ public class SpawnEnterBlocker implements Listener {
     }
 
     // TODO: implement this. Try GG's spawn tag system. but it has a serious bug.
-    @EventHandler
+    // @EventHandler
     public void updateBlock(EntityDamageByEntityEvent ev){
         Player player = (Player) ev.getEntity();
         if(this.spawnTag.getTimer().containsKey(player.getUniqueId())){

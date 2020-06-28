@@ -100,8 +100,8 @@ public class PlayerBoards implements Listener {
 				} else { // Spawn Tagged
 					Objective objective = playerBoard.getObjective("sb");
 					String spawnTagSeconds = ChatColor.RED + "Spawn Tag: "
-							+ (Math.round(spawnTag.getTimer().get(player.getUniqueId())
-							- System.currentTimeMillis()) / 1000) + "s";
+							+ (spawnTag.getTimer().get(player.getUniqueId())
+							- 1) + "s";
 					String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
 					String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);
 
