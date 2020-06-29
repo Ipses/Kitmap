@@ -61,19 +61,13 @@ public class KillDeathUpdater implements Listener {
         playerBoards.getPlayerDeaths().replace(player.getUniqueId(), deathCount + 1);
 
         Scoreboard killerBoard = playerBoards.getScoreboards().get(killer.getUniqueId());
-//        killerBoard.getTeam("kills").unregister();
-//        killerBoard.resetScores(ChatColor.BLUE.toString());
-        String killPrefix = ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Kills: " + ChatColor.GRAY +
-                this.playerBoards.getPlayerKills().get(killer.getUniqueId());
-        killerBoard.getTeam("kills").setPrefix(killPrefix);
-        killerBoard.getObjective("sb").getScore(ChatColor.BLUE.toString()).setScore(3);
+        String killSuffix = ChatColor.GRAY.toString() + this.playerBoards.getPlayerKills().get(killer.getUniqueId());
+        killerBoard.getTeam("kills").setSuffix(killSuffix);
+        killerBoard.getObjective("sb").getScore(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Kills: ").setScore(3);
 
         Scoreboard playerBoard = playerBoards.getScoreboards().get(player.getUniqueId());
-//        killerBoard.getTeam("kills").unregister();
-//        killerBoard.resetScores(ChatColor.BLUE.toString());
-        String deathPrefix = ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Deaths: " + ChatColor.GRAY +
-                this.playerBoards.getPlayerDeaths().get(player.getUniqueId());
-        playerBoard.getTeam("deaths").setPrefix(deathPrefix);
-        playerBoard.getObjective("sb").getScore(ChatColor.GREEN.toString()).setScore(2);
+        String deathSuffix = ChatColor.GRAY.toString() + this.playerBoards.getPlayerDeaths().get(player.getUniqueId());
+        playerBoard.getTeam("deaths").setSuffix(deathSuffix);
+        playerBoard.getObjective("sb").getScore(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Deaths: ").setScore(2);
     }
 }

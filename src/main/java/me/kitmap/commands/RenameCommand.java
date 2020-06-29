@@ -28,7 +28,6 @@ public class RenameCommand implements Listener, CommandExecutor {
                     displayName.append(" ");
                     displayName.append(args[i]);
                 } // "diamond sword blah" len = 3 i < 3 - 1 = 2
-                displayName.append(args[args.length - 1]);
                 meta.setDisplayName(ChatColor.RESET + displayName.toString());
                 item.setItemMeta(meta);
                 player.sendMessage("Item Renamed");

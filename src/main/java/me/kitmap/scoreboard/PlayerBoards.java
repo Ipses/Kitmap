@@ -62,21 +62,19 @@ public class PlayerBoards implements Listener {
 //		Score ping = board.getObjective("sb").getScore("Ping:");
 //		ping.setScore(((CraftPlayer)player).getHandle().ping);
 
-		String killPrefix = ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Kills: " + ChatColor.GRAY +
-				this.kills.get(player.getUniqueId());
+		String killSuffix = ChatColor.GRAY.toString() + this.kills.get(player.getUniqueId());
 		board.registerNewTeam("kills");
 		Team killCounter = board.getTeam("kills");
-		killCounter.addEntry(ChatColor.BLUE.toString());
-		killCounter.setPrefix(killPrefix);
-		objective.getScore(ChatColor.BLUE.toString()).setScore(3);
+		killCounter.addEntry(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Kills: ");
+		killCounter.setSuffix(killSuffix);
+		objective.getScore(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Kills: ").setScore(3);
 
-		String deathPrefix = ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Deaths: " + ChatColor.GRAY +
-				this.deaths.get(player.getUniqueId());
+		String deathSuffix = ChatColor.GRAY.toString() + this.deaths.get(player.getUniqueId());
 		board.registerNewTeam("deaths");
 		Team deathCounter = board.getTeam("deaths");
-		deathCounter.addEntry(ChatColor.GREEN.toString());
-		deathCounter.setPrefix(deathPrefix);
-		objective.getScore(ChatColor.GREEN.toString()).setScore(2);
+		deathCounter.addEntry(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Deaths: ");
+		deathCounter.setSuffix(deathSuffix);
+		objective.getScore(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Deaths: ").setScore(2);
 
 		objective.getScore(ChatColor.BLACK.toString()).setScore(9); // empty space
 		objective.getScore(ChatColor.WHITE.toString()).setScore(1); // empty space
@@ -87,36 +85,33 @@ public class PlayerBoards implements Listener {
 
 	public void updateScoreboard() {
 		for(Player player: Bukkit.getOnlinePlayers()) {
-			if(spawnTag.getTimer().containsKey(player.getUniqueId())) {
-				Scoreboard playerBoard = this.scoreboards.get(player.getUniqueId());
-				if((spawnTag.getTimer().get(player.getUniqueId()) - System.currentTimeMillis() ) / 1000 <= 0) {
-					// NOT Spawn Tagged
-					if(playerBoard.getTeam("spawnTagCounter") != null){
-						playerBoard.getTeam("spawnTagCounter").unregister();
-						playerBoard.resetScores(ChatColor.RED.toString());
-					} else{
-						// do nothing
-					}
-				} else { // Spawn Tagged
-					Objective objective = playerBoard.getObjective("sb");
-					String spawnTagSeconds = ChatColor.RED + "Spawn Tag: "
-							+ (spawnTag.getTimer().get(player.getUniqueId())
-							- 1) + "s";
-					String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
-					String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);
-
-					if(playerBoard.getTeam("spawnTagCounter") == null) {
-						playerBoard.registerNewTeam("spawnTagCounter");
-						Team spawnTagCounter = playerBoard.getTeam("spawnTagCounter");
-						spawnTagCounter.addEntry(ChatColor.RED.toString());
-						spawnTagCounter.setPrefix(prefix);
-						spawnTagCounter.setSuffix(suffix);
-						objective.getScore(ChatColor.RED.toString()).setScore(4);
-						return;
-					}
-					playerBoard.getTeam("spawnTagCounter").setPrefix(prefix);
-					playerBoard.getTeam("spawnTagCounter").setSuffix(suffix);
+			Scoreboard playerBoard = this.scoreboards.get(player.getUniqueId());
+			if(!(spawnTag.isTagged(player.getUniqueId()))) { // NOT Spawn Tagged
+				if(playerBoard.getTeam("spawnTagCounter") != null){
+					playerBoard.getTeam("spawnTagCounter").unregister();
+					playerBoard.resetScores(ChatColor.RED + "Spawn Tag: ");
+				} else{
+					// do nothing
 				}
+			} else { // Spawn Tagged
+				Objective objective = playerBoard.getObjective("sb");
+				String spawnTagSeconds = ChatColor.RED.toString() +
+						(Math.round(spawnTag.getTimer().get(player.getUniqueId())
+						- System.currentTimeMillis()) / 1000) + "s";
+				String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
+				String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);
+
+				if(playerBoard.getTeam("spawnTagCounter") == null) {
+					playerBoard.registerNewTeam("spawnTagCounter");
+					Team spawnTagCounter = playerBoard.getTeam("spawnTagCounter");
+					spawnTagCounter.addEntry(ChatColor.RED + "Spawn Tag: ");
+					spawnTagCounter.setPrefix(prefix);
+					spawnTagCounter.setSuffix(suffix);
+					objective.getScore(ChatColor.RED + "Spawn Tag: ").setScore(4);
+					return;
+				}
+				playerBoard.getTeam("spawnTagCounter").setPrefix(prefix);
+				playerBoard.getTeam("spawnTagCounter").setSuffix(suffix);
 			}
 			player.setScoreboard(scoreboards.get(player.getUniqueId()));
 		}
