@@ -46,7 +46,6 @@ public class PlayerBoards implements Listener {
 		this.deaths.put(player.getUniqueId(), mysqlData.getDBDeaths(player.getUniqueId()));
 		createScoreboard(player);
 		this.task = new BukkitRunnable() {
-		    @Override
 		    public void run() {
 		    	updateScoreboard();
 		    }
@@ -125,8 +124,6 @@ public class PlayerBoards implements Listener {
 		mysqlData.updateDBDeaths(player.getUniqueId(), this.deaths.get(player.getUniqueId()));
 		this.kills.remove(player.getUniqueId());
 		this.deaths.remove(player.getUniqueId());
-
-		//updateScoreboard();
 	}
 
 	public ConcurrentHashMap<UUID, Scoreboard> getScoreboards(){

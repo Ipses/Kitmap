@@ -49,6 +49,7 @@ public class KothManager {
     public void addKoth(Koth koth){
         this.koth = koth;
     }
+
     private boolean isInCap(@Nullable Player player) {
         if(player == null) return false;
         final Location location = player.getLocation();

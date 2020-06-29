@@ -8,6 +8,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 public class SpawnEnterBlocker implements Listener {
 
@@ -19,31 +22,36 @@ public class SpawnEnterBlocker implements Listener {
         this.spawnTag = spawnTag;
     }
 
-    // TODO: implement this. Try GG's spawn tag system. but it has a serious bug.
-    // @EventHandler
-    public void updateBlock(EntityDamageByEntityEvent ev){
-        Player player = (Player) ev.getEntity();
-        if(this.spawnTag.getTimer().containsKey(player.getUniqueId())){
-            for(int x=(int)this.plugin.spawnMinX;x<=(int)this.plugin.spawnMaxX;++x){
-                for(int y=4;y<=30;y++){
-                    Location barrierLoc1 = new Location(player.getWorld(), x, y, this.plugin.spawnMinZ);
-                    player.sendBlockChange(barrierLoc1, Material.STAINED_GLASS, (byte) 1);
-                    Location barrierLoc2 = new Location(player.getWorld(), x, y, this.plugin.spawnMaxZ);
-                    player.sendBlockChange(barrierLoc2, Material.STAINED_GLASS, (byte) 1);
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent ev) {
+        BukkitTask task = new BukkitRunnable() {
+            public void run() {
+                spawnBarrierBlocks();
+            }
+        }.runTaskTimer(plugin.getInstance(), 0L, 4L);
+    }
+
+    // TODO: implement this. Try GG's spawn tag system. but it has a bug that players can click blocks and despawn. This lags as well
+    public void spawnBarrierBlocks(){
+        for (Player player: Bukkit.getOnlinePlayers()){
+            if(this.spawnTag.isTagged(player.getUniqueId())){
+                for(int x=(int)this.plugin.spawnMinX;x<=(int)this.plugin.spawnMaxX;++x){
+                    for(int y=4;y<=20;++y){
+                        Location barrierLoc1 = new Location(player.getWorld(), x, y, this.plugin.spawnMinZ);
+                        player.sendBlockChange(barrierLoc1, Material.STAINED_GLASS, (byte) 0);
+                        Location barrierLoc2 = new Location(player.getWorld(), x, y, this.plugin.spawnMaxZ);
+                        player.sendBlockChange(barrierLoc2, Material.STAINED_GLASS, (byte) 0);
+                    }
+                }
+                for(int z=(int)this.plugin.spawnMinZ;z<=(int)this.plugin.spawnMaxZ;++z){
+                    for(int y=4;y<=20;++y){
+                        Location barrierLoc1 = new Location(player.getWorld(), this.plugin.spawnMinX, y, z);
+                        player.sendBlockChange(barrierLoc1, Material.STAINED_GLASS, (byte) 0);
+                        Location barrierLoc2 = new Location(player.getWorld(), this.plugin.spawnMaxX, y, z);
+                        player.sendBlockChange(barrierLoc2, Material.STAINED_GLASS, (byte) 0);
+                    }
                 }
             }
-            Bukkit.broadcastMessage("first loop ran");
-
-            for(int z=(int)this.plugin.spawnMinZ;z<=(int)this.plugin.spawnMaxZ;++z){
-                for(int y=4;y<=30;y++){
-                    Location barrierLoc1 = new Location(player.getWorld(), this.plugin.spawnMinX, y, z);
-                    player.sendBlockChange(barrierLoc1, Material.STAINED_GLASS, (byte) 1);
-                    Location barrierLoc2 = new Location(player.getWorld(), this.plugin.spawnMaxX, y, z);
-                    player.sendBlockChange(barrierLoc2, Material.STAINED_GLASS, (byte) 1);
-                }
-            }
-            Bukkit.broadcastMessage("2nd loop ran");
-
         }
     }
 }
