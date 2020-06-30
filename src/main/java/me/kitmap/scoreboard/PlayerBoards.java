@@ -96,7 +96,7 @@ public class PlayerBoards implements Listener {
 				Objective objective = playerBoard.getObjective("sb");
 				String spawnTagSeconds = ChatColor.RED.toString() +
 						(Math.round(spawnTag.getTimer().get(player.getUniqueId())
-						- System.currentTimeMillis()) / 1000) + "s";
+								- System.currentTimeMillis()) / 1000) + "s";
 				String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
 				String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);
 
@@ -115,7 +115,7 @@ public class PlayerBoards implements Listener {
 			player.setScoreboard(scoreboards.get(player.getUniqueId()));
 		}
 	}
-	
+
 	@EventHandler
 	public void onQuit(PlayerQuitEvent ev) {
 		//this.task.cancel();

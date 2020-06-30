@@ -28,7 +28,12 @@ public class SpawnEnterBlocker implements Listener {
             public void run() {
                 spawnBarrierBlocks();
             }
-        }.runTaskTimer(plugin.getInstance(), 0L, 4L);
+        }.runTaskTimer(plugin.getInstance(), 0L, 5L);
+    }
+
+    @EventHandler
+    public void onSpawnTagExpire(SpawnTagExpireEvent ev) {
+        removeBarrierBlocks(ev.getPlayer());
     }
 
     // TODO: implement this. Try GG's spawn tag system. but it has a bug that players can click blocks and despawn. This lags as well
@@ -36,21 +41,40 @@ public class SpawnEnterBlocker implements Listener {
         for (Player player: Bukkit.getOnlinePlayers()){
             if(this.spawnTag.isTagged(player.getUniqueId())){
                 for(int x=(int)this.plugin.spawnMinX;x<=(int)this.plugin.spawnMaxX;++x){
-                    for(int y=4;y<=20;++y){
+                    for(int y=4;y<=15;++y){
                         Location barrierLoc1 = new Location(player.getWorld(), x, y, this.plugin.spawnMinZ);
-                        player.sendBlockChange(barrierLoc1, Material.STAINED_GLASS, (byte) 0);
+                        player.sendBlockChange(barrierLoc1, Material.STAINED_GLASS, (byte) 14);
                         Location barrierLoc2 = new Location(player.getWorld(), x, y, this.plugin.spawnMaxZ);
-                        player.sendBlockChange(barrierLoc2, Material.STAINED_GLASS, (byte) 0);
+                        player.sendBlockChange(barrierLoc2, Material.STAINED_GLASS, (byte) 14);
                     }
                 }
                 for(int z=(int)this.plugin.spawnMinZ;z<=(int)this.plugin.spawnMaxZ;++z){
-                    for(int y=4;y<=20;++y){
+                    for(int y=4;y<=15;++y){
                         Location barrierLoc1 = new Location(player.getWorld(), this.plugin.spawnMinX, y, z);
-                        player.sendBlockChange(barrierLoc1, Material.STAINED_GLASS, (byte) 0);
+                        player.sendBlockChange(barrierLoc1, Material.STAINED_GLASS, (byte) 14);
                         Location barrierLoc2 = new Location(player.getWorld(), this.plugin.spawnMaxX, y, z);
-                        player.sendBlockChange(barrierLoc2, Material.STAINED_GLASS, (byte) 0);
+                        player.sendBlockChange(barrierLoc2, Material.STAINED_GLASS, (byte) 14);
                     }
                 }
+            }
+        }
+    }
+
+    public void removeBarrierBlocks(Player player){
+        for(int x=(int)this.plugin.spawnMinX;x<=(int)this.plugin.spawnMaxX;++x){
+            for(int y=4;y<=15;++y){
+                Location barrierLoc1 = new Location(player.getWorld(), x, y, this.plugin.spawnMinZ);
+                player.sendBlockChange(barrierLoc1, Material.AIR, (byte) 0);
+                Location barrierLoc2 = new Location(player.getWorld(), x, y, this.plugin.spawnMaxZ);
+                player.sendBlockChange(barrierLoc2, Material.AIR, (byte) 0);
+            }
+        }
+        for(int z=(int)this.plugin.spawnMinZ;z<=(int)this.plugin.spawnMaxZ;++z){
+            for(int y=4;y<=15;++y){
+                Location barrierLoc1 = new Location(player.getWorld(), this.plugin.spawnMinX, y, z);
+                player.sendBlockChange(barrierLoc1, Material.AIR, (byte) 0);
+                Location barrierLoc2 = new Location(player.getWorld(), this.plugin.spawnMaxX, y, z);
+                player.sendBlockChange(barrierLoc2, Material.AIR, (byte) 0);
             }
         }
     }
