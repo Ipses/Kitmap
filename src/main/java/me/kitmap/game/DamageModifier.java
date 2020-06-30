@@ -35,7 +35,6 @@ public class DamageModifier implements Listener {
         return !player.isOnGround() && player.getFallDistance() > 0;
     }
 
-    // TODO: add logic for critical hits, (in air and descending)
     @EventHandler
     public void onHit(EntityDamageByEntityEvent ev){
         if(!ev.isCancelled() && ev.getDamager() instanceof Player && ev.getEntity() instanceof Player){
