@@ -121,11 +121,11 @@ public class KothManager {
             Scoreboard playerBoard = this.playerBoards.getScoreboards().get(player.getUniqueId());
             Objective objective = playerBoard.getObjective("sb");
             int kothRemainingSeconds = Math.round(this.koth.getRemainingTime())/1000;
-            String prefix = ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": " + kothRemainingSeconds;
+            String suffix = Integer.toString(kothRemainingSeconds);
             //String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
             //String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);
-            playerBoard.getTeam(TEAMNAME).setPrefix(prefix);
-            objective.getScore(ChatColor.YELLOW.toString()).setScore(5);
+            playerBoard.getTeam(TEAMNAME).setSuffix(suffix);
+            objective.getScore(ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": ").setScore(5);
         }
     }
 
@@ -134,17 +134,19 @@ public class KothManager {
             Scoreboard playerBoard = this.playerBoards.getScoreboards().get(player.getUniqueId());
             Objective objective = playerBoard.getObjective("sb");
             int kothRemainingSeconds = Math.round(this.koth.getDefaultCaptureTime())/1000;
-            String prefix = ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": " + kothRemainingSeconds;
-            playerBoard.getTeam(TEAMNAME).setPrefix(prefix);
-            objective.getScore(ChatColor.YELLOW.toString()).setScore(5);
+            String suffix = Integer.toString(kothRemainingSeconds);
+            playerBoard.getTeam(TEAMNAME).setSuffix(suffix);
+            objective.getScore(ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": ").setScore(5);
         }
     }
 
     private void removeDisplayedTime(){
         for(Player player: Bukkit.getOnlinePlayers()){
             Scoreboard playerBoard = this.playerBoards.getScoreboards().get(player.getUniqueId());
-            playerBoard.getTeam(TEAMNAME).unregister();
-            playerBoard.resetScores(ChatColor.YELLOW.toString());
+            if (playerBoard.getTeam(TEAMNAME) != null) {
+                playerBoard.getTeam(TEAMNAME).unregister();
+                playerBoard.resetScores(ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": ");
+            }
         }
     }
 
@@ -156,17 +158,16 @@ public class KothManager {
             Scoreboard playerBoard = this.playerBoards.getScoreboards().get(player.getUniqueId());
             Objective objective = playerBoard.getObjective("sb");
             int kothRemainingSeconds = Math.round(this.koth.getDefaultCaptureTime())/1000;
-            String prefix = ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": " + kothRemainingSeconds;
+            String suffix = Integer.toString(kothRemainingSeconds);
             //String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
             //String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);
             playerBoard.registerNewTeam(TEAMNAME);
             Team kothTimer = playerBoard.getTeam(TEAMNAME);
-            kothTimer.addEntry(ChatColor.YELLOW.toString());
-            kothTimer.setPrefix(prefix);
+            kothTimer.addEntry(ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": ");
+            kothTimer.setSuffix(suffix);
             //spawnTagCounter.setSuffix(suffix);
-            objective.getScore(ChatColor.YELLOW.toString()).setScore(5);
-            playerBoard.getTeam(TEAMNAME).setPrefix(prefix);
-            objective.getScore(ChatColor.YELLOW.toString()).setScore(5);
+            objective.getScore(ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": ").setScore(5);
+            playerBoard.getTeam(TEAMNAME).setSuffix(suffix);
         }
 
         this.capCheckTask = new BukkitRunnable() {
@@ -184,11 +185,11 @@ public class KothManager {
     }
 
     public void end(){
-        this.koth = null;
         removeDisplayedTime();
         Bukkit.broadcastMessage("end time task");
         this.timeDisplayTask.cancel();
         this.capCheckTask.cancel();
+        this.koth = null;
     }
 
     private void giveKey(Player player){
