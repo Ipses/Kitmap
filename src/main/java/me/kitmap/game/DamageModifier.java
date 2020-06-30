@@ -31,29 +31,34 @@ public class DamageModifier implements Listener {
         this.gold = Double.parseDouble(configManager.getDamage().getString("gold_sword"));
     }
 
+    private boolean isCriticalHit(Player player) {
+        return !player.isOnGround() && player.getFallDistance() > 0;
+    }
+
     // TODO: add logic for critical hits, (in air and descending)
     @EventHandler
     public void onHit(EntityDamageByEntityEvent ev){
         if(!ev.isCancelled() && ev.getDamager() instanceof Player && ev.getEntity() instanceof Player){
             Player player = (Player) ev.getDamager();
             ItemStack weapon = player.getInventory().getItemInMainHand();
+            double multiplier = isCriticalHit(player) ? 1.5 : 1;
             switch(weapon.getType()){
                 default:
                     return;
                 case DIAMOND_SWORD:
-                    ev.setDamage(this.diamond);
+                    ev.setDamage(this.diamond * multiplier);
                     break;
                 case IRON_SWORD:
-                    ev.setDamage(this.iron);
+                    ev.setDamage(this.iron * multiplier);
                     break;
                 case STONE_SWORD:
-                    ev.setDamage(this.stone);
+                    ev.setDamage(this.stone * multiplier);
                     break;
                 case WOOD_SWORD:
-                    ev.setDamage(this.wood);
+                    ev.setDamage(this.wood * multiplier);
                     break;
                 case GOLD_SWORD:
-                    ev.setDamage(this.gold);
+                    ev.setDamage(this.gold * multiplier);
                     break;
             }
         }
