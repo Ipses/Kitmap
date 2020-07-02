@@ -3,6 +3,7 @@ package me.kitmap;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import me.kitmap.commands.KothCommand;
 import me.kitmap.commands.RenameCommand;
@@ -19,6 +20,7 @@ import me.kitmap.items.minezitems.Sugar;
 import me.kitmap.koth.KothCrate;
 import me.kitmap.signs.KitSign;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -47,6 +49,7 @@ public class Main extends JavaPlugin implements Listener {
 	private DamageModifier damageModifier;
 
 	public double spawnMinX, spawnMaxX,spawnMinZ, spawnMaxZ;
+	private ArrayList<Location> spawnBarrierBlocks = new ArrayList<>();
 
 	private Overkill overkill;
 	private PluviasTempest pluviasTempest;
@@ -72,6 +75,7 @@ public class Main extends JavaPlugin implements Listener {
 		mysqlsetup();
 		registerCommands();
 		setCoords();
+		setSpawnBarrierBlocks();
 		loadDamageValues();
 	}
 	
@@ -146,6 +150,25 @@ public class Main extends JavaPlugin implements Listener {
 		this.spawnMaxX = Double.parseDouble(configManager.getCoords().getString("Spawn.maxX"));
 		this.spawnMinZ = Double.parseDouble(configManager.getCoords().getString("Spawn.minZ"));
 		this.spawnMaxZ = Double.parseDouble(configManager.getCoords().getString("Spawn.maxZ"));
+	}
+
+	public void setSpawnBarrierBlocks() {
+		for(int x=(int)this.spawnMinX;x<=(int)this.spawnMaxX;++x){
+			for(int y=4;y<=8;++y){
+				Location barrierLoc1 = new Location(Bukkit.getWorld("world"), x, y, this.spawnMinZ);
+				Location barrierLoc2 = new Location(Bukkit.getWorld("world"), x, y, this.spawnMaxZ);
+				this.spawnBarrierBlocks.add(barrierLoc1);
+				this.spawnBarrierBlocks.add(barrierLoc2);
+			}
+		}
+		for(int z=(int)this.spawnMinZ;z<=(int)this.spawnMaxZ;++z){
+			for(int y=4;y<=8;++y){
+				Location barrierLoc1 = new Location(Bukkit.getWorld("world"), this.spawnMinX, y, z);
+				Location barrierLoc2 = new Location(Bukkit.getWorld("world"), this.spawnMaxX, y, z);
+				this.spawnBarrierBlocks.add(barrierLoc1);
+				this.spawnBarrierBlocks.add(barrierLoc2);
+			}
+		}
 	}
 
 	public void loadDamageValues(){
@@ -272,6 +295,9 @@ public class Main extends JavaPlugin implements Listener {
 		return this.zombieBow;
 	}
 
+	public ArrayList<Location> getSpawnBarrierBlocks() {
+		return this.spawnBarrierBlocks;
+	}
 //	private void buildItems() { // Will remove once I move the rest of legendaries.
 //
 //		ItemStack corsairsedge = new ItemStack(Material.IRON_SWORD);
