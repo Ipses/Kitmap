@@ -43,7 +43,7 @@ public class SpawnTag implements Listener {
             public void run() {
                 runTimer();
             }
-        }.runTaskTimer(plugin.getInstance(), 20L, 40L);
+        }.runTaskTimer(plugin.getInstance(), 20L, 20L);
     }
 
     private void runTimer(){
@@ -54,16 +54,6 @@ public class SpawnTag implements Listener {
                 Bukkit.getServer().getPluginManager().callEvent(new SpawnTagExpireEvent(player));
                 Bukkit.broadcastMessage("removed" + player.getName());
             }
-//            if (this.timer.containsKey(player.getUniqueId())) {
-//                this.timer.replace(player.getUniqueId(), this.timer.get(player.getUniqueId()) - 1);
-//                Bukkit.broadcastMessage("decrement " + player.getName());
-//                Bukkit.broadcastMessage("decrement " + this.timer.get(player.getUniqueId()));
-//                if (this.timer.get(player.getUniqueId()) < 0) {
-//                    this.timer.remove(player.getUniqueId());
-//                    Bukkit.broadcastMessage("removed " + player.getName());
-//                }
-//            }
-
         }
     }
 
@@ -79,9 +69,8 @@ public class SpawnTag implements Listener {
             if (isInPvPZone(player) && isInPvPZone(victim)) {
                 this.timer.put(player.getUniqueId(), System.currentTimeMillis() + 15*1000L);
                 this.timer.put(victim.getUniqueId(), System.currentTimeMillis() + 15*1000L);
-//                this.timer.put(player.getUniqueId(), 15);
-//                this.timer.put(victim.getUniqueId(), 15);
-
+                Bukkit.getServer().getPluginManager().callEvent(new SpawnTagStartEvent(player));
+                Bukkit.getServer().getPluginManager().callEvent(new SpawnTagStartEvent(victim));
             } else {
                 player.sendMessage(ChatColor.RED + "You cannot damage other players at spawn");
                 ev.setCancelled(true);
@@ -98,8 +87,8 @@ public class SpawnTag implements Listener {
             if(isInPvPZone(player) && isInPvPZone(victim)) {
                 this.timer.put(player.getUniqueId(), System.currentTimeMillis() + 15*1000L);
                 this.timer.put(victim.getUniqueId(), System.currentTimeMillis() + 15*1000L);
-//                this.timer.put(player.getUniqueId(), 15);
-//                this.timer.put(victim.getUniqueId(), 15);
+                Bukkit.getServer().getPluginManager().callEvent(new SpawnTagStartEvent(player));
+                Bukkit.getServer().getPluginManager().callEvent(new SpawnTagStartEvent(victim));
             } else {
                 player.sendMessage(ChatColor.RED + "You cannot damage other players at spawn");
                 ev.setCancelled(true);
