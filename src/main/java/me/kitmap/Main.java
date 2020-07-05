@@ -154,7 +154,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	public void setSpawnBarrierBlocks() {
 		for(int x=(int)this.spawnMinX;x<=(int)this.spawnMaxX;++x){
-			for(int y=4;y<=8;++y){
+			for(int y=4;y<=7;++y){
 				Location barrierLoc1 = new Location(Bukkit.getWorld("world"), x, y, this.spawnMinZ);
 				Location barrierLoc2 = new Location(Bukkit.getWorld("world"), x, y, this.spawnMaxZ);
 				this.spawnBarrierBlocks.add(barrierLoc1);
@@ -162,7 +162,7 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		}
 		for(int z=(int)this.spawnMinZ;z<=(int)this.spawnMaxZ;++z){
-			for(int y=4;y<=8;++y){
+			for(int y=4;y<=7;++y){
 				Location barrierLoc1 = new Location(Bukkit.getWorld("world"), this.spawnMinX, y, z);
 				Location barrierLoc2 = new Location(Bukkit.getWorld("world"), this.spawnMaxX, y, z);
 				this.spawnBarrierBlocks.add(barrierLoc1);

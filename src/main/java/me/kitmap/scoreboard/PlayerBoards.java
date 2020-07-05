@@ -49,7 +49,7 @@ public class PlayerBoards implements Listener {
 		    public void run() {
 		    	updateScoreboard();
 		    }
-		}.runTaskTimer(plugin.getInstance(), 20L, 20L);
+		}.runTaskTimer(plugin.getInstance(), 0L, 20L);
 	}
 
 	public void createScoreboard(Player player) { // KILLS = BLUE DEATHS = GREEN
@@ -89,14 +89,11 @@ public class PlayerBoards implements Listener {
 				if(playerBoard.getTeam("spawnTagCounter") != null){
 					playerBoard.getTeam("spawnTagCounter").unregister();
 					playerBoard.resetScores(ChatColor.RED + "Spawn Tag: ");
-				} else{
-					// do nothing
 				}
 			} else { // Spawn Tagged
 				Objective objective = playerBoard.getObjective("sb");
 				String spawnTagSeconds = ChatColor.RED.toString() +
-						(Math.round(spawnTag.getTimer().get(player.getUniqueId())
-								- System.currentTimeMillis()) / 1000) + "s";
+						((this.spawnTag.getTimer().get(player.getUniqueId()) - System.currentTimeMillis()) / 1000L) + "s";
 				String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
 				String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);
 
