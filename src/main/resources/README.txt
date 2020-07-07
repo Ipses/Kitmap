@@ -4,7 +4,7 @@ It includes features such as...
     - Koth
     - Unique and randomized Koth reward including MineZ legendaries and custom items, such as grapple.
     - Kit system by right clicking a sign at spawn
-    - Spawn Tag
+    - Spawn Tag with client side blocks to prevent players entering spawns
     - Kill/Death stats
     - Scoreboard displaying information such as kills, deaths, spawn tag timer, koth timer.
     - Custom death messages
@@ -14,7 +14,6 @@ It includes features such as...
 I am planning to work on...
     - Scheduled, automated Koth event
     - Custom knockback
-    - Better spawn enter blocker system when a player has a spawn tag
     - Killstreaks system and rewards based on it
     - Leaderboard
     - More MineZ legendaries and items as the original MineZ gets updated

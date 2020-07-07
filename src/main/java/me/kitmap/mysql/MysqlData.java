@@ -17,7 +17,20 @@ public class MysqlData{
 	public MysqlData(Main plugin){
 		this.plugin = plugin;
 	}
-	
+
+//  		DB CREATE CODE
+//	DROP DATABASE IF EXISTS `my_server`;
+//	CREATE DATABASE `my_server`;
+//	USE `my_server`;
+//
+//	DROP TABLE IF EXISTS `player_data`;
+//	CREATE TABLE `player_data` (
+//			`uuid` VARCHAR(36) NOT NULL,
+//  `kills` SMALLINT(4) NOT NULL,
+//  `deaths` SMALLINT(4) NOT NULL,
+//	PRIMARY KEY (`uuid`)
+//)
+
 	public boolean playerExists(UUID uuid) {
 		try {
 			PreparedStatement statement = plugin.getConnection().prepareStatement("SELECT * FROM " + plugin.table + " WHERE UUID=?");
