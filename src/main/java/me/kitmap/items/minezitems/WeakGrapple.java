@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -25,8 +26,12 @@ public class WeakGrapple implements Listener {
 		Player player = ev.getPlayer();
 		Location location = ev.getHook().getLocation();
 		if (ev.getState() != State.FISHING && isItem(player.getInventory().getItemInMainHand())) {
-			Block b = location.getBlock().getRelative(BlockFace.DOWN);
-			switch(b.getType()) {
+			Block block = location.getBlock().getRelative(BlockFace.DOWN);
+			if (block == null || block.getType() == Material.AIR) {
+				player.sendMessage(ChatColor.RED + "Unable to Grapple");
+				return;
+			}
+			switch(block.getType()) {
 				default:
 					if(player.getLocation().getY() > location.getY() - 1.5) { // horizontal grapple
 						long cooldown = timer.containsKey(player.getUniqueId()) ? timer.get(player.getUniqueId()) - System.currentTimeMillis() : 0;

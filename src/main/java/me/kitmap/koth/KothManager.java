@@ -30,7 +30,7 @@ public class KothManager {
     private static final PotionEffect SPEED = new PotionEffect(PotionEffectType.SPEED, 40*20, 3);
     private static final PotionEffect REGEN = new PotionEffect(PotionEffectType.REGENERATION, 20*20, 1);
     private static final PotionEffect RESISTANCE = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20*20, 1);
-    private static final String TEAMNAME = "kothTimer";
+    private static final String KOTHTEAMNAME = "kothTimer";
 
     private BukkitTask capCheckTask;
     private BukkitTask timeDisplayTask;
@@ -124,7 +124,7 @@ public class KothManager {
             String suffix = Integer.toString(kothRemainingSeconds);
             //String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
             //String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);
-            playerBoard.getTeam(TEAMNAME).setSuffix(suffix);
+            playerBoard.getTeam(KOTHTEAMNAME).setSuffix(suffix);
             objective.getScore(ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": ").setScore(5);
         }
     }
@@ -135,7 +135,7 @@ public class KothManager {
             Objective objective = playerBoard.getObjective("sb");
             int kothRemainingSeconds = Math.round(this.koth.getDefaultCaptureTime())/1000;
             String suffix = Integer.toString(kothRemainingSeconds);
-            playerBoard.getTeam(TEAMNAME).setSuffix(suffix);
+            playerBoard.getTeam(KOTHTEAMNAME).setSuffix(suffix);
             objective.getScore(ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": ").setScore(5);
         }
     }
@@ -143,8 +143,8 @@ public class KothManager {
     private void removeDisplayedTime(){
         for(Player player: Bukkit.getOnlinePlayers()){
             Scoreboard playerBoard = this.playerBoards.getScoreboards().get(player.getUniqueId());
-            if (playerBoard.getTeam(TEAMNAME) != null) {
-                playerBoard.getTeam(TEAMNAME).unregister();
+            if (playerBoard.getTeam(KOTHTEAMNAME) != null) {
+                playerBoard.getTeam(KOTHTEAMNAME).unregister();
                 playerBoard.resetScores(ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": ");
             }
         }
@@ -161,13 +161,13 @@ public class KothManager {
             String suffix = Integer.toString(kothRemainingSeconds);
             //String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
             //String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);
-            playerBoard.registerNewTeam(TEAMNAME);
-            Team kothTimer = playerBoard.getTeam(TEAMNAME);
+            playerBoard.registerNewTeam(KOTHTEAMNAME);
+            Team kothTimer = playerBoard.getTeam(KOTHTEAMNAME);
             kothTimer.addEntry(ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": ");
             kothTimer.setSuffix(suffix);
             //spawnTagCounter.setSuffix(suffix);
             objective.getScore(ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": ").setScore(5);
-            playerBoard.getTeam(TEAMNAME).setSuffix(suffix);
+            playerBoard.getTeam(KOTHTEAMNAME).setSuffix(suffix);
         }
 
         this.capCheckTask = new BukkitRunnable() {

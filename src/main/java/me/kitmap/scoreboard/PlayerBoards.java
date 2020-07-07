@@ -5,6 +5,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import me.kitmap.game.SpawnTag;
+import me.kitmap.koth.Koth;
+import me.kitmap.koth.KothManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,6 +33,7 @@ public class PlayerBoards implements Listener {
 	private final SpawnTag spawnTag;
 	private HashMap<UUID, Integer> kills = new HashMap<UUID, Integer>();
 	private HashMap<UUID, Integer> deaths = new HashMap<UUID, Integer>();
+	private static final String KOTHTEAMNAME = "kothTimer";
 
 	public PlayerBoards(Main plugin, MysqlData mysqlData, SpawnTag spawnTag){
 		this.plugin = plugin;
@@ -80,7 +83,24 @@ public class PlayerBoards implements Listener {
 
 		player.setScoreboard(board);
 		scoreboards.put(player.getUniqueId(), board);
+
+		if (this.plugin.getKothManager().isRunning()) {
+			Koth koth = this.plugin.getKothManager().getKoth();
+			Scoreboard playerBoard = this.scoreboards.get(player.getUniqueId());
+			int kothRemainingSeconds = Math.round(koth.getDefaultCaptureTime())/1000;
+			String suffix = Integer.toString(kothRemainingSeconds);
+			//String prefix = spawnTagSeconds.substring(0, spawnTagSeconds.length()/2);
+			//String suffix = spawnTagSeconds.substring(spawnTagSeconds.length()/2);
+			playerBoard.registerNewTeam(KOTHTEAMNAME);
+			Team kothTimer = playerBoard.getTeam(KOTHTEAMNAME);
+			kothTimer.addEntry(ChatColor.BLUE + koth.getName() +ChatColor.GRAY + ": ");
+			kothTimer.setSuffix(suffix);
+			//spawnTagCounter.setSuffix(suffix);
+			objective.getScore(ChatColor.BLUE + koth.getName() + ChatColor.GRAY + ": ").setScore(5);
+			playerBoard.getTeam(KOTHTEAMNAME).setSuffix(suffix);
+		}
 	}
+
 
 	public void updateScoreboard() {
 		for(Player player: Bukkit.getOnlinePlayers()) {

@@ -88,7 +88,7 @@ public class HealKit implements Listener {
                     Bukkit.getScheduler().runTaskLater(plugin.getInstance(), () -> {
                         player.removePotionEffect(PotionEffectType.SPEED);
                         player.addPotionEffect(PERMASPEED);
-                    }, 15*20);
+                    }, 5*20);
                     cooldown = System.currentTimeMillis() + 15*1000;
                     timer.put(player.getUniqueId(), cooldown);
                 } else if (displayName.equals(ABSORPTIONITEMNAME)) {
