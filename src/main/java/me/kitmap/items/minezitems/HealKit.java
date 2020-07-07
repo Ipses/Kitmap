@@ -100,6 +100,7 @@ public class HealKit implements Listener {
                     cooldown = System.currentTimeMillis() + 8*1000;
                     timer.put(player.getUniqueId(), cooldown);
                 }
+                reduceDura(player, player.getInventory().getItemInMainHand());
 
                 ArrayList<Player> playersInSight = getPlayersInSight(player);
                 if (playersInSight.size() == 0) {
@@ -129,7 +130,6 @@ public class HealKit implements Listener {
                             player.sendMessage(ChatColor.YELLOW + "You have given " + ChatColor.GRAY + "Resisstance I " +
                                     ChatColor.YELLOW + "to " + ChatColor.GOLD + closestPlayer.getName());
                         }
-                    reduceDura(player, player.getInventory().getItemInMainHand());
                     Bukkit.getScheduler().runTaskLater(plugin.getInstance(), () -> timer.remove(player.getUniqueId()), cooldown*20);
                 }
             }

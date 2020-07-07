@@ -36,10 +36,10 @@ public class KothManager {
     private BukkitTask timeDisplayTask;
     private Koth koth;
 
-    public KothManager(Main plugin, Koth koth, PlayerBoards playerBoards) {
+    public KothManager(Main plugin, Koth koth) {
         this.plugin = plugin;
         this.koth = koth;
-        this.playerBoards = playerBoards;
+        this.playerBoards = this.plugin.getPlayerBoards();
     }
 
     public Koth getKoth(){

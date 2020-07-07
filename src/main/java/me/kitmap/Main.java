@@ -149,6 +149,10 @@ public class Main extends JavaPlugin implements Listener {
 		return this.kothManager;
 	}
 
+	public PlayerBoards getPlayerBoards() {
+		return this.playerBoards;
+	}
+
 	public void setCoords(){
 		this.spawnMinX = Double.parseDouble(configManager.getCoords().getString("Spawn.minX"));
 		this.spawnMaxX = Double.parseDouble(configManager.getCoords().getString("Spawn.maxX"));
@@ -188,12 +192,12 @@ public class Main extends JavaPlugin implements Listener {
         pluginManager.registerEvents(playerBoards, this);
         pluginManager.registerEvents(new KillDeathUpdater(this, this.playerBoards), this);
 
-		this.kothManager = new KothManager(this, null, this.playerBoards);
+		this.kothManager = new KothManager(this, null);
 		this.legendaryBuilder = new LegendaryBuilder(this);
 		this.swordKitBuilder = new SwordKitBuilder();
 		this.healerKitBuilder = new HealerKitBuilder();
 		this.kothLootBuilder = new KothLootBuilder(this);
-		this.damageModifier = new DamageModifier(this.configManager);
+		this.damageModifier = new DamageModifier(this);
 
 		this.overkill = new Overkill(this);
 		this.pluviasTempest = new PluviasTempest(this);
@@ -222,6 +226,7 @@ public class Main extends JavaPlugin implements Listener {
 		pluginManager.registerEvents(new DeathMessage(), this);
 		pluginManager.registerEvents(new HealKit(this), this);
 		pluginManager.registerEvents(new KitChangeListener(), this);
+		pluginManager.registerEvents(new FoodHealing(), this);
 
 		pluginManager.registerEvents(new Grenade(this), this);
 		pluginManager.registerEvents(new Sugar(this), this);

@@ -11,11 +11,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class DamageModifier implements Listener {
 
+    private final Main plugin;
     private final ConfigManager configManager;
     private double wood, stone, iron, diamond, gold;
 
-    public DamageModifier(ConfigManager configManager){
-        this.configManager = configManager;
+    public DamageModifier(Main plugin){
+        this.plugin = plugin;
+        this.configManager = this.plugin.getConfigManager();
     }
 
     public void loadDamageValues(){ // this will be called onEnable in Main class.
