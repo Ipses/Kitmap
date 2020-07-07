@@ -1,7 +1,8 @@
 package me.kitmap.signs;
 
-import me.kitmap.Main;
-import me.kitmap.items.itembuilder.KitBuilder;
+import me.kitmap.game.KitChangeEvent;
+import me.kitmap.items.itembuilder.SwordKitBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -12,20 +13,21 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
-public class KitSign implements Listener {
+public class SwordKitSign implements Listener {
 
     private static final String LINE1 = "[Kit]";
     private static final String LINE2 = "Iron";
-    private final KitBuilder kitBuilder;
+    private final SwordKitBuilder swordKitBuilder;
 
-    public KitSign(KitBuilder kitBuilder){
-        this.kitBuilder = kitBuilder;
+    public SwordKitSign(SwordKitBuilder swordKitBuilder){
+        this.swordKitBuilder = swordKitBuilder;
     }
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent ev){
-        Inventory ironKit = kitBuilder.getIronKit();
+        Inventory ironKit = swordKitBuilder.getIronKit();
         Player player = ev.getPlayer();
         Block block = ev.getClickedBlock();
         if(ev.getAction() == Action.RIGHT_CLICK_BLOCK && block.getState() != null && block.getState() instanceof Sign) {
@@ -37,6 +39,7 @@ public class KitSign implements Listener {
                 player.getInventory().setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
                 player.getInventory().setLeggings(new ItemStack(Material.IRON_LEGGINGS));
                 player.getInventory().setBoots(new ItemStack(Material.IRON_BOOTS));
+                Bukkit.getServer().getPluginManager().callEvent(new KitChangeEvent(player, "sword"));
             }
         }
     }

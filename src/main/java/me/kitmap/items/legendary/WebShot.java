@@ -2,7 +2,6 @@ package me.kitmap.items.legendary;
 
 import me.kitmap.Main;
 import net.md_5.bungee.api.ChatColor;
-import net.minecraft.server.v1_12_R1.BlockCactus;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -11,11 +10,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,16 +9,19 @@ import me.kitmap.commands.KothCommand;
 import me.kitmap.commands.RenameCommand;
 import me.kitmap.config.ConfigManager;
 import me.kitmap.game.*;
-import me.kitmap.items.itembuilder.KitBuilder;
+import me.kitmap.items.itembuilder.HealerKitBuilder;
+import me.kitmap.items.itembuilder.SwordKitBuilder;
 import me.kitmap.items.itembuilder.KothLootBuilder;
 import me.kitmap.items.itembuilder.LegendaryBuilder;
+import me.kitmap.items.minezitems.HealKit;
 import me.kitmap.koth.KothManager;
 import me.kitmap.scoreboard.KillDeathUpdater;
 import me.kitmap.items.legendary.*;
 import me.kitmap.items.minezitems.Grenade;
 import me.kitmap.items.minezitems.Sugar;
 import me.kitmap.koth.KothCrate;
-import me.kitmap.signs.KitSign;
+import me.kitmap.signs.HealerKitSign;
+import me.kitmap.signs.SwordKitSign;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.Listener;
@@ -43,7 +46,8 @@ public class Main extends JavaPlugin implements Listener {
 	private int port;
 	private KothManager kothManager;
 	private LegendaryBuilder legendaryBuilder;
-	private KitBuilder kitBuilder;
+	private SwordKitBuilder swordKitBuilder;
+	private HealerKitBuilder healerKitBuilder;
 	private KothLootBuilder kothLootBuilder;
 	private PlayerBoards playerBoards;
 	private DamageModifier damageModifier;
@@ -186,7 +190,8 @@ public class Main extends JavaPlugin implements Listener {
 
 		this.kothManager = new KothManager(this, null, this.playerBoards);
 		this.legendaryBuilder = new LegendaryBuilder(this);
-		this.kitBuilder = new KitBuilder();
+		this.swordKitBuilder = new SwordKitBuilder();
+		this.healerKitBuilder = new HealerKitBuilder();
 		this.kothLootBuilder = new KothLootBuilder(this);
 		this.damageModifier = new DamageModifier(this, this.configManager);
 
@@ -207,12 +212,17 @@ public class Main extends JavaPlugin implements Listener {
 		pluginManager.registerEvents(spawnTag, this);
 
 		pluginManager.registerEvents(new ItemMenu(legendaryBuilder), this);
-		pluginManager.registerEvents(new KitSign(kitBuilder), this);
+		pluginManager.registerEvents(new SwordKitSign(swordKitBuilder), this);
+		pluginManager.registerEvents(new HealerKitSign(healerKitBuilder), this);
+
 		pluginManager.registerEvents(new KothCrate(this, kothLootBuilder), this);
 		pluginManager.registerEvents(new SpawnEnterBlocker(this, spawnTag), this);
         pluginManager.registerEvents(this.damageModifier, this);
 		pluginManager.registerEvents(new EmptyBottleRemover(this), this);
 		pluginManager.registerEvents(new DeathMessage(), this);
+		pluginManager.registerEvents(new HealKit(), this);
+		pluginManager.registerEvents(new KitChangeListener(), this);
+
 
 		pluginManager.registerEvents(new Grenade(this), this);
 		pluginManager.registerEvents(new Sugar(this), this);
@@ -234,7 +244,8 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	private void buildItems(){
-		this.kitBuilder.build();
+		this.swordKitBuilder.build();
+		this.healerKitBuilder.build();
 		this.legendaryBuilder.build();
 		this.kothLootBuilder.build();
 	}

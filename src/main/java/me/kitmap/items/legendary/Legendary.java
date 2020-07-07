@@ -12,8 +12,8 @@ public abstract class Legendary {
 
     public abstract ItemStack getItem();
 
-    protected boolean hasName(ItemStack is, String name) {
-		return is != null && is.hasItemMeta() && is.getItemMeta().hasDisplayName() && is.getItemMeta().getDisplayName().equals(name);
+    protected boolean hasName(ItemStack item, String name) {
+		return item != null && item.hasItemMeta() && item.getItemMeta().hasDisplayName() && item.getItemMeta().getDisplayName().equals(name);
 	}
 	
 	protected boolean isHittable(Player player) {

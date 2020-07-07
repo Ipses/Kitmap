@@ -95,10 +95,10 @@ public class LegendaryBuilder extends ItemBuilder {
         ItemStack overkill = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta overkillItemMeta = overkill.getItemMeta();
         List<String> overkillLore = new ArrayList<String>();
-        overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Legendary Weapon");
-        overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Right Click: Charge at the cost of 50 durability");
-        overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "After charging, your next attack in 5 seconds");
-        overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "does" + ChatColor.YELLOW + " true damage " + ChatColor.BLUE + "based on a player's missing health");
+        overkillLore.add(ChatColor.BLUE + "Legendary Weapon");
+        overkillLore.add(ChatColor.BLUE + "Right Click: Charge at the cost of 50 durability");
+        overkillLore.add(ChatColor.BLUE + "After charging, your next attack in 5 seconds");
+        overkillLore.add(ChatColor.BLUE + "does" + ChatColor.YELLOW + " true damage " + ChatColor.BLUE + "based on a player's missing health");
         overkillItemMeta.setLore(overkillLore);
         overkillItemMeta.setDisplayName(ChatColor.RESET + "Overkill");
         overkill.setItemMeta(overkillItemMeta);

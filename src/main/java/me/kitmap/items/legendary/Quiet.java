@@ -57,8 +57,8 @@ public class Quiet extends Legendary implements Listener {
         ItemStack quiet = new ItemStack(Material.BOW);
         ItemMeta quietItemMeta = quiet.getItemMeta();
         List<String> quietLore = new ArrayList<String>();
-        quietLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Legendary Weapon");
-        quietLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Plays a ghast sound to the player shot");
+        quietLore.add(ChatColor.BLUE + "Legendary Weapon");
+        quietLore.add(ChatColor.BLUE + "Plays a ghast sound to the player shot");
         quietItemMeta.setLore(quietLore);
         quietItemMeta.setDisplayName(NAME);
         quiet.setItemMeta(quietItemMeta);
