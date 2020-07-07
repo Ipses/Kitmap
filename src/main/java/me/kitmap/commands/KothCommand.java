@@ -3,7 +3,6 @@ package me.kitmap.commands;
 import me.kitmap.Main;
 import me.kitmap.config.ConfigManager;
 import me.kitmap.koth.Koth;
-import me.kitmap.koth.KothManager;
 import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -54,7 +53,7 @@ public class KothCommand implements CommandExecutor {
                     double eillomMaxZ = Double.parseDouble(configManager.getCoords().getString("Eillom.maxZ"));
                     Koth eillom = new Koth("Eillom", new Location(player.getWorld(),
                             eillomMinX, 1, eillomMinZ),
-                            new Location(player.getWorld(), eillomMaxX, 1, 411), TimeUnit.SECONDS.toMillis(10));
+                            new Location(player.getWorld(), eillomMaxX, 1, eillomMaxZ), TimeUnit.SECONDS.toMillis(10));
                     this.plugin.getKothManager().addKoth(eillom);
                     this.plugin.getKothManager().start();
                     break;

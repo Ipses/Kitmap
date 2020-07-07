@@ -215,14 +215,13 @@ public class Main extends JavaPlugin implements Listener {
 		pluginManager.registerEvents(new SwordKitSign(swordKitBuilder), this);
 		pluginManager.registerEvents(new HealerKitSign(healerKitBuilder), this);
 
+		pluginManager.registerEvents(this.damageModifier, this);
 		pluginManager.registerEvents(new KothCrate(this, kothLootBuilder), this);
 		pluginManager.registerEvents(new SpawnEnterBlocker(this, spawnTag), this);
-        pluginManager.registerEvents(this.damageModifier, this);
 		pluginManager.registerEvents(new EmptyBottleRemover(this), this);
 		pluginManager.registerEvents(new DeathMessage(), this);
-		pluginManager.registerEvents(new HealKit(), this);
+		pluginManager.registerEvents(new HealKit(this), this);
 		pluginManager.registerEvents(new KitChangeListener(), this);
-
 
 		pluginManager.registerEvents(new Grenade(this), this);
 		pluginManager.registerEvents(new Sugar(this), this);
@@ -309,7 +308,8 @@ public class Main extends JavaPlugin implements Listener {
 	public ArrayList<Location> getSpawnBarrierBlocks() {
 		return this.spawnBarrierBlocks;
 	}
-//	private void buildItems() { // Will remove once I move the rest of legendaries.
+
+//	private void buildItems() { // Will be removed once I move the rest of legendaries.
 //
 //		ItemStack corsairsedge = new ItemStack(Material.IRON_SWORD);
 //		ItemMeta corsairsedgeItemMeta = corsairsedge.getItemMeta();
