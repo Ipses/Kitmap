@@ -113,17 +113,13 @@ public class SpawnEnterBlocker implements Listener {
         removeBarrierBlocks(ev.getPlayer());
     }
 
-    @EventHandler // TODO: PlayerInteractEvent doesn't detect right click with bare hand
+    @EventHandler
     public void onBarrierClick(PlayerInteractEvent ev) {
         Player player = ev.getPlayer();
         Location playerLoc = player.getLocation();
         if (this.spawnTag.isTagged(player.getUniqueId()) && (ev.getAction() == Action.RIGHT_CLICK_AIR ||
                 ev.getAction() == Action.RIGHT_CLICK_BLOCK) && playerLoc.distance(SPAWNLOCATION) < 15) {
-            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
-                public void run() {
-                    spawnNearbyBarrierBlocks(player);
-                }
-            }, 1L);
+            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), () -> spawnNearbyBarrierBlocks(player), 1L);
         }
     }
 
@@ -140,7 +136,7 @@ public class SpawnEnterBlocker implements Listener {
         removeBarrierBlocks(player);
     }
 
-    // TODO: GG's spawn tag system has a bug that players can click blocks and enter spawn while tagged.
+    // GG's spawn tag system has a bug that players can click blocks and enter spawn while tagged.
     public void spawnBarrierBlocks(Player player){
         for (Location location: this.plugin.getSpawnBarrierBlocks()) {
             player.sendBlockChange(location, Material.STAINED_GLASS, (byte) 14);

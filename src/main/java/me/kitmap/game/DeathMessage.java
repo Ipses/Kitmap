@@ -14,7 +14,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scoreboard.Scoreboard;
 
 public class DeathMessage implements Listener {
 
@@ -27,7 +26,7 @@ public class DeathMessage implements Listener {
     public void onPlayerDeath(PlayerDeathEvent ev) {
         Player player = ev.getEntity().getPlayer();
         Player killer = null;
-        ItemStack weapon = null;
+        ItemStack weapon;
 
         if(ev.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent){ // Direct death by player
             EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) player.getLastDamageCause();

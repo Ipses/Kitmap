@@ -52,17 +52,9 @@ public class Overkill extends Legendary implements Listener {
 			else charged.put(player.getUniqueId(), true);
 			player.sendMessage(ChatColor.LIGHT_PURPLE + "Overkill: " + ChatColor.WHITE + "Overkill empowers your next attack in 3 seconds");
 			
-			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
-				public void run() {
-					charged.replace(player.getUniqueId(), false);
-					}
-				}, 3*20L);
+			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), () -> charged.replace(player.getUniqueId(), false), 3*20L);
 			
-			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
-				public void run() {
-					timer.remove(player.getUniqueId());
-					}
-				}, 20*20L);
+			Bukkit.getScheduler().runTaskLater(plugin.getInstance(), () -> timer.remove(player.getUniqueId()), 20*20L);
 		}
 	}
 	
@@ -89,7 +81,7 @@ public class Overkill extends Legendary implements Listener {
 	public ItemStack getItem() {
 		ItemStack overkill = new ItemStack(Material.DIAMOND_SWORD);
 		ItemMeta overkillItemMeta = overkill.getItemMeta();
-		List<String> overkillLore = new ArrayList<String>();
+		List<String> overkillLore = new ArrayList<>();
 		overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Legendary Weapon");
 		overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Right Click: Charge at the cost of 50 durability");
 		overkillLore.add(net.md_5.bungee.api.ChatColor.BLUE + "After charging, your next attack in 5 seconds");

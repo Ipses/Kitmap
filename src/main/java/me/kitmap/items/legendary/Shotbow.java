@@ -19,7 +19,7 @@ import java.util.List;
 
 public class Shotbow extends Legendary implements Listener{
 
-	private Main plugin;
+	private final Main plugin;
 	private static final String NAME = ChatColor.RESET + "Shotbow";
 
 	public Shotbow(Main plugin) {
@@ -47,7 +47,7 @@ public class Shotbow extends Legendary implements Listener{
 	public ItemStack getItem() {
 		ItemStack shotbow = new ItemStack(Material.BOW);
 		ItemMeta shotbowItemMeta = shotbow.getItemMeta();
-		List<String> shotbowLore = new ArrayList<String>();
+		List<String> shotbowLore = new ArrayList<>();
 		shotbowLore.add(ChatColor.BLUE + "Legendary Weapon");
 		shotbowLore.add(ChatColor.BLUE + "Shoots a volley of 8 arrows");
 		shotbowItemMeta.setLore(shotbowLore);

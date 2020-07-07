@@ -2,7 +2,6 @@ package me.kitmap.items.itembuilder;
 
 import me.kitmap.Main;
 import me.kitmap.items.legendary.*;
-import me.kitmap.items.minezitems.Sugar;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -94,7 +93,7 @@ public class LegendaryBuilder extends ItemBuilder {
 
         ItemStack overkill = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta overkillItemMeta = overkill.getItemMeta();
-        List<String> overkillLore = new ArrayList<String>();
+        List<String> overkillLore = new ArrayList<>();
         overkillLore.add(ChatColor.BLUE + "Legendary Weapon");
         overkillLore.add(ChatColor.BLUE + "Right Click: Charge at the cost of 50 durability");
         overkillLore.add(ChatColor.BLUE + "After charging, your next attack in 5 seconds");

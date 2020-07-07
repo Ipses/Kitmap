@@ -27,7 +27,7 @@ public class RenameCommand implements Listener, CommandExecutor {
                 for (int i = 1; i < args.length; ++i) {
                     displayName.append(" ");
                     displayName.append(args[i]);
-                } // "diamond sword blah" len = 3 i < 3 - 1 = 2
+                }
                 meta.setDisplayName(ChatColor.RESET + displayName.toString());
                 item.setItemMeta(meta);
                 player.sendMessage("Item Renamed");
@@ -37,6 +37,7 @@ public class RenameCommand implements Listener, CommandExecutor {
         return false;
     }
 
+// NOTES
 //    public void prefix() {
 //        int a = 0;
 //        int b = 0;

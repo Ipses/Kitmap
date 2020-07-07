@@ -35,10 +35,12 @@ public class HealerKitBuilder {
 
         ItemStack healKit = new ItemStack(Material.SHEARS);
         ItemMeta healKitItemMeta = healKit.getItemMeta();
-        List<String> healKitLore = new ArrayList<String>();
+        List<String> healKitLore = new ArrayList<>();
         healKitLore.add(ChatColor.BLUE + "Left Click: Choose healing effect");
-        healKitLore.add(ChatColor.BLUE + "Right Click: Heals you and up to 3 players");
-        healKitLore.add(ChatColor.BLUE + "within 10 blocks with the chosen effect.");
+        healKitLore.add(ChatColor.BLUE + "Right Click: Gives an effect to you and");
+        healKitLore.add(ChatColor.BLUE + "the player you are looking at within 5 blocks");
+        healKitLore.add(ChatColor.BLUE + "if you are not looking at any players,");
+        healKitLore.add(ChatColor.BLUE + "effects only go to you.");
         healKitItemMeta.setLore(healKitLore);
         healKitItemMeta.setDisplayName(ChatColor.RESET + "Heal Kit" + ChatColor.RED + " (Regeneration)");
         healKit.setItemMeta(healKitItemMeta);

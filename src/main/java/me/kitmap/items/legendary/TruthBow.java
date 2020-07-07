@@ -84,7 +84,7 @@ public class TruthBow extends Legendary implements Listener {
 	public ItemStack getItem() {
 		ItemStack truthbow = new ItemStack(Material.BOW);
 		ItemMeta truthbowItemMeta = truthbow.getItemMeta();
-		List<String> truthbowLore = new ArrayList<String>();
+		List<String> truthbowLore = new ArrayList<>();
 		truthbowLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Legendary Weapon");
 		truthbowLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Marks player for 10 seconds");
 		truthbowLore.add(net.md_5.bungee.api.ChatColor.BLUE + "Marked player takes 10% more damage");

@@ -58,7 +58,7 @@ public class KothManager {
     }
 
     private ArrayList<Player> playersInCap(){
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<Player> players = new ArrayList<>();
         for(Player player: Bukkit.getOnlinePlayers()){
             if (isInCap(player)){
                 players.add(player);
@@ -197,7 +197,7 @@ public class KothManager {
         kothkey.addUnsafeEnchantment(Enchantment.LUCK, 1);
         ItemMeta kothkeyMeta  = kothkey.getItemMeta();
         kothkeyMeta.setDisplayName(ChatColor.BOLD + "" + ChatColor.AQUA + "Koth Key");
-        List<String> kothkeyLore = new ArrayList<String>();
+        List<String> kothkeyLore = new ArrayList<>();
         kothkeyLore.add(net.md_5.bungee.api.ChatColor.LIGHT_PURPLE + "Click an ender chest at spawn to claim your reward!");
         kothkeyMeta.setLore(kothkeyLore);
         kothkey.setItemMeta(kothkeyMeta);

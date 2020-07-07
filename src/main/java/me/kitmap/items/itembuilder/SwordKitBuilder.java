@@ -1,6 +1,5 @@
 package me.kitmap.items.itembuilder;
 
-import me.kitmap.Main;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

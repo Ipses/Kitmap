@@ -29,13 +29,11 @@ public class EmptyBottleRemover implements Listener {
         ItemStack item = ev.getItem();
         if(!ev.isCancelled() && item.getType() == Material.POTION){
             Player player = ev.getPlayer();
-            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
-                public void run() {
-                    ItemStack itemInHand = player.getInventory().getItemInMainHand();
-                    if(itemInHand.getType() == Material.GLASS_BOTTLE){
-                        player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-                        player.updateInventory();
-                    }
+            Bukkit.getScheduler().runTaskLater(plugin.getInstance(), () -> {
+                ItemStack itemInHand = player.getInventory().getItemInMainHand();
+                if(itemInHand.getType() == Material.GLASS_BOTTLE){
+                    player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+                    player.updateInventory();
                 }
             }, 1L);
         }

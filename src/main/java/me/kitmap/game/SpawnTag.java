@@ -14,7 +14,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -39,7 +38,6 @@ public class SpawnTag implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent ev) {
-        final Player player = ev.getPlayer();
         BukkitTask task = new BukkitRunnable() {
             public void run() {
                 runTimer();
@@ -51,12 +49,10 @@ public class SpawnTag implements Listener {
         for (Player player: Bukkit.getOnlinePlayers()) {
             if (this.timer.containsKey(player.getUniqueId()) &&
                     ((this.timer.get(player.getUniqueId()) - System.currentTimeMillis()) / 1000L)  <= 0) {
-                Bukkit.getScheduler().runTaskLater(plugin.getInstance(), new Runnable() {
-                    public void run() {
-                        timer.remove(player.getUniqueId());
-                        Bukkit.getServer().getPluginManager().callEvent(new SpawnTagExpireEvent(player));
-                        Bukkit.broadcastMessage("spawn tag removed: " + player.getName());
-                    }
+                Bukkit.getScheduler().runTaskLater(plugin.getInstance(), () -> {
+                    timer.remove(player.getUniqueId());
+                    Bukkit.getServer().getPluginManager().callEvent(new SpawnTagExpireEvent(player));
+                    Bukkit.broadcastMessage("spawn tag removed: " + player.getName());
                 }, 19L);
 
             }

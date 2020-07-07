@@ -2,7 +2,6 @@ package me.kitmap.signs;
 
 import me.kitmap.game.KitChangeEvent;
 import me.kitmap.items.itembuilder.HealerKitBuilder;
-import me.kitmap.items.itembuilder.SwordKitBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -16,7 +15,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public class HealerKitSign implements Listener {

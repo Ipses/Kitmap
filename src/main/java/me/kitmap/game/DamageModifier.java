@@ -3,23 +3,18 @@ package me.kitmap.game;
 
 import me.kitmap.Main;
 import me.kitmap.config.ConfigManager;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 
 public class DamageModifier implements Listener {
 
-    private final Main plugin;
     private final ConfigManager configManager;
     private double wood, stone, iron, diamond, gold;
 
-    public DamageModifier(Main plugin, ConfigManager configManager){
-        this.plugin = plugin;
+    public DamageModifier(ConfigManager configManager){
         this.configManager = configManager;
     }
 

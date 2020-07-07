@@ -193,7 +193,7 @@ public class Main extends JavaPlugin implements Listener {
 		this.swordKitBuilder = new SwordKitBuilder();
 		this.healerKitBuilder = new HealerKitBuilder();
 		this.kothLootBuilder = new KothLootBuilder(this);
-		this.damageModifier = new DamageModifier(this, this.configManager);
+		this.damageModifier = new DamageModifier(this.configManager);
 
 		this.overkill = new Overkill(this);
 		this.pluviasTempest = new PluviasTempest(this);
@@ -265,9 +265,9 @@ public class Main extends JavaPlugin implements Listener {
 		return this.robbersBlade;
 	}
 
-	public SealOfEntropy getSealOfEntropy(){
-		return this.sealOfEntropy;
-	}
+//	public SealOfEntropy getSealOfEntropy(){
+//		return this.sealOfEntropy;
+//	}
 
 	public SealOfGravity getSealOfGravity(){
 		return this.sealOfGravity;

@@ -101,7 +101,6 @@ public class HealKit implements Listener {
                     timer.put(player.getUniqueId(), cooldown);
                 }
 
-
                 ArrayList<Player> playersInSight = getPlayersInSight(player);
                 if (playersInSight.size() == 0) {
                     player.sendMessage(ChatColor.RED + "You were not looking at any player and only healed yourself");
